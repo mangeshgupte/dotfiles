@@ -1,33 +1,40 @@
-This repository tracks my custom dotfiles.
+This repository tracks my custom dotfiles. The technique for handling dotfiles is borrowed from
+http://blog.smalleycreative.com/tutorials/using-git-and-github-to-manage-your-dotfiles/. I used git submodules to handle
+repositories like oh-my-zsh. The submodule commands are explained in http://git-scm.com/book/en/Git-Tools-Submodules.
 
  # Installing on a new machine
 
- ### To clone the repo on a new machine:
-From http://git-scm.com/book/en/Git-Tools-Submodules
+ ## To clone the repo on a new machine:
 
+To clone the git repo and get all the submodules
 ```Shell
 git clone https://github.com/mangeshgupte/dotfiles
 git submodule init
- # Fetch the data
 git submodule update
 ```
 
- ### Get latest changes for a submodule
+Run the script to make symlinks to the dotfiles
+```Shell
+cd ~/dotfiles
+./makesymlinks.sh
+```
+
+ ### Update the repo to get latest changes, including those in the submodules.
 ```Shell
 git merge / git pull
 git submodule update
 ```
 
- ## Making changes inside a submodule
+ # Making changes in the local repo.
 
-Suppose we change the file foo.
+For files that are not in a submodule, the procedure is simple.
 ```Shell
 git add foo
 git commit _m "message"
 git push -u origin master
 ```
 
-Then go the parent project
+If the file is within a submodule, then in addition, we need to do tell the parent project the following
 ```Shell
 cd ..
 git add submoduleProject
