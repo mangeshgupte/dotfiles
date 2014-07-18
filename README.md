@@ -1,6 +1,25 @@
 This repository tracks my custom dotfiles.
 
-To update files in the submodule :
+ # Installing on a new machine
+
+ ### To clone the repo on a new machine:
+From http://git-scm.com/book/en/Git-Tools-Submodules
+
+```Shell
+git clone https://github.com/mangeshgupte/dotfiles
+git submodule init
+ # Fetch the data
+git submodule update
+```
+
+ ### Get latest changes for a submodule
+```Shell
+git merge / git pull
+git submodule update
+```
+
+ ## Making changes inside a submodule
+
 Suppose we change the file foo.
 ```Shell
 git add foo
@@ -13,19 +32,4 @@ Then go the parent project
 cd ..
 git add submoduleProject
 git commit -m "Update submodule"
-```
-To clone the repo on a new machine:
-http://git-scm.com/book/en/Git-Tools-Submodules
-
-```Shell
-git clone https://github.com/mangeshgupte/dotfiles
-git submodule init
- # Fetch the data
-git submodule update
-```
-
-To update files in the submodule
-```Shell
-git merge / git pull
-git submodule update
 ```
