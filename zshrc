@@ -7,13 +7,20 @@ export ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="mangesh"
 
+
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias emacs=/Applications/Aquamacs.app/Contents/MacOS/Aquamacs
-alias diffmerge=/Applications/DiffMerge.app/Contents/MacOS/DiffMerge
-alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
-alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+
+# Local aliases
+if [[ ${(%):-%m} = stormsend ]]; then
+	alias emacs=/Applications/Aquamacs.app/Contents/MacOS/Aquamacs
+	alias diffmerge=/Applications/DiffMerge.app/Contents/MacOS/DiffMerge
+	alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
+	alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+fi
+
+# git aliases
 alias grep="grep --color=always"
 alias gitg="git grep --break --heading"
 
@@ -34,6 +41,13 @@ alias solrNERTunnel="ssh  -L 18987:stgdb01:8987  mangesh@stg.houzz.net -N"
 # ssh aliases
 alias hd="ssh hdwu01.hz"
 alias stg="ssh stg.houzz.net"
+
+# Use source highlighting with lesspipe.
+LESSPIPE=`command -v src-hilite-lesspipe.sh`
+if [[ ! -z "$LESSPIPE" ]]; then
+	export LESSOPEN="| ${LESSPIPE} %s"
+	export LESS='-R'
+fi
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
