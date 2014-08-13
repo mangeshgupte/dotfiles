@@ -8,7 +8,7 @@
 
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/.dotfiles.old             # old dotfiles backup directory
-files="zshrc oh-my-zsh"    # list of files/folders to symlink in homedir
+files="zshrc oh-my-zsh emacs"    # list of files/folders to symlink in homedir
 
 ##########
 
