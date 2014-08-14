@@ -1,12 +1,5 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Filename : .emacs
-;; User     : Mangesh Gupte
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (setq mac-command-modifier 'meta) ; Sets the command (Apple) key as Meta
 (setq mac-option-modifier 'meta)  ; Sets the option key as Meta (this is server)
-
-;; (setq mac-command-modifier 'ctrl mac-option-modifier 'meta)
 
 ;; Frame and window management:
 
