@@ -42,7 +42,7 @@ git add submoduleProject
 git commit -m "Update submodule"
 ```
 
-.Syncing a fork
+# Syncing a fork
 
 From time to time, you will need to update the submodules present in your
 repository. Github has simple instructions on doing this at https://help.github.com/articles/configuring-a-remote-for-a-fork
