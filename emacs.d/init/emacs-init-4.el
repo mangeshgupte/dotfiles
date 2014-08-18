@@ -46,6 +46,10 @@
 (autoload 'rm-mouse-drag-region "rect-mark"
   "Drag out a rectangular region with the mouse." t)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; File and buffer navigation
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; ido
 (defun ido-ignore-non-user-except-ielm (name)
   "Ignore all non-user (a.k.a. *starred*) buffers except *ielm*."

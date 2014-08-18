@@ -63,8 +63,9 @@
 ;; do NOT add newlines if I cursor past last line in file
 (setq next-line-add-newlines nil)
 
-;; (setq-default indent-tabs-mode nil)    ; use only spaces and no tabs
+(setq-default indent-tabs-mode nil)    ; use only spaces and no tabs
 (setq default-tab-width 4)
+(define-key global-map (kbd "RET") 'newline-and-indent)
 
 ;; Shut off annoying beep. Keep it on only for special situations
 (setq visible-bell t)

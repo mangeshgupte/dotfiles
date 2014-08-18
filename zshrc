@@ -149,6 +149,10 @@ zle -N down-line-or-local-history
 
 # Set locale preferance.
 # Impala Shell needs this otherwise it crashes on any unicode string.
-export LC_ALL=en_US.UTF-8
+if [[ ${(%):-%m} = stormsend ]]; then
+	export LC_ALL=en_US.UTF-8
+else
+	export LC_ALL=en_US.UTF-8
+fi
 
 

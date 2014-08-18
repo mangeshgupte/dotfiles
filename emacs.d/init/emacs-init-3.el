@@ -109,7 +109,7 @@
   (c-add-style "gallucci" my-c-style t)
   (c-set-offset 'member-init-intro '+)
   (setq tab-width 4
-	indent-tabs-mode nil)
+		indent-tabs-mode nil)
   (c-toggle-auto-hungry-state t)
   (define-key c-mode-base-map "\C-m" 'newline-and-indent)
   (modify-syntax-entry ?_ "w" c++-mode-syntax-table)
@@ -163,8 +163,17 @@
 (global-unset-key "\M-g")
 (global-set-key "\M-g" 'goto-line)
 
-; (global-unset-key "\C-s")
-; (global-set-key "\C-s" 'isearch-forward)
+(global-unset-key "\C-s")
+(global-set-key "\C-s" 'isearch-forward-regexp)
+
+(global-unset-key "\C-r")
+(global-set-key "\C-r" 'isearch-backward-regexp)
+
+(global-unset-key "\M-\C-s")
+(global-set-key "\M-\C-s" 'isearch-forward)
+
+(global-unset-key "\M-\C-r")
+(global-set-key "\M-\C-r" 'isearch-backward)
 
 ;; Remap Home and End keys to move within current line, and C-Home and
 ;; C-End keys to beginning and end of buffer
