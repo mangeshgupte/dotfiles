@@ -82,15 +82,15 @@
 (require 'cl)
 
 ;; Package management
-(require 'package)
-
-(setq package-archives
-	  '(("gnu" . "http://elpa.gnu.org/packages/")
-		("marmalade" . "http://marmalade-repo.org/packages/")
-		("melpa"     . "http://melpa.milkbox.net/packages/")))
+(cond
+ ((>= emacs-major-version 24)  (require 'package))
+ ((< emacs-major-version 24)   (load (expand-file-name "~/.emacs.d/elpa/package.el"))))
 
 (package-initialize)
-
+(setq package-archives
+      '(("gnu" . "http://elpa.gnu.org/packages/")
+        ("marmalade" . "http://marmalade-repo.org/packages/")
+        ("melpa"     . "http://melpa.milkbox.net/packages/"))))
 
 (setq required-packages
       (list
