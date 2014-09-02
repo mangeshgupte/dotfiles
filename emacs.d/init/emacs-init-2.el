@@ -88,28 +88,30 @@
 ;; Appearance
  
 ;; no mode-specific faces, everything in Monaco
-(setq aquamacs-autoface-mode nil)
+(when (system-type-is-darwin)
+  (setq aquamacs-autoface-mode nil)
 
-;; Change the font used by emacs
-;; (set-default-font "-apple-monaco*-medium-r-normal--14-*-*-*-*-*-fontset-monaco14")
-(set-default-font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-14-*-*-*-m-0-iso10646-1")
-;;(setq default-frame-alist '((font . "-misc-terminus-medium-r-normal--18-0-0-0-p-0-iso8859-1")))
-;; -Adobe-Courier-Medium-R-Normal--14-*-100-100-M-*-ISO8859-1
-;; "-dec-terminal-medium-r-normal--14-140-75-75-c-80-iso8859-1"
-;; "-*-helvetica-medium-r-*--*-120-*-*-*-*-iso8859-1"
-;; "-*-courier-medium-r-*-*-*-120-*-*-*-*-iso8859-*"
-;; (set-face-attribute 'default t :font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-14-*-*-*-m-0-iso10646-1")
-;;(add-to-list 'default-frame-alist
-;;				'(font . "DejaVu Sans Mono-10"))
+  ;; Change the font used by emacs
+  ;; (set-default-font "-apple-monaco*-medium-r-normal--14-*-*-*-*-*-fontset-monaco14")
+  (set-default-font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-14-*-*-*-m-0-iso10646-1")
+  ;;(setq default-frame-alist '((font . "-misc-terminus-medium-r-normal--18-0-0-0-p-0-iso8859-1")))
+  ;; -Adobe-Courier-Medium-R-Normal--14-*-100-100-M-*-ISO8859-1
+  ;; "-dec-terminal-medium-r-normal--14-140-75-75-c-80-iso8859-1"
+  ;; "-*-helvetica-medium-r-*--*-120-*-*-*-*-iso8859-1"
+  ;; "-*-courier-medium-r-*-*-*-120-*-*-*-*-iso8859-*"
+  ;; (set-face-attribute 'default t :font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-14-*-*-*-m-0-iso10646-1")
+  ;;(add-to-list 'default-frame-alist
+  ;;				'(font . "DejaVu Sans Mono-10"))
 
-;; (set-face-attribute 'mode-line nil :inherit 'unspecified) ; show modeline in Monaco
-(set-face-attribute 'echo-area nil :family 'unspecified)  ; show echo area in Monaco
+  ;; (set-face-attribute 'mode-line nil :inherit 'unspecified) ; show modeline in Monaco
+  (set-face-attribute 'echo-area nil :family 'unspecified)  ; show echo area in Monaco
 
-;; Stop ^M's from displaying in system shell window
-(add-hook 'comint-output-filter-functions 'shell-strip-ctrl-m nil t)
+  ;; Stop ^M's from displaying in system shell window
+  (add-hook 'comint-output-filter-functions 'shell-strip-ctrl-m nil t)
 
-;; Turn off the tool bar
-(tool-bar-mode -1)
+  ;; Turn off the tool bar
+  (tool-bar-mode -1)
+)
 
 ;; To obtain new font string, place this string:
 ;; (insert(prin1-to-string(w32-select-font))) in the scratch buffer

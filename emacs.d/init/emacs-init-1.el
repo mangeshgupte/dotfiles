@@ -1,11 +1,6 @@
 (setq mac-command-modifier 'meta) ; Sets the command (Apple) key as Meta
 (setq mac-option-modifier 'meta)  ; Sets the option key as Meta (this is server)
 
-;; Frame and window management:
-
-(tabbar-mode -1)		     ; no tabbar
-(one-buffer-one-frame-mode -1)       ; no one-buffer-per-frame
-(setq special-display-regexps nil)   ; do not open certain buffers in special windows/frames
 ;; (smart-frame-positioning-mode -1)  ; do not place frames behind the Dock or outside of screen boundaries
  
 ;; (scroll-bar-mode -1)  ; no scrollbars
@@ -67,6 +62,12 @@
  ((system-type-is-darwin) (setenv "HOME" "/Users/mangesh"))
  ((system-type-is-gnu) (setenv "HOME" "/home/mangesh")))
 
+;; Frame and window management:
+(when (system-type-is-darwin)
+  (tabbar-mode -1)		     ; no tabbar
+  (one-buffer-one-frame-mode -1)       ; no one-buffer-per-frame
+  (setq special-display-regexps nil)   ; do not open certain buffers in special windows/frames
+)
 
 ;; Set the path in which i have kept my .el/.elc files
 (let ((default-directory "~/.emacs.d/lisp/"))
@@ -90,7 +91,7 @@
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("marmalade" . "http://marmalade-repo.org/packages/")
-        ("melpa"     . "http://melpa.milkbox.net/packages/"))))
+        ("melpa"     . "http://melpa.milkbox.net/packages/")))
 
 (setq required-packages
       (list
