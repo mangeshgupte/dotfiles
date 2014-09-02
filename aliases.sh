@@ -41,6 +41,6 @@ alias hcat="noglob hadoop fs -cat"
 alias hmkdir="noglob hadoop fs -mkdir"
 
 # ssh aliases
-alias hp="ssh hdwu01.hz"
+alias dw="ssh hdwu01.hz"
 alias stg="ssh stg.houzz.net"
 

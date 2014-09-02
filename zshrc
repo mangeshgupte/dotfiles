@@ -63,8 +63,9 @@ xjson_pretty_print() {
 LESSPIPE=`command -v src-hilite-lesspipe.sh`
 if [[ ! -z "$LESSPIPE" ]]; then
 	export LESSOPEN="| ${LESSPIPE} %s"
-	export LESS='-R'
 fi
+# Case insensetive search for less.
+export LESS='-Ri'
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then

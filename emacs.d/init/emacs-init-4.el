@@ -88,6 +88,27 @@
 (when (require 'ido-vertical-mode nil 'noerror)
   (ido-vertical-mode t))
 
+(when (require 'ibuffer nil 'noerror)
+  (global-set-key (kbd "C-x C-b") 'ibuffer))
+
+(defun ibuffer-ido-find-file (file &optional wildcards)
+  "Like `ido-find-file', but default to the directory of the buffer at point."
+  (interactive
+   (let ((default-directory
+           (let ((buf (ibuffer-current-buffer)))
+             (if (buffer-live-p buf)
+                 (with-current-buffer buf
+                   default-directory)
+               default-directory))))
+     (list (ido-read-file-name "Find file: " default-directory) t)))
+  (find-file file wildcards))
+
+(when (require 'powerline nil 'noerror)
+  (powerline-default-theme)
+  (custom-set-faces
+   '(mode-line                        ((t (:foreground "#ffffff" :background "#003330" ))))
+   '(mode-line-inactive               ((t (:foreground "#999999" :background "#002320" :weight light :box nil :inherit (mode-line )))))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Custom built functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

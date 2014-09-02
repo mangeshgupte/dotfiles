@@ -74,3 +74,4 @@
 ;;
 ;; Putting a newline as part of the replaced string.
 ;; M-x replace-string RET <string> RET C-q C-j RET
+(put 'downcase-region 'disabled nil)
