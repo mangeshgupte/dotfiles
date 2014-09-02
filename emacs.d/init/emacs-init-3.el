@@ -175,15 +175,17 @@
 (global-unset-key "\M-\C-r")
 (global-set-key "\M-\C-r" 'isearch-backward)
 
+(when (system-type-is-darwin)
+  (define-key osx-key-mode-map [home] 'beginning-of-line)
+  (define-key osx-key-mode-map [end] 'end-of-line))
+
 ;; Remap Home and End keys to move within current line, and C-Home and
 ;; C-End keys to beginning and end of buffer
 (global-unset-key [home])
 (global-set-key [home] 'beginning-of-line)
-(define-key osx-key-mode-map [home] 'beginning-of-line)
 
 (global-unset-key [end])
 (global-set-key [end] 'end-of-line)
-(define-key osx-key-mode-map [end] 'end-of-line)
 
 (global-unset-key [home])
 (global-set-key [\C-home] 'beginning-of-buffer)
