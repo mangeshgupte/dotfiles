@@ -30,13 +30,14 @@
 (setq font-lock-maximum-decoration t)
 
 ;; Enable copy/paste from emacs to other apps
-(setq
- interprogram-cut-function 'x-select-text
- interprogram-paste-function 'x-selection-value
- save-interprogram-paste-before-kill t
- select-active-regions t
- x-select-enable-clipboard t
- x-select-enable-primary t)
+(when (system-type-is-darwin)
+  (setq
+   interprogram-cut-function 'x-select-text
+   interprogram-paste-function 'x-selection-value
+   save-interprogram-paste-before-kill t
+   select-active-regions t
+   x-select-enable-clipboard t
+   x-select-enable-primary t))
 
 ;; Set garbage collection to 20M
 (setq gc-cons-threshold 20000000)
@@ -108,11 +109,10 @@
 
   ;; Stop ^M's from displaying in system shell window
   (add-hook 'comint-output-filter-functions 'shell-strip-ctrl-m nil t)
-
-  ;; Turn off the tool bar
-  (tool-bar-mode -1)
 )
 
+;; Turn off the tool bar
+(tool-bar-mode -1)
 ;; To obtain new font string, place this string:
 ;; (insert(prin1-to-string(w32-select-font))) in the scratch buffer
 ;; and hit M-x eval-buffer This will give you the font string you

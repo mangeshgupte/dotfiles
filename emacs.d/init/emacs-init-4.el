@@ -11,7 +11,7 @@
 
 
 ;; Set a dark color theme.
-(autoload 'color-theme "color-theme" "Themes !!" t)
+(require 'color-theme)
 (color-theme-initialize)
 (color-theme-clarity)
 
