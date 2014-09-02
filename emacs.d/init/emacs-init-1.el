@@ -109,6 +109,7 @@
 	   'uniquify ; Make buffer names unique
        'web-mode ; handle mixed php and html files.
        'powerline ; Change the display line.
+       'color-theme ; Different color themes
 	   ))
 
 ;; Check if all packages are installed.
