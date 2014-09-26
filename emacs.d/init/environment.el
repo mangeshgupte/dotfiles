@@ -134,62 +134,41 @@
 ;;     (when (not (package-installed-p p))
 ;; 	  (package-install p))))
 
-;; Go into proper mode according to file extension
-(setq auto-mode-alist
-      (append '(("\\.C$"    . c++-mode)
-                ("\\.cc$"   . c++-mode)
-				("\\.cpp$"  . c++-mode)
-				("\\.cxx$"  . c++-mode)
-                ("\\.hxx$"  . c++-mode)
-                ("\\.h$"    . c++-mode)
-                ("\\.hh$"   . c++-mode)
-                ("\\.idl$"  . c++-mode)
-                ("\\.ipp$"  . c++-mode)
-                ("\\.c$"    . c-mode)
-                ("\\.py$"   . python-mode)
-                ("\\.php$"  . php-mode)
-                ("\\.inc$"  . php-mode)
-                ("\\.m$"    . octave-mode)
-                ("\\.ma?k\\'" . makefile-mode)
-                ("\\(M\\|m\\|GNUm\\)akefile\\(\\.in\\)?" . makefile-mode)
-                ("\\.pl$"   . perl-mode)
-                ("\\.pro$"  . prolog-mode)
-                ("\\.pm$"   . perl-mode)
-                ("\\.java$" . java-mode)
-				("\\.txt$"  . text-mode)
-				("\\.tex$"  . latex-mode)
-                ("\\.sty$"  . latex-mode)
-                ("\\.bbl$"  . latex-mode)
-                ("\\.html$" . html-helper-mode)
-				("\\.el\\'" . emacs-lisp-mode)
-				("emacs$" . emacs-lisp-mode)
-				("\\.texinfo\\'" . texinfo-mode)
-                ("\\.texi\\'" . texinfo-mode)
-                ("\\.s\\'"  . asm-mode)
-                ("\\.S\\'"  . asm-mode)
-                ("\\.asm\\'" . asm-mode)
-                ("ChangeLog\\'" . change-log-mode)
-                ("change\\.log\\'" . change-log-mode)
-                ("changelo\\'" . change-log-mode)
-                ("ChangeLog\\.[0-9]+\\'" . change-log-mode)
-                ("changelog\\'" . change-log-mode)
-                ("changelog\\.[0-9]+\\'" . change-log-mode)
-                ("\\$CHANGE_LOG\\$\\.TXT" . change-log-mode)
-                ("\\.tar\\'" . tar-mode)
-                ("\\.\\(arc\\|zip\\|lzh\\|zoo\\|jar\\)\\'" . archive-mode)
-                ("\\.\\(ARC\\|ZIP\\|LZH\\|ZOO\\|JAR\\)\\'" . archive-mode)
-                ("[]>:/\\]\\..*emacs\\'" . emacs-lisp-mode)
-                ("\\`\\..*emacs\\'" . emacs-lisp-mode)
-                ("[:/]_emacs\\'"  . emacs-lisp-mode)
-                ("\\.gp$"         . gnuplot-mode)
-                ("\\.htaccess$"   . apache-mode)
-                ("httpd\\.conf$"  . apache-mode)
-                ("srm\\.conf$"    . apache-mode)
-                ("access\\.conf$" . apache-mode)
-                ("\\.bhl$"        . bhl-mode)
-                ("\\.mel$"        . mel-mode)
-				("\\.js\\'"       . javascript-mode)
-				("\\.yaml$"  . yaml-mode)
-				)
-              auto-mode-alist))
+(defun mcg-source ()
+  "Reread ~/.emacs."
+  (interactive)
+  (load-file "~/.emacs"))
 
+;; Common Settings
+(setq user-full-name "Mangesh Gupte")
+
+;; Replace "yes or no" with y or n
+(defun yes-or-no-p (arg)
+  "An alias for y-or-n-p, because I hate having to type 'yes' or 'no'."
+  (y-or-n-p arg))
+
+;; Set garbage collection to 20M
+(setq gc-cons-threshold 20000000)
+
+;; Make sure UTF-8 is used everywhere.
+
+(set-language-environment 'UTF-8)
+(setq locale-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+(setq default-buffer-file-coding-system 'utf-8-unix)
+
+;; Change default major mode to text from fundamental
+(setq initial-major-mode
+      (lambda ()
+        (text-mode)
+        (turn-on-auto-fill)))
+
+
+;; Tell emacs to save backups in the global backups directory...
+;;(defun make-backup-file-name (file)
+;;  (concat "~/.emacs.d/autosave/" (file-name-nondirectory file) "~"))
+(setq backup-directory-alist `(("." . "~/.emacs.autosave/")))
+(setq auto-save-file-name-transforms `((".*" "~/.emacs.autosave/" t)))
+(setq delete-auto-save-files t)  ; delete unnecessary autosave files

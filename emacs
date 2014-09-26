@@ -5,11 +5,12 @@
 
 ;; (setq mac-command-modifier 'ctrl mac-option-modifier 'meta)
 
-(load "~/.emacs.d/init/emacs-init-1.el")
-(load "~/.emacs.d/init/emacs-init-2.el")
-(load "~/.emacs.d/init/emacs-init-3.el")
-(load "~/.emacs.d/init/emacs-init-4.el")
-(load "~/.emacs.d/init/emacs-init-5.el")
+(load "~/.emacs.d/init/environment.el")
+(load "~/.emacs.d/init/programming.el")
+(load "~/.emacs.d/init/visual.el")
+(load "~/.emacs.d/init/keymap.el")
+(load "~/.emacs.d/init/switching.el")
+(load "~/.emacs.d/init/buffer.el")
 
 ;; =====================================================================
 ;; USEFUL NOTES AND OTHER STUFF
@@ -74,4 +75,3 @@
 ;;
 ;; Putting a newline as part of the replaced string.
 ;; M-x replace-string RET <string> RET C-q C-j RET
-(put 'downcase-region 'disabled nil)

@@ -1,7 +1,3 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Custom Variables
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;; Make cursor into a box.
 (setq-default cursor-type 'box)
 
@@ -12,13 +8,8 @@
 (show-paren-mode t)
 (setq show-paren-delay 0)
 
-;; Common Settings
-(setq user-full-name "Mangesh Gupte")
-
-;; Replace "yes or no" with y or n
-(defun yes-or-no-p (arg)
-  "An alias for y-or-n-p, because I hate having to type 'yes' or 'no'."
-  (y-or-n-p arg))
+;; highlight incremental search
+(setq search-highlight t)
 
 ;; Volatile-highlight. Highlight the latest changes in the buffer (like text inserted from: yank, undo, etc.) until the
 ;; next command is run.
@@ -29,6 +20,7 @@
 ;; Put as much syntax highlighting into documents as possible
 (setq font-lock-maximum-decoration t)
 
+<<<<<<< HEAD:emacs.d/init/emacs-init-2.el
 ;; Enable copy/paste from emacs to other apps
 (when (system-type-is-darwin)
   (setq
@@ -85,6 +77,12 @@
                                   dired-directory
                                   (revert-buffer-function " %b"
                                   ("%b - Dir:  " default-directory)))))))
+=======
+;; Set a dark color theme.
+(autoload 'color-theme "color-theme" "Themes !!" t)
+(color-theme-initialize)
+(color-theme-clarity)
+>>>>>>> Renaming emacs files into meaningful components.:emacs.d/init/visual.el
 
 ;; Appearance
  
@@ -118,13 +116,6 @@
 ;; and hit M-x eval-buffer This will give you the font string you
 ;; need.
 
-;; Shut off message buffer. Note - if you need to debug emacs,
-;; comment these out so you can see what's going on.
-;; (setq message-log-max nil)
-;; (kill-buffer "*Messages*")
-
-(autoload 'apache-mode "apache-mode" "autoloaded" t)
-
 ;; Rainbow parentheses
 (defun rainbow-delimiters-colors ()
   (set-face-foreground 'rainbow-delimiters-depth-1-face "yellow")
@@ -141,6 +132,8 @@
 (when (require 'rainbow-delimiters nil 'noerror)
   (global-rainbow-delimiters-mode))
 
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MODE LINE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -148,20 +141,41 @@
 (line-number-mode t)
 (column-number-mode t)
 
-
 ;; Displays which function the cursor is currently in , in certain modes
 (which-func-mode 1)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; SEARCHING
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(when (require 'powerline nil 'noerror)
+  (powerline-default-theme)
+  (custom-set-faces
+   '(mode-line                        ((t (:foreground "#ffffff" :background "#003330" ))))
+   '(mode-line-inactive               ((t (:foreground "#999999" :background "#002320" :weight light :box nil :inherit (mode-line )))))))
 
-;; make searches case-INsensitive
-(set-default 'case-fold-search t)
 
-;; highlight incremental search
-(setq search-highlight t)
+;; Frame title bar formatting to show full path of file
+(setq-default
+ frame-title-format
+ (list '((buffer-file-name " %f" (dired-directory
+	 			  dired-directory
+				  (revert-buffer-function " %b"
+				  ("%b - Dir:  " default-directory)))))))
 
-;; TAB expands even during isearch
-(define-key isearch-mode-map [tab] 'isearch-yank-word)
+(setq-default
+ icon-title-format
+ (list '((buffer-file-name " %f" (dired-directory
+                                  dired-directory
+                                  (revert-buffer-function " %b"
+                                  ("%b - Dir:  " default-directory)))))))
 
+
+(setq speedbar-frame-parameters (quote
+       ((minibuffer)
+        (width          . 45)
+        (border-width   . 0)
+        (menu-bar-lines . 0)
+        (unsplittable   . t))))
+
+
+;; (require 'smooth-scrolling)
+;; (setq smooth-scroll-margin 5)
+;; (setq scroll-conservatively 9999
+;;       scroll-preserve-screen-position t)

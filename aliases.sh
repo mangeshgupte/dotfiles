@@ -9,9 +9,9 @@ if [[ ${(%):-%m} = stormsend ]]; then
 	alias sshTunnel="ssh -L 8676:hdws01:3128 dw.houzz.net"
 
 	# Solr tunnels.
-	alias solrSpacesTunnel="ssh  -L 18994:stgdb01:8994  mangesh@stg.houzz.net -N"
-	alias solrKeywordTunnel="ssh  -L 18986:stgdb01:8986  mangesh@stg.houzz.net -N"
-	alias solrNERTunnel="ssh  -L 18987:stgdb01:8987  mangesh@stg.houzz.net -N"
+    alias solrSpacesTunnel="ssh -L 18994:stgdb01:8994  mangesh@stg.houzz.net -N"
+    alias solrKeywordTunnel="ssh -L 18986:stgdb01:8986  mangesh@stg.houzz.net -N"
+    alias solrNERTunnel="ssh -L 18987:stgdb01:8987  mangesh@stg.houzz.net -N"
 
 	export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
 	export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:/usr/local/man:$MANPATH"
