@@ -20,7 +20,6 @@
 ;; Put as much syntax highlighting into documents as possible
 (setq font-lock-maximum-decoration t)
 
-<<<<<<< HEAD:emacs.d/init/emacs-init-2.el
 ;; Enable copy/paste from emacs to other apps
 (when (system-type-is-darwin)
   (setq
@@ -42,7 +41,6 @@
 ;; (setq-default fill-prefix "    ")
 
 ;; Make sure UTF-8 is used everywhere.
-
 (set-language-environment 'UTF-8)
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
@@ -77,12 +75,12 @@
                                   dired-directory
                                   (revert-buffer-function " %b"
                                   ("%b - Dir:  " default-directory)))))))
-=======
+
 ;; Set a dark color theme.
 (autoload 'color-theme "color-theme" "Themes !!" t)
 (color-theme-initialize)
 (color-theme-clarity)
->>>>>>> Renaming emacs files into meaningful components.:emacs.d/init/visual.el
+
 
 ;; Appearance
  

@@ -187,20 +187,15 @@
 (add-hook 'java-mode-common-hook 'my-java-mode-common-hook)
 
 (defun my-php-mode-hook ()
+  (c-add-style "gallucci" my-c-style t)
   (setq indent-tabs-mode t)
   (let ((my-tab-width 4))
     (setq tab-width my-tab-width)
-    (setq c-basic-indent my-tab-width)
+    (setq c-basic-offset my-tab-width)
     (set (make-local-variable 'tab-stop-list)
 		 (number-sequence my-tab-width 200 my-tab-width)))
   (setq fill-column 120)
-  (gtags-mode t)
-  (c-set-offset 'case-label '+)
-  (c-set-offset 'arglist-close 'c-lineup-arglist-operators)
-  (c-set-offset 'arglist-close 'c-lineup-arglist-operators)
-  (c-set-offset 'arglist-intro '+)
-  (c-set-offset 'arglist-cont 0)
-  (c-set-offset 'arglist-const-nonempty 'c-lineup-math))
+  (gtags-mode t))
 
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 
