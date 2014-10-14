@@ -117,10 +117,10 @@
         (else-clause           . 0)
         (catch-clause          . 0)
         (comment-intro         . 0)
-        (arglist-intro         . c-lineup-arglist-intro-after-paren)
+        (arglist-intro         . '(c-lineup-assignments 0))
         (arglist-cont          . c-lineup-arglist)
+        (arglist-cont-nonempty . c-lineup-arglist)
         (arglist-close         . c-lineup-arglist)
-        (arglist-cont-nonempty . c-lineup-arglist-intro-after-paren)
                                         ; 	      (arglist-intro         . +)
                                         ; 	      (arglist-cont          . 0)
                                         ;	      (arglist-close         . 0)
@@ -224,7 +224,6 @@
 ;; 			(setq imenu-create-index-function
 ;; 				  'semantic-create-imenu-index)
 ;; 			))
-;; (semantic-mode 1)
 
 ;; (global-ede-mode t)
 ;; (autoload 'gtags-mode "gtags" "" t)
@@ -232,3 +231,8 @@
 
 (autoload 'apache-mode "apache-mode" "autoloaded" t)
 
+;; (load-file "~/.emacs.d/lisp/cedet/cedet-devel-load.el")
+
+;; (semantic-mode 1)
+;; (require 'semantic/ia)
+;; (require 'semantic/bovine/gcc)
