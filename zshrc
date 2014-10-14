@@ -9,6 +9,8 @@ export ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="mangesh"
 
+HOSTNAME="`hostname`"
+
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
@@ -114,6 +116,11 @@ function _completemarks {
 compctl -K _completemarks jump
 compctl -K _completemarks unmark
 
+if [[ $HOSTNAME = stormsend.local ]]; then
+    export PATH="/usr/local/bin:$PATH"
+    export WORKON_HOME=~/Envs
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
 
 source $ZSH/oh-my-zsh.sh
 
@@ -123,13 +130,10 @@ source $ZSH/oh-my-zsh.sh
 path() {
   echo $PATH | tr ":" "\n" | \
     awk "{ sub(\"/usr\",   \"$fg_no_bold[green]/usr$reset_color\"); \
-           sub(\"/bin\",   \"$fg_no_bold[blue]/bin$reset_color\"); \
-           sub(\"/opt\",   \"$fg_no_bold[cyan]/opt$reset_color\"); \
+           sub(\"/bin\",   \"$fg_no_bold[cyan]/bin$reset_color\"); \
+           sub(\"/opt\",   \"$fg_no_bold[blue]/opt$reset_color\"); \
            sub(\"/sbin\",  \"$fg_no_bold[magenta]/sbin$reset_color\"); \
            sub(\"/local\", \"$fg_no_bold[yellow]/local$reset_color\"); \
            print }"
 }
 
-
-export WORKON_HOME=~/Envs
-source /usr/local/bin/virtualenvwrapper.sh
