@@ -111,7 +111,6 @@
        'multi-term ; managing multiple terminal buffers in Emacs.
        'recentf ; is a minor mode that builds a list of recently opened files.
        'session ; Session management for emacs.
-       'uniquify ; Make buffer names unique
        'web-mode ; handle mixed php and html files.
        'powerline ; Change the display line.
        'color-theme ; Different color themes

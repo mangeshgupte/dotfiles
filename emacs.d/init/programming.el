@@ -21,6 +21,7 @@
                 ("\\.pm$"   . perl-mode)
                 ("\\.java$" . java-mode)
                 ("\\.txt$"  . text-mode)
+                ("\\.zsh$"  . sh-mode)
                 ("\\.tex$"  . latex-mode)
                 ("\\.sty$"  . latex-mode)
                 ("\\.bbl$"  . latex-mode)
@@ -198,6 +199,16 @@
   (gtags-mode t))
 
 (add-hook 'php-mode-hook 'my-php-mode-hook)
+
+;; Web mode.
+(setq web-mode-engines-alist
+      '(("php"    . "\\.phtml\\'")
+        ("blade"  . "\\.blade\\.")))
+
+(defun my-web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-markup-indent-offset 4))
+(add-hook 'web-mode-hook  'my-web-mode-hook)
 
 
 ;; Make RET behave as LFD.

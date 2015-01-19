@@ -13,8 +13,9 @@ if [[ ${(%):-%m} = stormsend ]]; then
     alias solrKeywordTunnel="ssh -L 18986:stgdb01:8986  mangesh@stg.houzz.net -N"
     alias solrNERTunnel="ssh -L 18987:stgdb01:8987  mangesh@stg.houzz.net -N"
 
-	export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
-	export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:/usr/local/man:$MANPATH"
+    export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
+    export PATH="/houzz/c2ubuntu/tools/cluster_access:$PATH"
+    export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:/usr/local/man:$MANPATH"
 fi
 
 # Directory aliases
@@ -43,4 +44,11 @@ alias hmkdir="noglob hadoop fs -mkdir"
 # ssh aliases
 alias dw="ssh hdwu01.hz"
 alias stg="ssh stg.houzz.net"
+
+# Aliases for most used git commands. Used this to get this list :
+# cat ~/.zsh_history|cut -d ';' -f 2- 2>/dev/null|grep "^git"|sort|uniq -c|sort -nr | head -20
+alias gs="git status"
+alias gl="git log"
+
+# alias freq=cat ~/.zsh_history|cut -d ';' -f 2- 2>/dev/null|awk '{a[$1]++ } END{for(i in a){print a[i] " " i}}'|sort -rn|head -25
 

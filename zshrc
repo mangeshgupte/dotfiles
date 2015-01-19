@@ -56,8 +56,9 @@ plugins=(git pip history history-substring-search colorize hadoop jump)
 
 # User configuration
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin"
+export PYTHONPATH="${PYTHONPATH}:/houzz/c2/python:/houzz/c2/python/search_utils_server/houzz/services"
 
-xjson_pretty_print() {
+json_pretty_print() {
 	python -m json.tool $1 | pygmentize -l json | less
 }
 
@@ -118,6 +119,7 @@ compctl -K _completemarks unmark
 
 if [[ $HOSTNAME = stormsend.local ]]; then
     export PATH="/usr/local/bin:$PATH"
+    export PATH="$PATH:$HOME/tools/arcanist/bin/"
     export WORKON_HOME=~/Envs
     source /usr/local/bin/virtualenvwrapper.sh
 fi
