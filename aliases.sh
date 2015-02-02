@@ -6,17 +6,20 @@ if [[ ${(%):-%m} = stormsend ]]; then
 	alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 	alias c2="cd /houzz/c2"
 
-	alias sshTunnel="ssh -L 8676:hdws01:3128 dw.houzz.net"
+    alias tunnelDW="ssh -L 8676:hdws01:3128 dw.houzz.net"
 
 	# Solr tunnels.
-    alias solrSpacesTunnel="ssh -L 18994:stgdb01:8994  mangesh@stg.houzz.net -N"
-    alias solrKeywordTunnel="ssh -L 18986:stgdb01:8986  mangesh@stg.houzz.net -N"
-    alias solrNERTunnel="ssh -L 18987:stgdb01:8987  mangesh@stg.houzz.net -N"
+    alias tunnelSolrSpaces="ssh -L 18994:stgdb01:8994  mangesh@stg.houzz.net -N"
+    alias tunnelSolrKeywords="ssh -L 18986:stgdb01:8986  mangesh@stg.houzz.net -N"
+    alias tunnelSolrNER="ssh -L 18987:stgdb01:8987  mangesh@stg.houzz.net -N"
+    alias tunnelStgDB="ssh -L 13306:stgdb01:3306  mangesh@stg.houzz.net -N"
 
     export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
     export PATH="/houzz/c2ubuntu/tools/cluster_access:$PATH"
     export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:/usr/local/man:$MANPATH"
 fi
+
+alias reload=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 
 # Directory aliases
 alias ..="cd .."
@@ -30,8 +33,9 @@ alias ls='ls $LS_OPTIONS'
 
 alias k15="kill -15"
 
-# git aliases
+# grep aliases
 alias grep="grep --color=always"
+alias grepp="grep"
 alias gitg="git grep --break --heading --line-number"
 
 # Hadoop aliases
@@ -48,7 +52,16 @@ alias stg="ssh stg.houzz.net"
 # Aliases for most used git commands. Used this to get this list :
 # cat ~/.zsh_history|cut -d ';' -f 2- 2>/dev/null|grep "^git"|sort|uniq -c|sort -nr | head -20
 alias gs="git status"
+compdef _git gs=git-status
+
 alias gl="git log"
+compdef _git gl=git-log
 
+alias gd="git diff"
+compdef _git gd=git-diff
+
+alias gp="git pull origin master"
+compdef _git gd=git-pull
+
+# Lookup the most frequenty used commands.
 # alias freq=cat ~/.zsh_history|cut -d ';' -f 2- 2>/dev/null|awk '{a[$1]++ } END{for(i in a){print a[i] " " i}}'|sort -rn|head -25
-

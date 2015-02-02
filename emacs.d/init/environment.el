@@ -171,3 +171,8 @@
 (setq backup-directory-alist `(("." . "~/.emacs.autosave/")))
 (setq auto-save-file-name-transforms `((".*" "~/.emacs.autosave/" t)))
 (setq delete-auto-save-files t)  ; delete unnecessary autosave files
+
+ (defun dos2unix ()
+      "Not exactly but it's easier to remember"
+      (interactive)
+      (set-buffer-file-coding-system 'unix 't) )

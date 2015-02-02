@@ -52,7 +52,7 @@ HOSTNAME="`hostname`"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git pip history history-substring-search colorize hadoop jump)
+plugins=(pip history history-substring-search colorize hadoop jump)
 
 # User configuration
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin"
@@ -106,9 +106,6 @@ else
 	export LC_ALL=en_US.UTF-8
 fi
 
-# aliases
-[[ -f ~/.aliases.sh ]] && source ~/.aliases.sh
-
 # Tab completion for marks
 function _completemarks {
   reply=($(ls $MARKPATH))
@@ -125,6 +122,9 @@ if [[ $HOSTNAME = stormsend.local ]]; then
 fi
 
 source $ZSH/oh-my-zsh.sh
+
+# aliases
+[[ -f ~/.aliases.sh ]] && source ~/.aliases.sh
 
 # -------------------------------------------------------------------
 # display a neatly formatted path
