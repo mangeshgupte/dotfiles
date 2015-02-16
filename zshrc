@@ -56,7 +56,7 @@ plugins=(pip history history-substring-search colorize hadoop jump)
 
 # User configuration
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin"
-export PYTHONPATH="${PYTHONPATH}:/houzz/c2/python:/houzz/c2/python/search_utils_server/houzz/services"
+export PYTHONPATH="${PYTHONPATH}:/houzz/c2/python_home:/houzz/c2/python_home/houzz/search_utils_server/services"
 
 json_pretty_print() {
 	python -m json.tool $1 | pygmentize -l json | less

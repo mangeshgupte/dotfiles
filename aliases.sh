@@ -13,6 +13,7 @@ if [[ ${(%):-%m} = stormsend ]]; then
     alias tunnelSolrKeywords="ssh -L 18986:stgdb01:8986  mangesh@stg.houzz.net -N"
     alias tunnelSolrNER="ssh -L 18987:stgdb01:8987  mangesh@stg.houzz.net -N"
     alias tunnelStgDB="ssh -L 13306:stgdb01:3306  mangesh@stg.houzz.net -N"
+    alias tunnelStgCat="ssh -L 55001:stgdb02:55000  mangesh@stg.houzz.net -N"
 
     export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
     export PATH="/houzz/c2ubuntu/tools/cluster_access:$PATH"
@@ -62,6 +63,9 @@ compdef _git gd=git-diff
 
 alias gp="git pull origin master"
 compdef _git gd=git-pull
+
+alias gco="git checkout"
+compdef _git gco=git-checkout
 
 # Lookup the most frequenty used commands.
 # alias freq=cat ~/.zsh_history|cut -d ';' -f 2- 2>/dev/null|awk '{a[$1]++ } END{for(i in a){print a[i] " " i}}'|sort -rn|head -25
