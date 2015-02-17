@@ -31,6 +31,7 @@ alias c="clear"
 
 LS_OPTIONS="--color=auto"
 alias ls='ls $LS_OPTIONS'
+alias l='ls -lh $LS_OPTIONS'
 
 alias k15="kill -15"
 
@@ -48,7 +49,7 @@ alias hmkdir="noglob hadoop fs -mkdir"
 
 # ssh aliases
 alias dw="ssh hdwu01.hz"
-alias stg="ssh stg.houzz.net"
+alias stg="ssh stgweb02.hzs"
 
 # Aliases for most used git commands. Used this to get this list :
 # cat ~/.zsh_history|cut -d ';' -f 2- 2>/dev/null|grep "^git"|sort|uniq -c|sort -nr | head -20
