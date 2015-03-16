@@ -53,6 +53,9 @@ alias stg="ssh stgweb02.hzs"
 
 # Aliases for most used git commands. Used this to get this list :
 # cat ~/.zsh_history|cut -d ';' -f 2- 2>/dev/null|grep "^git"|sort|uniq -c|sort -nr | head -20
+alias ga="git add"
+compdef _git gs=git-add
+
 alias gs="git status"
 compdef _git gs=git-status
 
@@ -62,11 +65,16 @@ compdef _git gl=git-log
 alias gd="git diff"
 compdef _git gd=git-diff
 
+# This needs icdiff to be installed.
+alias gdi="git difftool --no-prompt --extcmd=icdiff"
+compdef _git gdi=git-diff
+
 alias gp="git pull origin master"
 compdef _git gd=git-pull
 
 alias gco="git checkout"
 compdef _git gco=git-checkout
+
 
 # Lookup the most frequenty used commands.
 # alias freq=cat ~/.zsh_history|cut -d ';' -f 2- 2>/dev/null|awk '{a[$1]++ } END{for(i in a){print a[i] " " i}}'|sort -rn|head -25
