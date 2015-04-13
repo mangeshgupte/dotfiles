@@ -118,7 +118,7 @@
   (global-set-key (kbd "C-c p") 'multi-term-prev)
   (setq multi-term--program "/usr/local/bin/zsh"))
 
-
+(global-set-key (kbd "C-x f") 'find-file-in-repository)
 
 ;; (require 'helm-config)
 

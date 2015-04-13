@@ -196,7 +196,8 @@
     (set (make-local-variable 'tab-stop-list)
 		 (number-sequence my-tab-width 200 my-tab-width)))
   (setq fill-column 120)
-  (gtags-mode t))
+                                        ;(gtags-mode t)
+  )
 
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 
@@ -208,8 +209,7 @@
 (defun my-web-mode-hook ()
   "Hooks for Web mode."
   (setq web-mode-markup-indent-offset 4))
-(add-hook 'web-mode-hook  'my-web-mode-hook)
-
+(add-hook 'web-mode-hook 'my-web-mode-hook)
 
 ;; Make RET behave as LFD.
 (defun RET-behaves-as-LFD ()
@@ -217,14 +217,13 @@
 	(local-set-key "\C-m" x)))
 (add-hook 'octave-mode-hook 'RET-behaves-as-LFD)
 
-
 ;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (require 'ws-trim)
 (global-ws-trim-mode t)
 
 ;; TAGS management.
 (setq tags-table-list
-	  '("/houzz/c2/TAGS"))
+      '("/houzz/c2/TAGS"))
 
 (elpy-enable)
 

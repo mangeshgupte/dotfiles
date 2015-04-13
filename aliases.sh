@@ -6,14 +6,14 @@ if [[ ${(%):-%m} = stormsend ]]; then
 	alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 	alias c2="cd /houzz/c2"
 
-    alias tunnelDW="ssh -L 8676:hdws01:3128 dw.houzz.net"
+    alias tunnelDW="ssh -L 8676:hdws01:3128 hdws01.hz"
 
 	# Solr tunnels.
-    alias tunnelSolrSpaces="ssh -L 18994:stgdb01:8994  mangesh@stg.houzz.net -N"
-    alias tunnelSolrKeywords="ssh -L 18986:stgdb01:8986  mangesh@stg.houzz.net -N"
-    alias tunnelSolrNER="ssh -L 18987:stgdb01:8987  mangesh@stg.houzz.net -N"
-    alias tunnelStgDB="ssh -L 13306:stgdb01:3306  mangesh@stg.houzz.net -N"
-    alias tunnelStgCat="ssh -L 55001:stgdb02:55000  mangesh@stg.houzz.net -N"
+    alias tunnelSolrSpaces="ssh -L 18994:stgdb01:8994 stgdb01.hzs"
+    alias tunnelSolrKeywords="ssh -L 18986:stgdb01:8986 stgdb01.hzs"
+    alias tunnelSolrNER="ssh -L 18987:stgdb01:8987 stgdb01.hzs"
+    alias tunnelStgDB="ssh -L 13306:stgdb01:3306 stgdb01.hzs"
+    alias tunnelStgCat="ssh -L 55001:stgdb02:55000 stgdb02.hzs"
 
     export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
     export PATH="/houzz/c2ubuntu/tools/cluster_access:$PATH"
@@ -54,7 +54,7 @@ alias stg="ssh stgweb02.hzs"
 # Aliases for most used git commands. Used this to get this list :
 # cat ~/.zsh_history|cut -d ';' -f 2- 2>/dev/null|grep "^git"|sort|uniq -c|sort -nr | head -20
 alias ga="git add"
-compdef _git gs=git-add
+compdef _git ga=git-add
 
 alias gs="git status"
 compdef _git gs=git-status
@@ -74,7 +74,6 @@ compdef _git gd=git-pull
 
 alias gco="git checkout"
 compdef _git gco=git-checkout
-
 
 # Lookup the most frequenty used commands.
 # alias freq=cat ~/.zsh_history|cut -d ';' -f 2- 2>/dev/null|awk '{a[$1]++ } END{for(i in a){print a[i] " " i}}'|sort -rn|head -25

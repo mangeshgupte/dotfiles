@@ -96,15 +96,12 @@
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("marmalade" . "http://marmalade-repo.org/packages/")
-        ("melpa"     . "http://melpa.milkbox.net/packages/")))
+        ("melpa" . "http://melpa.milkbox.net/packages/")))
 
 (setq required-packages
       (list
        'auto-complete ; auto-completion extension for GNU Emacs.
        'autopair ; automagically pair braces and quotes.
-       'ido ; Easier opening of files.
-       'flx-ido ; Fuzzy matching for Emacs ... a la Sublime Text.
-       'ido-vertical-mode ; makes ido-mode display vertically.
        'js2-mode ; javascript-mode for emacs.
        'magit ; Emacs mode for Git.
        'markdown-mode ; Emacs mode for Markdown-formatted files.
@@ -114,6 +111,10 @@
        'web-mode ; handle mixed php and html files.
        'powerline ; Change the display line.
        'color-theme ; Different color themes
+       'ido ; Easier opening of files.
+       'flx-ido ; Fuzzy matching for Emacs ... a la Sublime Text.
+       'ido-vertical-mode ; makes ido-mode display vertically.
+       'find-file-in-repository ; Auto complete file names for any file in repo.
        ))
 
 ;; Check if all packages are installed.
@@ -163,7 +164,6 @@
       (lambda ()
         (text-mode)
         (turn-on-auto-fill)))
-
 
 ;; Tell emacs to save backups in the global backups directory...
 ;;(defun make-backup-file-name (file)
