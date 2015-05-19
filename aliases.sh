@@ -36,6 +36,7 @@ alias l='ls -lh $LS_OPTIONS'
 alias k15="kill -15"
 
 # grep aliases
+unset GREP_OPTIONS;
 alias grep="grep --color=always"
 alias grepp="grep"
 alias gitg="git grep --break --heading --line-number"

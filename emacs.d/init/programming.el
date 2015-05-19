@@ -55,8 +55,11 @@
                 ("\\.mel$"        . mel-mode)
                 ("\\.js\\'"       . javascript-mode)
                 ("\\.yaml$"  . yaml-mode)
+                ("\\.ini\\'" . ini-mode)
                 )
               auto-mode-alist))
+
+(autoload 'ini-mode "ini-mode" nil t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C Programming
@@ -208,7 +211,9 @@
 
 (defun my-web-mode-hook ()
   "Hooks for Web mode."
-  (setq web-mode-markup-indent-offset 4))
+  (setq indent-tabs-mode t)
+  (setq web-mode-markup-indent-offset 4)
+  (setq web-mode-code-indent-offset 4))
 (add-hook 'web-mode-hook 'my-web-mode-hook)
 
 ;; Make RET behave as LFD.

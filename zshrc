@@ -52,10 +52,10 @@ HOSTNAME="`hostname`"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(pip history history-substring-search colorize hadoop autojump jump zsh-syntax-highlighting git brew z)
+plugins=(pip history history-substring-search colorize autojump jump zsh-syntax-highlighting git brew z)
 
 # User configuration
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin"
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin"
 export PYTHONPATH="${PYTHONPATH}:/houzz/c2/python_home:/houzz/c2/python_home/houzz/search_utils_server/services"
 
 json_pretty_print() {
@@ -99,9 +99,12 @@ down-line-or-local-history() {
 zle -N down-line-or-local-history
 
 # Set locale preferance.
-# Impala Shell needs this otherwise it crashes on any unicode string.
 if [[ ${(%):-%m} = stormsend ]]; then
-	export LC_ALL=en_US.UTF-8
+    export PATH="$PATH:$HOME/tools/arcanist/bin"
+    export WORKON_HOME=~/Envs
+    source /usr/local/bin/virtualenvwrapper.sh
+    # Impala Shell needs this otherwise it crashes on any unicode string.
+    export LC_ALL=en_US.UTF-8
 else
 	export LC_ALL=en_US.UTF-8
 fi
@@ -113,13 +116,6 @@ function _completemarks {
 
 compctl -K _completemarks jump
 compctl -K _completemarks unmark
-
-if [[ $HOSTNAME = stormsend.local ]]; then
-    export PATH="/usr/local/bin:$PATH"
-    export PATH="$PATH:$HOME/tools/arcanist/bin/"
-    export WORKON_HOME=~/Envs
-    source /usr/local/bin/virtualenvwrapper.sh
-fi
 
 source $ZSH/oh-my-zsh.sh
 
@@ -139,3 +135,19 @@ path() {
            print }"
 }
 
+
+# Install powerline
+# function powerline_precmd() {
+#     export PS1="$(/Users/mangesh/utils/powerline-shell/powerline-shell.py $? --shell zsh 2> /dev/null)"
+# }
+
+# function install_powerline_precmd() {
+#     for s in "${precmd_functions[@]}"; do
+#         if [ "$s" = "powerline_precmd" ]; then
+#             return
+#         fi
+#     done
+#     precmd_functions+=(powerline_precmd)
+# }
+
+# install_powerline_precmd
