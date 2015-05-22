@@ -22,6 +22,9 @@ fi
 
 alias reload=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 
+# Common programs
+alias m="mysql"
+
 # Directory aliases
 alias ..="cd .."
 alias ...="cd ../.."

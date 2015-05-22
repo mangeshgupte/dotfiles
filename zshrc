@@ -58,6 +58,10 @@ plugins=(pip history history-substring-search colorize autojump jump zsh-syntax-
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin"
 export PYTHONPATH="${PYTHONPATH}:/houzz/c2/python_home:/houzz/c2/python_home/houzz/search_utils_server/services"
 
+export GOPATH="$HOME/Go"
+export GOROOT="/usr/local/opt/go/libexec"
+export PATH="$PATH:$GOPATH/bin:$GOROOT/bin"
+
 json_pretty_print() {
 	python -m json.tool $1 | pygmentize -l json | less
 }
