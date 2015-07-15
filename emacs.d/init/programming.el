@@ -201,7 +201,6 @@
   (setq fill-column 120)
                                         ;(gtags-mode t)
   )
-
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 
 ;; Web mode.
@@ -216,6 +215,17 @@
   (setq web-mode-code-indent-offset 4))
 (add-hook 'web-mode-hook 'my-web-mode-hook)
 
+;; Python mode
+(defun my-python-mode-hook ()
+  "Hook for python mode."
+  (lambda ()
+    (setq indent-tabs-mode t)
+    (setq tab-width 4)
+    (setq python-indent 4)
+    (setq fill-column 100)))
+
+(add-hook 'python-mode-hook 'my-python-mode-hook)
+
 ;; Make RET behave as LFD.
 (defun RET-behaves-as-LFD ()
   (let ((x (key-binding "\C-j")))
@@ -229,7 +239,7 @@
 ;; TAGS management.
 (setq tags-table-list
       '("/houzz/c2/TAGS"))
-
+(package-initialize)
 (elpy-enable)
 
 ;; (speedbar-add-supported-extension ".php") ; not necessarily required
