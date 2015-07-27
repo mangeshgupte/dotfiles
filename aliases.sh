@@ -25,6 +25,10 @@ alias reload=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 # Common programs
 alias m="mysql"
 
+# Read logs
+alias logc2error='ls -t1 /houzz/c2/log/error_* | head -n1 | xargs tail -n200 -f'
+alias logc2='ls -t1 /houzz/c2/log/log_* | head -n1 | xargs tail -n200 -f'
+
 # Directory aliases
 alias ..="cd .."
 alias ...="cd ../.."
