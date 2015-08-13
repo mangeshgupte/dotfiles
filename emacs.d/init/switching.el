@@ -87,25 +87,6 @@ buffer is not visiting a file."
      (list (ido-read-file-name "Find file: " default-directory) t)))
   (find-file file wildcards))
 
-(defun git-grep-prompt ()
-  (let* ((default (current-word))
-         (prompt (if default
-                     (concat "Search for: (default " default ") ")
-                   "Search for: "))
-         (search (read-from-minibuffer prompt nil nil nil nil default)))
-    (if (> (length search) 0)
-        search
-      (or default ""))))
-
-(defun git-grep (search)
-  "git-grep the entire current repo"
-  (interactive (list (git-grep-prompt)))
-  (grep-find (concat "git --no-pager grep -P -n "
-                     (shell-quote-argument search)
-					 " `git rev-parse --show-toplevel`")))
-
-(global-set-key [f6] 'git-grep)
-
 ;; Good for opening header file under cursor
 (global-set-key "\C-cf" 'open-file-under-cursor)
 (fset 'open-file-under-cursor

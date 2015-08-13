@@ -2,7 +2,7 @@
 (setq-default cursor-type 'box)
 
 ;; Highlight current line.
-(global-hl-line-mode 0)
+;; (global-hl-line-mode 0)
 
 ;; Highlight matching paranthesis.
 (show-paren-mode t)
@@ -13,7 +13,6 @@
 
 ;; Volatile-highlight. Highlight the latest changes in the buffer (like text inserted from: yank, undo, etc.) until the
 ;; next command is run.
-
 (when (require 'volatile-highlights nil 'noerror)
   (volatile-highlights-mode t))
 
@@ -21,14 +20,6 @@
 (setq font-lock-maximum-decoration t)
 
 ;; Enable copy/paste from emacs to other apps
-(when (system-type-is-darwin)
-  (setq
-   interprogram-cut-function 'x-select-text
-   interprogram-paste-function 'x-selection-value
-   save-interprogram-paste-before-kill t
-   select-active-regions t
-   x-select-enable-clipboard t
-   x-select-enable-primary t))
 
 ;; Set garbage collection to 20M
 (setq gc-cons-threshold 20000000)
@@ -37,7 +28,7 @@
 ;; Text Options
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq-default fill-column 80)
+(setq-default fill-column 100)
 ;; (setq-default fill-prefix "    ")
 
 ;; Make sure UTF-8 is used everywhere.
@@ -61,21 +52,6 @@
 ;; Shut off annoying beep. Keep it on only for special situations
 (setq visible-bell t)
 
-;; Frame title bar formatting to show full path of file
-(setq-default
- frame-title-format
- (list '((buffer-file-name " %f" (dired-directory
-	 			  dired-directory
-				  (revert-buffer-function " %b"
-				  ("%b - Dir:  " default-directory)))))))
-
-(setq-default
- icon-title-format
- (list '((buffer-file-name " %f" (dired-directory
-                                  dired-directory
-                                  (revert-buffer-function " %b"
-                                  ("%b - Dir:  " default-directory)))))))
-
 ;; Set a dark color theme.
 (autoload 'color-theme "color-theme" "Themes !!" t)
 (color-theme-initialize)
@@ -83,9 +59,16 @@
 
 
 ;; Appearance
- 
+
 ;; no mode-specific faces, everything in Monaco
 (when (system-type-is-darwin)
+  (setq
+   interprogram-cut-function 'x-select-text
+   interprogram-paste-function 'x-selection-value
+   save-interprogram-paste-before-kill t
+   select-active-regions t
+   x-select-enable-clipboard t
+   x-select-enable-primary t)
   (setq aquamacs-autoface-mode nil)
 
   ;; Change the font used by emacs
@@ -123,8 +106,8 @@
   (set-face-foreground 'rainbow-delimiters-depth-5-face "light gray")
   (set-face-foreground 'rainbow-delimiters-depth-6-face "dark green")
   (set-face-foreground 'rainbow-delimiters-depth-7-face "gray")
-  (set-face-foreground 'rainbow-delimiters-depth-8-face "slate blue")
-  (set-face-foreground 'rainbow-delimiters-depth-9-face "dark blue")
+  ;; (set-face-foreground 'rainbow-delimiters-depth-8-face "slate blue")
+  ;; (set-face-foreground 'rainbow-delimiters-depth-9-face "dark blue")
   (set-face-foreground 'rainbow-delimiters-unmatched-face "white"))
 (add-hook 'rainbow-delimiters-mode-hook 'rainbow-delimiters-colors)
 (when (require 'rainbow-delimiters nil 'noerror)
@@ -139,22 +122,21 @@
 (line-number-mode t)
 (column-number-mode t)
 
-;; Displays which function the cursor is currently in , in certain modes
+;; Displays which function the cursor is currently in, in certain modes
 (which-func-mode 1)
 
 (when (require 'powerline nil 'noerror)
   (powerline-default-theme)
   (custom-set-faces
-   '(mode-line                        ((t (:foreground "#ffffff" :background "#003330" ))))
-   '(mode-line-inactive               ((t (:foreground "#999999" :background "#002320" :weight light :box nil :inherit (mode-line )))))))
-
+   '(mode-line             ((t (:foreground "#ffffff" :background "#003330" ))))
+   '(mode-line-inactive    ((t (:foreground "#999999" :background "#002320" :weight light :box nil :inherit (mode-line )))))))
 
 ;; Frame title bar formatting to show full path of file
 (setq-default
  frame-title-format
  (list '((buffer-file-name " %f" (dired-directory
-	 			  dired-directory
-				  (revert-buffer-function " %b"
+                  dired-revert
+                  (directory-buffer-function " %b"
 				  ("%b - Dir:  " default-directory)))))))
 
 (setq-default
@@ -164,14 +146,29 @@
                                   (revert-buffer-function " %b"
                                   ("%b - Dir:  " default-directory)))))))
 
-
-(setq speedbar-frame-parameters (quote
+(setq speedbar-frame-parameters
+      (quote
        ((minibuffer)
         (width          . 45)
         (border-width   . 0)
         (menu-bar-lines . 0)
         (unsplittable   . t))))
 
+;; Visual Bookmarks
+(require 'bm)
+(global-set-key (kbd "<C-f2>") 'bm-toggle)
+(global-set-key (kbd "<f2>")   'bm-next)
+(global-set-key (kbd "<S-f2>") 'bm-previous)
+
+;;   Click on fringe to toggle bookmarks, and use mouse wheel to move
+;;   between them.
+(global-set-key (kbd "<left-fringe> <mouse-5>") 'bm-next-mouse)
+(global-set-key (kbd "<left-fringe> <mouse-4>") 'bm-previous-mouse)
+(global-set-key (kbd "<left-fringe> <mouse-1>") 'bm-toggle-mouse)
+
+;;   If you would like the markers on the right fringe instead of the
+;;   left, add the following to line:
+(setq bm-marker 'bm-marker-right)
 
 ;; (require 'smooth-scrolling)
 ;; (setq smooth-scroll-margin 5)

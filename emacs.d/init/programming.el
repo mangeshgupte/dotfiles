@@ -11,6 +11,7 @@
                 ("\\.ipp$"  . c++-mode)
                 ("\\.c$"    . c-mode)
                 ("\\.py$"   . python-mode)
+                ("\\.less$" . css-mode)
                 ("\\.php$"  . php-mode)
                 ("\\.inc$"  . php-mode)
                 ("\\.m$"    . octave-mode)

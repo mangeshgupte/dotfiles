@@ -1,5 +1,9 @@
 #!/usr/bin/zsh
 
+# 'strict mode' so this fails fast.
+# set -euo pipefail
+# IFS=$'\n\t'
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -56,16 +60,18 @@ plugins=(pip history history-substring-search colorize autojump jump zsh-syntax-
 
 # User configuration
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin"
-export PYTHONPATH="${PYTHONPATH}:/houzz/c2/python_home:/houzz/c2/python_home/houzz/search_utils_server/services"
+export PYTHONPATH="/houzz/c2/python_home:/houzz/c2/python_home/houzz/search_utils_server/services"
 export PYTHONIOENCODING='utf-8'
 
 export GOPATH="$HOME/Go"
 export GOROOT="/usr/local/opt/go/libexec"
 export PATH="$PATH:$GOPATH/bin:$GOROOT/bin"
 
+setopt INTERACTIVE_COMMENTS
+
 # CUDA support (GPU support)
 export PATH="/usr/local/cuda/bin:$PATH" # "/Developer/NVIDIA/CUDA-7.0/bin:$PATH"
-export DYLD_LIBRARY_PATH="/usr/local/cuda/lib:$DYLD_LIBRARY_PATH"  # "/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH"
+export DYLD_LIBRARY_PATH="/usr/local/cuda/lib"  # "/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH"
 
 json_pretty_print() {
 	python -m json.tool $1 | pygmentize -l json | less
@@ -76,6 +82,7 @@ LESSPIPE=`command -v src-hilite-lesspipe.sh`
 if [[ ! -z "$LESSPIPE" ]]; then
 	export LESSOPEN="| ${LESSPIPE} %s"
 fi
+
 # Case insensetive search for less.
 export LESS='-Ri'
 
