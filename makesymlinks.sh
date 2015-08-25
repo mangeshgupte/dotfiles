@@ -31,4 +31,8 @@ for file in $files; do
 	ln -s $dir/$file ~/.$file
 	echo "linked"
 done
-echo "done"
+
+echo "Creating empty files"
+touch ~/.z
+
+echo "Done"
