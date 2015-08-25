@@ -2,7 +2,7 @@
 (setq-default cursor-type 'box)
 
 ;; Highlight current line.
-;; (global-hl-line-mode 0)
+(global-hl-line-mode 0)
 
 ;; Highlight matching paranthesis.
 (show-paren-mode t)

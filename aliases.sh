@@ -8,7 +8,8 @@ if [[ ${(%):-%m} = stormsend ]]; then
 
     alias tunnelDW="ssh -L 8676:hdws01:3128 hdws01.hz"
 
-	# Solr tunnels.
+    # Solr tunnels.
+    alias tunnelStg="ssh -L 13306:stgdb01:3306 -L 18994:stgdb01:8994 -L 18986:stgdb01:8986 -L 18987:stgdb01:8987 -L 16379:stgdb01:6379 stgdb01.hzs"
     alias tunnelSolrSpaces="ssh -L 18994:stgdb01:8994 stgdb01.hzs"
     alias tunnelSolrKeywords="ssh -L 18986:stgdb01:8986 stgdb01.hzs"
     alias tunnelSolrNER="ssh -L 18987:stgdb01:8987 stgdb01.hzs"

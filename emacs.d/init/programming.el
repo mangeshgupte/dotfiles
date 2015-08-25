@@ -114,6 +114,7 @@
         (statement-case-intro  . +)
         (statement-case-open   . 0)
         (substatement          . +)
+        (inlambda . 0)
         (substatement-open     . 0)
         (case-label            . +)
         (access-label          . -)
@@ -200,7 +201,7 @@
     (set (make-local-variable 'tab-stop-list)
 		 (number-sequence my-tab-width 200 my-tab-width)))
   (setq fill-column 120)
-                                        ;(gtags-mode t)
+  ;(gtags-mode t)
   )
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 
