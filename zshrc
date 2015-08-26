@@ -14,6 +14,7 @@ export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="mangesh"
 
 HOSTNAME="`hostname`"
+SHORT_HOSTNAME=${(%):-%m}
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -58,20 +59,28 @@ HOSTNAME="`hostname`"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(pip history history-substring-search colorize autojump jump zsh-syntax-highlighting git brew z)
 
-# User configuration
-export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin"
-export PYTHONPATH="/houzz/c2/python_home:/houzz/c2/python_home/houzz/search_utils_server/services"
-export PYTHONIOENCODING='utf-8'
+# Local aliases
+if [[ $SHORT_HOSTNAME = stormsend ]]; then
+    # User configuration
+    export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin"
+    export PYTHONPATH="/houzz/c2/python_home:/houzz/c2/python_home/houzz/search_utils_server/services"
+    export PYTHONIOENCODING='utf-8'
 
-export GOPATH="$HOME/Go"
-export GOROOT="/usr/local/opt/go/libexec"
-export PATH="$PATH:$GOPATH/bin:$GOROOT/bin"
+    export GOPATH="$HOME/Go"
+    export GOROOT="/usr/local/opt/go/libexec"
+    export PATH="$PATH:$GOPATH/bin:$GOROOT/bin"
+
+    # CUDA support (GPU support)
+    export PATH="/usr/local/cuda/bin:$PATH" # "/Developer/NVIDIA/CUDA-7.0/bin:$PATH"
+    export DYLD_LIBRARY_PATH="/usr/local/cuda/lib"  # "/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH"
+elif [[ $SHORT_HOSTNAME = hdwu01 ]]; then
+    export WORKON_HOME=$HOME/.virtualenvs
+    export PROJECT_HOME=$HOME/Devel
+    export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
+    source /usr/local/bin/virtualenvwrapper_lazy.sh
+fi
 
 setopt INTERACTIVE_COMMENTS
-
-# CUDA support (GPU support)
-export PATH="/usr/local/cuda/bin:$PATH" # "/Developer/NVIDIA/CUDA-7.0/bin:$PATH"
-export DYLD_LIBRARY_PATH="/usr/local/cuda/lib"  # "/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH"
 
 json_pretty_print() {
 	python -m json.tool $1 | pygmentize -l json | less
