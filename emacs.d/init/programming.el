@@ -23,6 +23,7 @@
                 ("\\.java$" . java-mode)
                 ("\\.txt$"  . text-mode)
                 ("\\.zsh$"  . sh-mode)
+                ("\\.zsh-theme$"  . sh-mode)
                 ("\\.tex$"  . latex-mode)
                 ("\\.sty$"  . latex-mode)
                 ("\\.bbl$"  . latex-mode)
@@ -227,6 +228,9 @@
     (setq fill-column 100)))
 
 (add-hook 'python-mode-hook 'my-python-mode-hook)
+
+;; YAML mode
+(setq yaml-indent-offset 4)
 
 ;; Make RET behave as LFD.
 (defun RET-behaves-as-LFD ()

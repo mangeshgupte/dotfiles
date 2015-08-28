@@ -57,7 +57,7 @@ SHORT_HOSTNAME=${(%):-%m}
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(pip history history-substring-search colorize autojump jump zsh-syntax-highlighting git brew z)
+plugins=(git brew pip history history-substring-search colorize autojump jump zsh-syntax-highlighting z virtualenv virtualenvwrapper)
 
 # Local aliases
 if [[ $SHORT_HOSTNAME = stormsend ]]; then
@@ -76,8 +76,8 @@ if [[ $SHORT_HOSTNAME = stormsend ]]; then
 elif [[ $SHORT_HOSTNAME = hdwu01 ]]; then
     export WORKON_HOME=$HOME/.virtualenvs
     export PROJECT_HOME=$HOME/Devel
-    export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
-    source /usr/local/bin/virtualenvwrapper_lazy.sh
+    # export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
+    # source /usr/local/bin/virtualenvwrapper_lazy.sh
 fi
 
 setopt INTERACTIVE_COMMENTS
