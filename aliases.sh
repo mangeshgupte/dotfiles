@@ -6,15 +6,12 @@ if [[ ${(%):-%m} = stormsend ]]; then
 	alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 	alias c2="cd /houzz/c2"
 
-    alias tunnelDW="ssh -L 8676:hdws01:3128 hdws01.hz"
+    alias tunnelDw="ssh -L 8676:hdws01:3128 hdws01.hz"
 
-    # Solr tunnels.
-    alias tunnelStg="ssh -L 13306:stgdb01:3306 -L 18994:stgdb01:8994 -L 18986:stgdb01:8986 -L 18987:stgdb01:8987 -L 16379:stgdb01:6379 stgdb01.hzs"
-    alias tunnelSolrSpaces="ssh -L 18994:stgdb01:8994 stgdb01.hzs"
-    alias tunnelSolrKeywords="ssh -L 18986:stgdb01:8986 stgdb01.hzs"
-    alias tunnelSolrNER="ssh -L 18987:stgdb01:8987 stgdb01.hzs"
-    alias tunnelStgDB="ssh -L 13306:stgdb01:3306 stgdb01.hzs"
-    alias tunnelStgCat="ssh -L 55001:stgdb02:55000 stgdb02.hzs"
+    # Staging tunnels.
+    alias tunnelStg='ssh -L 18986:solr:8986 `#Keywords` -L 18987:solr:8987 `#NER` -L 18994:solr:8994 `#SpacesNew` -L 18993:solr:8993 `#Answers` -L 18995:solr:8995 `#UsersNew` -L 18988:solr:8988 `#Ads` -L 13306:mysql-master:3306 `#mysql` -L 16379:redis:6379 `#redis_main_and_feed` -L 18379:redis:8379 `#redis_ads`stghouzz.hza'
+
+    alias tunnelStgOld="ssh -L 13306:stgdb01:3306 -L 18994:stgdb01:8994 -L 18986:stgdb01:8986 -L 18987:stgdb01:8987 -L 16379:stgdb01:6379 stgdb01.hzs"
 
     export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
     export PATH="/houzz/c2ubuntu/tools/cluster_access:$PATH"
@@ -52,13 +49,15 @@ alias gitg="git grep --break --heading --line-number"
 # Hadoop aliases
 alias hfs="noglob hadoop fs"
 alias hls="noglob hadoop fs -ls"
+alias hcp="noglob hadoop fs -cp"
 alias hrm="noglob hadoop fs -rm"
+alias hget="noglob hadoop fs -get"
 alias hcat="noglob hadoop fs -cat"
 alias hmkdir="noglob hadoop fs -mkdir"
 
 # ssh aliases
 alias dw="ssh hdwu01.hz"
-alias stg="ssh stgweb02.hzs"
+alias stg="ssh stghouzz.hza"
 
 # Aliases for most used git commands. Used this to get this list :
 # cat ~/.zsh_history|cut -d ';' -f 2- 2>/dev/null|grep "^git"|sort|uniq -c|sort -nr | head -20

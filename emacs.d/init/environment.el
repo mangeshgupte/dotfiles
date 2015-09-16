@@ -176,3 +176,6 @@
       "Not exactly but it's easier to remember"
       (interactive)
       (set-buffer-file-coding-system 'unix 't) )
+
+(set-default 'tramp-default-proxies-alist
+             (quote (("hdwu01.hz" "hadoop" "/ssh:%h:"))))
