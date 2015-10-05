@@ -36,7 +36,7 @@ alias c="clear"
 
 LS_OPTIONS="--color=auto"
 alias ls='ls $LS_OPTIONS'
-alias l='ls -lh $LS_OPTIONS'
+alias l='ls -lhS $LS_OPTIONS'
 
 alias k15="kill -15"
 
