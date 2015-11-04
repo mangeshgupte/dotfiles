@@ -57,7 +57,7 @@ SHORT_HOSTNAME=${(%):-%m}
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git brew pip history history-substring-search colorize autojump jump zsh-syntax-highlighting z virtualenv virtualenvwrapper)
+plugins=(git brew pip history history-substring-search autojump jump zsh-syntax-highlighting z)
 
 # Local aliases
 if [[ $SHORT_HOSTNAME = stormsend ]]; then
@@ -86,14 +86,6 @@ json_pretty_print() {
 	python -m json.tool $1 | pygmentize -l json | less
 }
 
-# Use source highlighting with lesspipe.
-LESSPIPE=`command -v src-hilite-lesspipe.sh`
-if [[ ! -z "$LESSPIPE" ]]; then
-	export LESSOPEN="| ${LESSPIPE} %s"
-fi
-
-# Case insensetive search for less.
-export LESS='-Ri'
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -144,8 +136,18 @@ compctl -K _completemarks unmark
 
 source $ZSH/oh-my-zsh.sh
 
+# Use source highlighting with source-highlight.
+LESSPIPE=`command -v src-hilite-lesspipe.sh`
+if [[ ! -z "$LESSPIPE" ]]; then
+	export LESSOPEN="| ${LESSPIPE} %s"
+fi
+
+# Case insensetive search for less.
+export LESS=' -RFi '
+
 # aliases
 [[ -f ~/.aliases.sh ]] && source ~/.aliases.sh
+
 
 # -------------------------------------------------------------------
 # display a neatly formatted path
