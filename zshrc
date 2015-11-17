@@ -142,8 +142,11 @@ if [[ ! -z "$LESSPIPE" ]]; then
 	export LESSOPEN="| ${LESSPIPE} %s"
 fi
 
-# Case insensetive search for less.
-export LESS=' -RFi '
+# i: Case insensetive search for less.
+# R:
+# F: Quit if
+# X: Keep screen.
+export LESS=' -RXFi '
 
 # aliases
 [[ -f ~/.aliases.sh ]] && source ~/.aliases.sh
