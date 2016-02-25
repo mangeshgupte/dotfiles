@@ -62,17 +62,19 @@ plugins=(git brew pip history history-substring-search autojump jump zsh-syntax-
 # Local aliases
 if [[ $SHORT_HOSTNAME = stormsend ]]; then
     # User configuration
-    export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin"
+    export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin:"
     export PYTHONPATH="/houzz/c2/python_home:/houzz/c2/python_home/houzz/search_utils_server/services"
     export PYTHONIOENCODING='utf-8'
 
     export GOPATH="$HOME/Go"
     export GOROOT="/usr/local/opt/go/libexec"
-    export PATH="$PATH:$GOPATH/bin:$GOROOT/bin"
+    export PATH="$PATH:$GOPATH/bin:$GOROOT/bin:$HOME/bin"
 
     # CUDA support (GPU support)
     export PATH="/usr/local/cuda/bin:$PATH" # "/Developer/NVIDIA/CUDA-7.0/bin:$PATH"
     export DYLD_LIBRARY_PATH="/usr/local/cuda/lib"  # "/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH"
+
+    test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 elif [[ $SHORT_HOSTNAME = hdwu01 ]]; then
     export WORKON_HOME=$HOME/.virtualenvs
     export PROJECT_HOME=$HOME/Devel
@@ -181,3 +183,4 @@ path() {
 # }
 
 # install_powerline_precmd
+
