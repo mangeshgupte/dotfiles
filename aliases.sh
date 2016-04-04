@@ -46,14 +46,28 @@ alias grep="grep --color=always"
 alias grepp="grep"
 alias gitg="git grep --break --heading --line-number"
 
-# Hadoop aliases
-alias hfs="noglob hadoop fs"
-alias hls="noglob hadoop fs -ls"
-alias hcp="noglob hadoop fs -cp"
-alias hrm="noglob hadoop fs -rm"
-alias hget="noglob hadoop fs -get"
-alias hcat="noglob hadoop fs -cat"
-alias hmkdir="noglob hadoop fs -mkdir"
+if [[ ${(%):-%m} = hdwu01 ]]; then
+    # Hadoop aliases
+    alias hfs="noglob hadoop fs"
+    alias hls="noglob hadoop fs -ls"
+    alias hcp="noglob hadoop fs -cp"
+    alias hrm="noglob hadoop fs -rm"
+    alias hget="noglob hadoop fs -get"
+    alias hcat="noglob hadoop fs -cat"
+    alias hmkdir="noglob hadoop fs -mkdir"
+    alias hrmdir="noglob hadoop fs -rmdir"
+    # alias h="noglob hadoop"
+
+    # Snakebite aliases
+    alias fls="noglob snakebite ls"
+    alias frm="noglob snakebite rm"
+    alias fcp="noglob snakebite cp"
+    alias fcat="noglob snakebite cat"
+    alias fmkdir="noglob snakebite mkdir"
+    alias ftail="noglob snakebite tail"
+    alias fchmod="noglob snakebite chmod"
+    alias fget="noglob snakebite get"
+fi
 
 # ssh aliases
 alias dw="ssh hdwu01.hz"
@@ -85,3 +99,8 @@ compdef _git gco=git-checkout
 
 # Lookup the most frequenty used commands.
 # alias freq=cat ~/.zsh_history|cut -d ';' -f 2- 2>/dev/null|awk '{a[$1]++ } END{for(i in a){print a[i] " " i}}'|sort -rn|head -25
+# Neat commands
+
+function histogram() {
+    awk '{print $1}' | sort | uniq -c | sort -rn | head -50 | awk '!max{max=$1;}{r="";i=s=60*$1/max;while(i-->0)r=r"#";printf "%15s %5d %s %s",$2,$1,r,"\n";}'
+}
