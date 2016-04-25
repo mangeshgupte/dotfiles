@@ -1,10 +1,12 @@
+;;; environment --- Startup settings related to the os, variables etc.
+
+;;; Commentary:
+
+;;; Code:
+
 (setq mac-command-modifier 'meta) ; Sets the command (Apple) key as Meta
 (setq mac-option-modifier 'meta)  ; Sets the option key as Meta (this is server)
 
-;; (smart-frame-positioning-mode -1)  ; do not place frames behind the Dock or outside of screen boundaries
- 
-;; (scroll-bar-mode -1)  ; no scrollbars
- 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Emacs auto customize section. Emacs will add to this section when
 ;; you use the customize tool available on the help menu
@@ -115,6 +117,7 @@
        'flx-ido ; Fuzzy matching for Emacs ... a la Sublime Text.
        'ido-vertical-mode ; makes ido-mode display vertically.
        'find-file-in-repository ; Auto complete file names for any file in repo.
+       'flycheck ;
        ))
 
 ;; Check if all packages are installed.
@@ -124,15 +127,17 @@
         finally (return t)))
 
 ;; if not all packages are installed, check one by one and install the missing ones.
-;; (unless (packages-installed-p)
-;;   ;; check for new packages (package versions)
-;;   (message "%s" "Emacs is now refreshing its package database...")
-;;   (package-refresh-contents)
-;;   (message "%s" " done.")
-;;   ;; install the missing packages
-;;   (dolist (p required-packages)
-;;     (when (not (package-installed-p p))
-;; 	  (package-install p))))
+(unless (packages-installed-p)
+  ;; check for new packages (package versions)
+  (message "%s" "Emacs is now refreshing its package database...")
+  (package-refresh-contents)
+  (message "%s" " done.")
+  ;; install the missing packages
+  (dolist (required-packages)
+    (when (not (package-installed-p p))
+      (package-install p))))
+
+(global-flycheck-mode)
 
 (defun mcg-source ()
   "Reread ~/.emacs."
@@ -151,7 +156,6 @@
 (setq gc-cons-threshold 20000000)
 
 ;; Make sure UTF-8 is used everywhere.
-
 (set-language-environment 'UTF-8)
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
@@ -172,10 +176,11 @@
 (setq auto-save-file-name-transforms `((".*" "~/.emacs.autosave/" t)))
 (setq delete-auto-save-files t)  ; delete unnecessary autosave files
 
- (defun dos2unix ()
-      "Not exactly but it's easier to remember"
-      (interactive)
-      (set-buffer-file-coding-system 'unix 't) )
+(defun dos2unix ()
+  "Not exactly but it's easier to remember"
+  (interactive)
+  (set-buffer-file-coding-system 'unix 't))
 
 (set-default 'tramp-default-proxies-alist
              (quote (("hdwu01.hz" "hadoop" "/ssh:%h:"))))
+

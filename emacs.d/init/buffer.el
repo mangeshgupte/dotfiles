@@ -4,7 +4,7 @@
 ;; TAB expands even during isearch
 (define-key isearch-mode-map [tab] 'isearch-yank-word)
 
-(setq-default fill-column 80)
+(setq-default fill-column 100)
 ;; (setq-default fill-prefix "    ")
 
 ;; Scroll just one line when hitting the bottom of the window
@@ -54,13 +54,10 @@
   (set (make-local-variable 'global-hl-line-mode) nil))
 (ad-activate 'term-char-mode)
 
-
 ;; Automatically turn on auto-fill-mode when editing text files
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
-
 (put 'downcase-region 'disabled nil)
-
 
 (defun uniquify-region-lines (beg end)
   "Remove duplicate adjacent lines in region."

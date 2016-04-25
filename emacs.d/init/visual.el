@@ -1,8 +1,17 @@
+;;; visual --- Startup settings related to the look and feel of the buffers.
+
+;;; Commentary:
+
+;;; Code:
+
+(smart-frame-positioning-mode -1)  ; do not place frames behind the Dock or outside of screen boundaries
+(scroll-bar-mode -1)  ; no scrollbars
+
 ;; Make cursor into a box.
 (setq-default cursor-type 'box)
 
 ;; Highlight current line.
-(global-hl-line-mode 0)
+;; (global-hl-line-mode 0)
 
 ;; Highlight matching paranthesis.
 (show-paren-mode t)
@@ -10,11 +19,6 @@
 
 ;; highlight incremental search
 (setq search-highlight t)
-
-;; Volatile-highlight. Highlight the latest changes in the buffer (like text inserted from: yank, undo, etc.) until the
-;; next command is run.
-(when (require 'volatile-highlights nil 'noerror)
-  (volatile-highlights-mode t))
 
 ;; Put as much syntax highlighting into documents as possible
 (setq font-lock-maximum-decoration t)
@@ -28,37 +32,15 @@
 ;; Text Options
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq-default fill-column 100)
-;; (setq-default fill-prefix "    ")
-
-;; Make sure UTF-8 is used everywhere.
-(set-language-environment 'UTF-8)
-(setq locale-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
-(setq default-buffer-file-coding-system 'utf-8-unix)
-
-;; Scroll just one line when hitting the bottom of the window
-(setq scroll-step 1)
-
-;; do NOT add newlines if I cursor past last line in file
-(setq next-line-add-newlines nil)
-
-(setq-default indent-tabs-mode nil)    ; use only spaces and no tabs
-(setq default-tab-width 4)
-(define-key global-map (kbd "RET") 'newline-and-indent)
-
-;; Shut off annoying beep. Keep it on only for special situations
-(setq visible-bell t)
-
 ;; Set a dark color theme.
 (autoload 'color-theme "color-theme" "Themes !!" t)
 (color-theme-initialize)
 (color-theme-clarity)
 
-
-;; Appearance
+;; Volatile-highlight. Highlight the latest changes in the buffer (like text inserted from: yank, undo, etc.) until the
+;; next command is run.
+(when (require 'volatile-highlights nil 'noerror)
+  (volatile-highlights-mode t))
 
 ;; no mode-specific faces, everything in Monaco
 (when (system-type-is-darwin)
@@ -114,7 +96,6 @@
   (global-rainbow-delimiters-mode))
 
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MODE LINE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -124,12 +105,6 @@
 
 ;; Displays which function the cursor is currently in, in certain modes
 (which-func-mode 1)
-
-(when (require 'powerline nil 'noerror)
-  (powerline-default-theme)
-  (custom-set-faces
-   '(mode-line             ((t (:foreground "#ffffff" :background "#003330" ))))
-   '(mode-line-inactive    ((t (:foreground "#999999" :background "#002320" :weight light :box nil :inherit (mode-line )))))))
 
 ;; Frame title bar formatting to show full path of file
 (setq-default
@@ -155,20 +130,27 @@
         (unsplittable   . t))))
 
 ;; Visual Bookmarks
-(require 'bm)
-(global-set-key (kbd "<C-f2>") 'bm-toggle)
-(global-set-key (kbd "<f2>")   'bm-next)
-(global-set-key (kbd "<S-f2>") 'bm-previous)
+(when (require 'bm nil 'noerror)
+  (global-set-key (kbd "<C-f2>") 'bm-toggle)
+  (global-set-key (kbd "<f2>")   'bm-next)
+  (global-set-key (kbd "<S-f2>") 'bm-previous)
 
-;;   Click on fringe to toggle bookmarks, and use mouse wheel to move
-;;   between them.
-(global-set-key (kbd "<left-fringe> <mouse-5>") 'bm-next-mouse)
-(global-set-key (kbd "<left-fringe> <mouse-4>") 'bm-previous-mouse)
-(global-set-key (kbd "<left-fringe> <mouse-1>") 'bm-toggle-mouse)
+  ;; Click on fringe to toggle bookmarks, and use mouse wheel to move
+  ;; between them.
+  (global-set-key (kbd "<left-fringe> <mouse-5>") 'bm-next-mouse)
+  (global-set-key (kbd "<left-fringe> <mouse-4>") 'bm-previous-mouse)
+  (global-set-key (kbd "<left-fringe> <mouse-1>") 'bm-toggle-mouse)
 
-;;   If you would like the markers on the right fringe instead of the
-;;   left, add the following to line:
-(setq bm-marker 'bm-marker-right)
+  ;; If you would like the markers on the right fringe instead of the
+  ;; left, add the following to line:
+  (setq bm-marker 'bm-marker-right))
+
+(when (require 'powerline nil 'noerror)
+  (powerline-default-theme)
+  (custom-set-faces
+   '(mode-line             ((t (:foreground "#ffffff" :background "#003330" ))))
+   '(mode-line-inactive    ((t (:foreground "#999999" :background "#002320" :weight light :box nil :inherit (mode-line )))))))
+
 
 ;; (require 'smooth-scrolling)
 ;; (setq smooth-scroll-margin 5)

@@ -82,6 +82,9 @@ elif [[ $SHORT_HOSTNAME = hdwu01 ]]; then
     # source /usr/local/bin/virtualenvwrapper_lazy.sh
 fi
 
+# Use ipython where available
+export IPYTHON=1
+
 setopt INTERACTIVE_COMMENTS
 
 json_pretty_print() {

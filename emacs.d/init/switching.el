@@ -1,4 +1,8 @@
-;; Session
+;;; switching --- All settings related to changing buffers, opening files etc.
+
+;;; Commentary:
+
+;;; Code:
 (when (require 'session nil 'noerror)
   (add-hook 'after-init-hook 'session-initialize))
 
