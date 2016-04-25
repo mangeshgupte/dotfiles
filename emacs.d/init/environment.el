@@ -184,3 +184,7 @@
 (set-default 'tramp-default-proxies-alist
              (quote (("hdwu01.hz" "hadoop" "/ssh:%h:"))))
 
+;; Set garbage collection to 20M
+(setq gc-cons-threshold 20000000)
+;; (setq garbage-collection-messages t)
+

@@ -11,7 +11,7 @@
 (setq-default cursor-type 'box)
 
 ;; Highlight current line.
-;; (global-hl-line-mode 0)
+(global-hl-line-mode 0)
 
 ;; Highlight matching paranthesis.
 (show-paren-mode t)
@@ -24,9 +24,6 @@
 (setq font-lock-maximum-decoration t)
 
 ;; Enable copy/paste from emacs to other apps
-
-;; Set garbage collection to 20M
-(setq gc-cons-threshold 20000000)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Text Options
