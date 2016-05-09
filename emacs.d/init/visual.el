@@ -39,6 +39,7 @@
 (when (require 'volatile-highlights nil 'noerror)
   (volatile-highlights-mode t))
 
+
 ;; no mode-specific faces, everything in Monaco
 (when (system-type-is-darwin)
   (setq

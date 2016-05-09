@@ -114,8 +114,10 @@
        'powerline ; Change the display line.
        'color-theme ; Different color themes
        'ido ; Easier opening of files.
+       ; 'ido-clever-match ; Smart matching between (exact, prefix, substring, flex)
        'flx-ido ; Fuzzy matching for Emacs ... a la Sublime Text.
-       'ido-vertical-mode ; makes ido-mode display vertically.
+       ; 'ido-vertical-mode ; makes ido-mode display vertically.
+       'ido-grid-mode ; makes ido-mode display vertically.
        'find-file-in-repository ; Auto complete file names for any file in repo.
        'flycheck ;
        ))
@@ -183,6 +185,9 @@
 
 (set-default 'tramp-default-proxies-alist
              (quote (("hdwu01.hz" "hadoop" "/ssh:%h:"))))
+
+;; Don't load outdated library files.
+(setq load-prefer-newer t)
 
 ;; Set garbage collection to 20M
 (setq gc-cons-threshold 20000000)

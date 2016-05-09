@@ -9,6 +9,7 @@
 (load "~/.emacs.d/init/keymap.el")
 (load "~/.emacs.d/init/switching.el")
 (load "~/.emacs.d/init/buffer.el")
+(load "~/.emacs.d/init/registers.el")
 
 ;; =====================================================================
 ;; USEFUL NOTES AND OTHER STUFF
