@@ -247,7 +247,9 @@
 (setq tags-table-list
       '("/houzz/c2/TAGS"))
 (package-initialize)
+
 (elpy-enable)
+(elpy-use-ipython)
 
 ;; (speedbar-add-supported-extension ".php") ; not necessarily required
 ;; (add-hook 'php-mode-user-hook 'semantic-default-java-setup)

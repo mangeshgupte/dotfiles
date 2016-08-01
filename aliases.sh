@@ -9,9 +9,9 @@ if [[ ${(%):-%m} = stormsend ]]; then
     alias tunnelDw="ssh -L 8676:hdws01:3128 hdws01.hz"
 
     # Staging tunnels.
-    alias tunnelStg='ssh -L 18994:solr:8994 `#SpacesNew` -L 18986:solr2:8986 `#Keywords` -L 18987:solr2:8987 `#NER`  -L 18993:solr2:8993 `#Answers` -L 18995:solr2:8995 `#UsersNew` -L 18988:solr2:8988 `#Ads` -L 13306:mysql-master:3306 `#mysql` -L 16379:redis:6379 `#redis_main_and_feed` -L 18379:redis:18379 `#redis_cached_houses` stghouzz.hza'
+    alias tunnelStg='ssh -L 18994:solr.hza:8994 `#SpacesNew` -L 18980:solr02:8980 `#Photos` -L 18981:solr.hza:8981 `#Products` -L 18986:solr02.hza:8986 `#Keywords` -L 18987:solr02.hza:8987 `#NER`  -L 18993:solr02.hza:8993 `#Answers` -L 18995:solr02.hza:8995 `#UsersNew` -L 18988:solr02.hza:8988 `#Ads` -L 13306:mysql-master:3306 `#mysql-master` -L 23306:mysql-slave:3306 `#mysql-slave` -L 16379:redis:6379 `#redis_main_and_feed` -L 18379:redis:18379 `#redis_cached_houses` stghouzz.hza'
 
-    alias tunnelStgOld="ssh -L 13306:stgdb01:3306 -L 18994:stgdb01:8994 -L 18986:stgdb01:8986 -L 18987:stgdb01:8987 -L 16379:stgdb01:6379 stgdb01.hzs"
+    alias tunnelStgBig="ssh -L 18994:solr:8994 `#SpacesNew` -L 18980:solr02:8980 `#Photos` -L 18981:solr:8981 `#Products` -L 18986:solr02:8986 `#Keywords` -L 18987:solr02:8987 `#NER`  -L 18993:solr02:8993 `#Answers` -L 18995:solr02:8995 `#UsersNew` -L 18988:solr02:8988 `#Ads` -L 13306:mysql-master:3306 `#mysql-master` -L 23306:mysql-slave:3306 `#mysql-slave` -L 16379:redis:6379 `#redis_main_and_feed` -L 18379:redis:18379 `#redis_cached_houses` bastion.staging.houzz.net"
 
     export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
     export PATH="/houzz/c2ubuntu/tools/cluster_access:$PATH"
