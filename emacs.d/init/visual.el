@@ -52,8 +52,9 @@
   (setq aquamacs-autoface-mode nil)
 
   ;; Change the font used by emacs
-  ;; (set-default-font "-apple-monaco*-medium-r-normal--14-*-*-*-*-*-fontset-monaco14")
-  (set-default-font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-14-*-*-*-m-0-iso10646-1")
+  (set-default-font "-*-Monaco-normal-normal-normal-*-14-*-*-*-m-0-iso10646-1")
+  ;;   (set-default-font "-apple-monaco*-medium-r-normal--14-*-*-*-*-*-fontset-monaco14")
+  ;; (set-default-font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-14-*-*-*-m-0-iso10646-1")
   ;;(setq default-frame-alist '((font . "-misc-terminus-medium-r-normal--18-0-0-0-p-0-iso8859-1")))
   ;; -Adobe-Courier-Medium-R-Normal--14-*-100-100-M-*-ISO8859-1
   ;; "-dec-terminal-medium-r-normal--14-140-75-75-c-80-iso8859-1"
@@ -157,24 +158,24 @@
 
 (system-name)
 ;; Show remote hostname if on a different host.
-(defconst my-mode-line-buffer-identification
-  (list
-   '(:eval
-     (let ((host-name
-            (or (file-remote-p default-directory 'host)
-                (system-name))))
-       (if (string-match "^[^0-9][^.]*\\(\\..*\\)" host-name)
-           (substring host-name 0 (match-beginning 1))
-         host-name)))
-   ": %12b"))
+;; (defconst my-mode-line-buffer-identification
+;;   (list
+;;    '(:eval
+;;      (let ((host-name
+;;             (or (file-remote-p default-directory 'host)
+;;                 (system-name))))
+;;        (if (string-match "^[^0-9][^.]*\\(\\..*\\)" host-name)
+;;            (substring host-name 0 (match-beginning 1))
+;;          host-name)))
+;;    ": %12b"))
 
-(setq-default
-  mode-line-buffer-identification
-  my-mode-line-buffer-identification)
+;; (setq-default
+;;   mode-line-buffer-identification
+;;   my-mode-line-buffer-identification)
 
-(add-hook
- 'dired-mode-hook
- '(lambda ()
-    (setq
-     mode-line-buffer-identification
-     my-mode-line-buffer-identification)))
+;; (add-hook
+;;  'dired-mode-hook
+;;  '(lambda ()
+;;     (setq
+;;      mode-line-buffer-identification
+;;      my-mode-line-buffer-identification)))

@@ -35,6 +35,7 @@ alias .....="cd ../../../.."
 alias c="clear"
 
 LS_OPTIONS="--color=auto"
+# LS_OPTIONS="-G"
 alias ls='ls $LS_OPTIONS'
 alias l='ls -lhS $LS_OPTIONS'
 
@@ -53,6 +54,7 @@ if [[ ${(%):-%m} = hdwu01 ]]; then
     alias hcp="noglob hadoop fs -cp"
     alias hrm="noglob hadoop fs -rm"
     alias hget="noglob hadoop fs -get"
+    alias hput="noglob hadoop fs -put"
     alias hcat="noglob hadoop fs -cat"
     alias hmkdir="noglob hadoop fs -mkdir"
     alias hrmdir="noglob hadoop fs -rmdir"
@@ -67,6 +69,7 @@ if [[ ${(%):-%m} = hdwu01 ]]; then
     alias ftail="noglob snakebite tail"
     alias fchmod="noglob snakebite chmod"
     alias fget="noglob snakebite get"
+    alias fput="noglob snakebite put"
 fi
 
 # ssh aliases

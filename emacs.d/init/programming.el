@@ -59,6 +59,7 @@
                 ("\\.bhl$"        . bhl-mode)
                 ("\\.mel$"        . mel-mode)
                 ("\\.ini\\'" . ini-mode)
+                ("\\.csv$'" . csv-mode)
                 )
               auto-mode-alist))
 
@@ -202,9 +203,8 @@
     (setq c-basic-offset my-tab-width)
     (set (make-local-variable 'tab-stop-list)
 		 (number-sequence my-tab-width 200 my-tab-width)))
-  (setq fill-column 120)
-  ;(gtags-mode t)
-  )
+  (setq fill-column 120))
+
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 
 ;; Web mode.
@@ -223,7 +223,7 @@
 (defun my-python-mode-hook ()
   "Hook for python mode."
   (lambda ()
-    (setq indent-tabs-mode t)
+    (setq indent-tabs-mode nil)
     (setq tab-width 4)
     (setq python-indent 4)
     (setq fill-column 100)))

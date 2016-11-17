@@ -9,6 +9,9 @@
 (global-unset-key "\M-g")
 (global-set-key "\M-g" 'goto-line)
 
+(global-unset-key "\M-[")
+(global-set-key "\M-[" 'swap-parens)
+
 (global-unset-key "\C-s")
 (global-set-key "\C-s" 'isearch-forward-regexp)
 

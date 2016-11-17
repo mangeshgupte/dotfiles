@@ -60,9 +60,9 @@ SHORT_HOSTNAME=${(%):-%m}
 plugins=(git brew pip history history-substring-search autojump jump zsh-syntax-highlighting z)
 
 # Local aliases
-if [[ $SHORT_HOSTNAME = stormsend ]]; then
+if [[ $SHORT_HOSTNAME = PA-MBP-C02LC18LFFT3 ]]; then
     # User configuration
-    export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin:"
+    export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin:$PATH"
     export PYTHONPATH="/houzz/c2/python_home:/houzz/c2/python_home/houzz/search_utils_server/services"
     export PYTHONIOENCODING='utf-8'
 
@@ -71,8 +71,8 @@ if [[ $SHORT_HOSTNAME = stormsend ]]; then
     export PATH="$PATH:$GOPATH/bin:$GOROOT/bin:$HOME/bin"
 
     # CUDA support (GPU support)
-    export PATH="/usr/local/cuda/bin:$PATH" # "/Developer/NVIDIA/CUDA-7.0/bin:$PATH"
-    export DYLD_LIBRARY_PATH="/usr/local/cuda/lib"  # "/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH"
+    # export PATH="/usr/local/cuda/bin:$PATH" # "/Developer/NVIDIA/CUDA-7.0/bin:$PATH"
+    # export DYLD_LIBRARY_PATH="/usr/local/cuda/lib"  # "/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH"
 
     test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 elif [[ $SHORT_HOSTNAME = hdwu01 ]]; then
@@ -102,23 +102,6 @@ json_pretty_print() {
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-# History
-bindkey "^[^[[A" up-line-or-local-history    # [windows] + Cursor up
-bindkey "^[^[[B" down-line-or-local-history  # [windows] + Cursor down
-
-up-line-or-local-history() {
-	zle set-local-history 1
-	zle up-line-or-history
-	zle set-local-history 0
-}
-zle -N up-line-or-local-history
-
-down-line-or-local-history() {
-    zle set-local-history 1
-    zle down-line-or-history
-    zle set-local-history 0
-}
-zle -N down-line-or-local-history
 
 # Set locale preferance.
 if [[ ${(%):-%m} = stormsend ]]; then
@@ -187,3 +170,9 @@ path() {
 
 # install_powerline_precmd
 
+# Add a bookmarks functionality to zsh.
+# Use: bm description. This will store
+function bm() {
+    let "index = $HISTCMD - 1"
+    echo $history[$index] " # $@" >> ~/.bookmarks.zsh
+}
