@@ -6,7 +6,7 @@ if [[ ${(%):-%m} = stormsend ]]; then
 	alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 	alias c2="cd /houzz/c2"
 
-    alias tunnelDw="ssh -L 8676:hdws01:3128 hdws01.hz"
+    alias tunnelDw="ssh -L 8676:hdws01.hz:3128 -L 21050:hdwu01.hz:21050 hdwu01.hz"
 
     # Staging tunnels.
     alias tunnelStg='ssh -L 18994:solr.hza:8994 `#SpacesNew` -L 18980:solr02:8980 `#Photos` -L 18981:solr.hza:8981 `#Products` -L 18986:solr02.hza:8986 `#Keywords` -L 18987:solr02.hza:8987 `#NER`  -L 18993:solr02.hza:8993 `#Answers` -L 18995:solr02.hza:8995 `#UsersNew` -L 18988:solr02.hza:8988 `#Ads` -L 13306:mysql-master:3306 `#mysql-master` -L 23306:mysql-slave:3306 `#mysql-slave` -L 16379:redis:6379 `#redis_main_and_feed` -L 18379:redis:18379 `#redis_cached_houses` stghouzz.hza'

@@ -69,6 +69,8 @@
 
   ;; Stop ^M's from displaying in system shell window
   (add-hook 'comint-output-filter-functions 'shell-strip-ctrl-m nil t)
+  ;; (add-to-list 'comint-output-filter-functions 'shell-strip-ctrl-m)
+  (add-hook 'comint-output-filter-functions 'ansi-color-process-output)
 )
 
 ;; Turn off the tool bar
@@ -155,6 +157,11 @@
 ;; (setq smooth-scroll-margin 5)
 ;; (setq scroll-conservatively 9999
 ;;       scroll-preserve-screen-position t)
+
+(setq ansi-color-for-comint-mode t)
+(setq python-shell-interpreter "ipython"
+    python-shell-interpreter-args "--simple-prompt -i")
+
 
 (system-name)
 ;; Show remote hostname if on a different host.

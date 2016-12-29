@@ -57,10 +57,10 @@ SHORT_HOSTNAME=${(%):-%m}
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git brew pip history history-substring-search autojump jump zsh-syntax-highlighting z)
+plugins=(git brew pip history history-substring-search autojump jump zsh-syntax-highlighting z sudo)
 
 # Local aliases
-if [[ $SHORT_HOSTNAME = PA-MBP-C02LC18LFFT3 ]]; then
+if [[ $SHORT_HOSTNAME = 'PA-MBP-C02LC18LFFT3' ]]; then
     # User configuration
     export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin:$PATH"
     export PYTHONPATH="/houzz/c2/python_home:/houzz/c2/python_home/houzz/search_utils_server/services"
@@ -70,12 +70,8 @@ if [[ $SHORT_HOSTNAME = PA-MBP-C02LC18LFFT3 ]]; then
     export GOROOT="/usr/local/opt/go/libexec"
     export PATH="$PATH:$GOPATH/bin:$GOROOT/bin:$HOME/bin"
 
-    # CUDA support (GPU support)
-    # export PATH="/usr/local/cuda/bin:$PATH" # "/Developer/NVIDIA/CUDA-7.0/bin:$PATH"
-    # export DYLD_LIBRARY_PATH="/usr/local/cuda/lib"  # "/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH"
-
     test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-elif [[ $SHORT_HOSTNAME = hdwu01 ]]; then
+elif [[ $SHORT_HOSTNAME = 'hdwu01' ]]; then
     export WORKON_HOME=$HOME/.virtualenvs
     export PROJECT_HOME=$HOME/Devel
     # export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
