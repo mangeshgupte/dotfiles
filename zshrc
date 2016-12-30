@@ -57,7 +57,7 @@ SHORT_HOSTNAME=${(%):-%m}
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git brew pip history history-substring-search autojump jump zsh-syntax-highlighting z sudo)
+plugins=(git brew pip history history-substring-search autojump jump zsh-syntax-highlighting z sudo dircycle)
 
 # Local aliases
 if [[ $SHORT_HOSTNAME = 'PA-MBP-C02LC18LFFT3' ]]; then
@@ -172,3 +172,4 @@ function bm() {
     let "index = $HISTCMD - 1"
     echo $history[$index] " # $@" >> ~/.bookmarks.zsh
 }
+

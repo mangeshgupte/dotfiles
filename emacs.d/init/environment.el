@@ -3,6 +3,10 @@
 ;;; Commentary:
 
 ;;; Code:
+(defun mcg-source ()
+  "Reread ~/.emacs."
+  (interactive)
+  (load-file "~/.emacs"))
 
 (setq mac-command-modifier 'meta) ; Sets the command (Apple) key as Meta
 (setq mac-option-modifier 'meta)  ; Sets the option key as Meta (this is server)
@@ -139,12 +143,22 @@
     (when (not (package-installed-p p))
       (package-install p))))
 
-(global-flycheck-mode)
+;; SQL settings
 
-(defun mcg-source ()
-  "Reread ~/.emacs."
-  (interactive)
-  (load-file "~/.emacs"))
+;; Set location of mysql binary.
+(setq sql-mysql-program "/usr/local/mysql/bin/mysql")
+
+(setq sql-mysql-login-params
+      '((user :default "root")
+        (database :default "c2")
+        (server :default "localhost")))
+
+(add-hook 'sql-interactive-mode-hook
+          (lambda ()
+            (toggle-truncate-lines t)))
+
+
+(global-flycheck-mode)
 
 ;; Common Settings
 (setq user-full-name "Mangesh Gupte")
@@ -192,4 +206,3 @@
 ;; Set garbage collection to 20M
 (setq gc-cons-threshold 20000000)
 ;; (setq garbage-collection-messages t)
-

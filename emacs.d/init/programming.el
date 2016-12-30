@@ -270,3 +270,25 @@
 ;; (semantic-mode 1)
 ;; (require 'semantic/ia)
 ;; (require 'semantic/bovine/gcc)
+
+
+;; SQL mode
+(defun point-in-comment ()
+  (let ((syn (syntax-ppss)))
+    (and (nth 8 syn)
+         (not (nth 3 syn)))))
+
+(defun upcase-sql-keywords ()
+  (interactive)
+  (require 'sql)
+  (let ((start (point-min)) (end (point-max)))
+    (if (region-active-p)
+        (setq start (region-beginning) end (region-end)))
+    (save-excursion
+      (dolist (keywords sql-mode-mysql-font-lock-keywords)
+        (goto-char start)
+        (while (and (re-search-forward (car keywords) nil t)
+                    (< (point) end))
+          (unless (point-in-comment)
+            (goto-char (match-beginning 0))
+            (upcase-word 1)))))))
