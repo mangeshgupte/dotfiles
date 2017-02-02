@@ -47,7 +47,9 @@ alias grep="grep --color=always"
 alias grepp="grep"
 alias gitg="git grep --break --heading --line-number"
 
-if [[ ${(%):-%m} = hdwu01 ]]; then
+short_hostname=${(%):-%m}
+hadoop_servers=('hdwu01', 'hdws01', 'data-util')
+if (( $hadoop_servers[(I)short_hostname] )); then
     # Hadoop aliases
     alias hfs="noglob hadoop fs"
     alias hls="noglob hadoop fs -ls"
