@@ -1,5 +1,6 @@
 # Local aliases
-if [[ ${(%):-%m} = stormsend ]]; then
+short_hostname=${(%):-%m}
+if [[ $short_hostname = PA-MBP-C02LC18LFFT3 ]]; then
 	alias emacs=/Applications/Aquamacs.app/Contents/MacOS/Aquamacs
 	alias diffmerge=/Applications/DiffMerge.app/Contents/MacOS/DiffMerge
 	alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
@@ -47,9 +48,8 @@ alias grep="grep --color=always"
 alias grepp="grep"
 alias gitg="git grep --break --heading --line-number"
 
-short_hostname=${(%):-%m}
-hadoop_servers=('hdwu01', 'hdws01', 'data-util')
-if (( $hadoop_servers[(I)short_hostname] )); then
+HADOOP_SERVERS=(hdwu01 hdws01 data-util)
+if [[ ${HADOOP_SERVERS[*]} =~ $short_hostname ]]; then
     # Hadoop aliases
     alias hfs="noglob hadoop fs"
     alias hls="noglob hadoop fs -ls"
