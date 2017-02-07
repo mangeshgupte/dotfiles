@@ -8,7 +8,7 @@
 
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/.dotfiles.old             # old dotfiles backup directory
-files="zshrc oh-my-zsh aliases.sh emacs emacs.d my.cnf grcat"    # list of files/folders to symlink in homedir
+files="zshrc oh-my-zsh aliases.sh emacs emacs.d my.cnf grcat tmux.conf"    # list of files/folders to symlink in homedir
 
 ##########
 

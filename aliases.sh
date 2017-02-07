@@ -75,7 +75,8 @@ if [[ ${HADOOP_SERVERS[*]} =~ $short_hostname ]]; then
 fi
 
 # ssh aliases
-alias dw="ssh hdwu01.hz"
+alias dw="ssh data-util.hzd"
+alias dws="ssh hdwu01.hz"
 alias stg="ssh stghouzz.hza"
 
 # Aliases for most used git commands. Used this to get this list :
@@ -101,6 +102,10 @@ compdef _git gd=git-pull
 
 alias gco="git checkout"
 compdef _git gco=git-checkout
+
+# Enable color highlighting in tmux
+alias tmux="tmux -2"
+alias ta="tmux -2 attach"
 
 # Lookup the most frequenty used commands.
 # alias freq=cat ~/.zsh_history|cut -d ';' -f 2- 2>/dev/null|awk '{a[$1]++ } END{for(i in a){print a[i] " " i}}'|sort -rn|head -25
