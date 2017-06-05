@@ -6,6 +6,8 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+export DOTFILES=$HOME/dotfiles
+export ZSH_HOME=~/
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -72,11 +74,10 @@ if [[ $SHORT_HOSTNAME = 'PA-MBP-C02LC18LFFT3' ]]; then
 
     test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 elif [[ $SHORT_HOSTNAME = 'data-util' ]]; then
-    $ZSH = '/home/mangesh/.zshrc'
+    export ZSH='/home/mangesh/.oh-my-zsh'
+    export ZSH_HOME=/home/mangesh
     export WORKON_HOME=$HOME/.virtualenvs
     export PROJECT_HOME=$HOME/Devel
-    # export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
-    # source /usr/local/bin/virtualenvwrapper_lazy.sh
 fi
 
 # Use ipython where available
@@ -99,17 +100,7 @@ json_pretty_print() {
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-
-# Set locale preferance.
-if [[ ${(%):-%m} = stormsend ]]; then
-    export PATH="$PATH:$HOME/tools/arcanist/bin"
-    export WORKON_HOME=~/Envs
-    source /usr/local/bin/virtualenvwrapper.sh
-    # Impala Shell needs this otherwise it crashes on any unicode string.
-    export LC_ALL=en_US.UTF-8
-else
-	export LC_ALL=en_US.UTF-8
-fi
+export LC_ALL=en_US.UTF-8
 
 # Tab completion for marks
 function _completemarks {
@@ -134,7 +125,7 @@ fi
 export LESS=' -RXFi '
 
 # aliases
-[[ -f ~/.aliases.sh ]] && source ~/.aliases.sh
+[[ -f $ZSH_HOME/.aliases.sh ]] && source $ZSH_HOME/.aliases.sh
 
 
 # -------------------------------------------------------------------
@@ -149,23 +140,6 @@ path() {
            sub(\"/local\", \"$fg_no_bold[yellow]/local$reset_color\"); \
            print }"
 }
-
-
-# Install powerline
-# function powerline_precmd() {
-#     export PS1="$(/Users/mangesh/utils/powerline-shell/powerline-shell.py $? --shell zsh 2> /dev/null)"
-# }
-
-# function install_powerline_precmd() {
-#     for s in "${precmd_functions[@]}"; do
-#         if [ "$s" = "powerline_precmd" ]; then
-#             return
-#         fi
-#     done
-#     precmd_functions+=(powerline_precmd)
-# }
-
-# install_powerline_precmd
 
 # Add a bookmarks functionality to zsh.
 # Use: bm description. This will store
