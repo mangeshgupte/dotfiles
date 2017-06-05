@@ -27,6 +27,7 @@ alias m="mysql"
 # Read logs
 alias logc2error='ls -t1 /houzz/c2/log/error_* | head -n1 | xargs tail -n200 -f'
 alias logc2='ls -t1 /houzz/c2/log/log_* | head -n1 | xargs tail -n200 -f'
+alias logc2common='ls -t1 /houzz/c2/log/common_log_* | head -n1 | xargs tail -n200 -f'
 
 # Directory aliases
 alias ..="cd .."

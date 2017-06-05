@@ -71,7 +71,8 @@ if [[ $SHORT_HOSTNAME = 'PA-MBP-C02LC18LFFT3' ]]; then
     export PATH="$PATH:$GOPATH/bin:$GOROOT/bin:$HOME/bin"
 
     test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-elif [[ $SHORT_HOSTNAME = 'hdwu01' ]]; then
+elif [[ $SHORT_HOSTNAME = 'data-util' ]]; then
+    $ZSH = '/home/mangesh/.zshrc'
     export WORKON_HOME=$HOME/.virtualenvs
     export PROJECT_HOME=$HOME/Devel
     # export VIRTUALENVWRAPPER_SCRIPT=/usr/local/bin/virtualenvwrapper.sh
