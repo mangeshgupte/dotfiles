@@ -19,29 +19,12 @@ HOSTNAME="`hostname`"
 SHORT_HOSTNAME=${(%):-%m}
 
 # Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
 # Uncomment the following line to disable command auto-correction.
 # DISABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -61,6 +44,10 @@ SHORT_HOSTNAME=${(%):-%m}
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git brew pip history history-substring-search autojump jump zsh-syntax-highlighting z sudo dircycle)
 
+
+# Use ipython where available
+export IPYTHON=1
+
 # Local aliases
 if [[ $SHORT_HOSTNAME = 'PA-MBP-C02LC18LFFT3' ]]; then
     # User configuration
@@ -75,13 +62,12 @@ if [[ $SHORT_HOSTNAME = 'PA-MBP-C02LC18LFFT3' ]]; then
     test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 elif [[ $SHORT_HOSTNAME = 'data-util' ]]; then
     export ZSH='/home/mangesh/.oh-my-zsh'
+    export SPARK_DIST_CLASSPATH=$(hadoop classpath)
     export ZSH_HOME=/home/mangesh
-    export WORKON_HOME=$HOME/.virtualenvs
-    export PROJECT_HOME=$HOME/Devel
+
+    unset IPYTHON
 fi
 
-# Use ipython where available
-export IPYTHON=1
 
 setopt INTERACTIVE_COMMENTS
 
