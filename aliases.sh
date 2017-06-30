@@ -73,6 +73,8 @@ if [[ ${HADOOP_SERVERS[*]} =~ $short_hostname ]]; then
     alias fchmod="noglob snakebite chmod"
     alias fget="noglob snakebite get"
     alias fput="noglob snakebite put"
+
+    alias ss="/home/hadoop/spark-2.1.1/spark-2.1.1-bin-hadoop2.6/bin/spark-submit"
 fi
 
 # ssh aliases
