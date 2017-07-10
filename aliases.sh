@@ -36,8 +36,13 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias c="clear"
 
-LS_OPTIONS="--color=auto"
-# LS_OPTIONS="-G"
+# Add color to ls
+if [[ "$(uname)" == "Darwin" ]]; then
+    LS_OPTIONS="-G"
+elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
+    LS_OPTIONS="--color=auto"
+fi
+
 alias ls='ls $LS_OPTIONS'
 alias l='ls -lhS $LS_OPTIONS'
 
