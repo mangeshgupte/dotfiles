@@ -4,7 +4,10 @@
 
 ;;; Code:
 
-(smart-frame-positioning-mode -1)  ; do not place frames behind the Dock or outside of screen boundaries
+(when (boundp 'aquamacs-version)
+  (smart-frame-positioning-mode -1)  ; do not place frames behind the Dock or outside of screen boundaries
+)
+
 (scroll-bar-mode -1)  ; no scrollbars
 
 ;; Make cursor into a box.
