@@ -4,6 +4,33 @@
 # set -euo pipefail
 # IFS=$'\n\t'
 
+if [[ "$TERM" == "dumb" ]]
+then
+  unsetopt zle
+  unsetopt prompt_cr
+  unsetopt prompt_subst
+  if whence -w precmd >/dev/null; then
+      unfunction precmd
+  fi
+  if whence -w preexec >/dev/null; then
+      unfunction preexec
+  fi
+  PS1='$ '
+fi
+
+# -------------------------------------------------------------------
+# display a neatly formatted path
+# -------------------------------------------------------------------
+path() {
+  echo $PATH | tr ":" "\n" | \
+    awk "{ sub(\"/usr\",   \"$fg_no_bold[green]/usr$reset_color\"); \
+           sub(\"/bin\",   \"$fg_no_bold[cyan]/bin$reset_color\"); \
+           sub(\"/opt\",   \"$fg_no_bold[blue]/opt$reset_color\"); \
+           sub(\"/sbin\",  \"$fg_no_bold[magenta]/sbin$reset_color\"); \
+           sub(\"/local\", \"$fg_no_bold[yellow]/local$reset_color\"); \
+           print }"
+}
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 export DOTFILES=$HOME/dotfiles
@@ -44,7 +71,6 @@ SHORT_HOSTNAME=${(%):-%m}
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git brew pip history history-substring-search autojump jump zsh-syntax-highlighting sudo dircycle)
 
-
 # Use ipython where available
 export IPYTHON=1
 
@@ -70,6 +96,7 @@ fi
 
 setopt INTERACTIVE_COMMENTS
 
+
 json_pretty_print() {
 	python -m json.tool $1 | pygmentize -l json | less
 }
@@ -92,10 +119,12 @@ function _completemarks {
   reply=($(ls $MARKPATH))
 }
 
+
 compctl -K _completemarks jump
 compctl -K _completemarks unmark
 
 source $ZSH/oh-my-zsh.sh
+
 
 # Use source highlighting with source-highlight.
 LESSPIPE=`command -v src-hilite-lesspipe.sh`
@@ -111,20 +140,6 @@ export LESS=' -RXFi '
 
 # aliases
 [[ -f $ZSH_HOME/.aliases.sh ]] && source $ZSH_HOME/.aliases.sh
-
-
-# -------------------------------------------------------------------
-# display a neatly formatted path
-# -------------------------------------------------------------------
-path() {
-  echo $PATH | tr ":" "\n" | \
-    awk "{ sub(\"/usr\",   \"$fg_no_bold[green]/usr$reset_color\"); \
-           sub(\"/bin\",   \"$fg_no_bold[cyan]/bin$reset_color\"); \
-           sub(\"/opt\",   \"$fg_no_bold[blue]/opt$reset_color\"); \
-           sub(\"/sbin\",  \"$fg_no_bold[magenta]/sbin$reset_color\"); \
-           sub(\"/local\", \"$fg_no_bold[yellow]/local$reset_color\"); \
-           print }"
-}
 
 # Add a bookmarks functionality to zsh.
 # Use: bm description. This will store
