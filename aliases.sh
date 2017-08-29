@@ -43,7 +43,7 @@ elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
     LS_OPTIONS="--color=auto"
 fi
 
-alias ls='ls $LS_OPTIONS'
+alias ls='ls -hF $LS_OPTIONS'
 alias l='ls -lhS $LS_OPTIONS'
 
 alias k15="kill -15"
