@@ -99,6 +99,12 @@ elif [[ $SHORT_HOSTNAME = 'data-util' ]]; then
     unset IPYTHON
 fi
 
+
+# Add anaconda to the path if it exists.
+if [[ -d "$HOME/anaconda2" ]]; then
+    export PATH="$HOME/anaconda2/bin:$PATH"
+fi
+
 setopt INTERACTIVE_COMMENTS
 
 
