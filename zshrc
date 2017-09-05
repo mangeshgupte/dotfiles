@@ -83,13 +83,7 @@ export IPYTHON=1
 if [[ $SHORT_HOSTNAME = 'PAC02LC18LFFT3' ]]; then
     # User configuration
     export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin:$PATH"
-    export PYTHONPATH="/houzz/c2/python_home:/houzz/c2/python_home/houzz/search_utils_server/services"
     export PYTHONIOENCODING='utf-8'
-
-    export GOPATH="$HOME/Go"
-    export GOROOT="/usr/local/opt/go/libexec"
-    export PATH="$PATH:$GOPATH/bin:$GOROOT/bin:$HOME/bin"
-
     test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 elif [[ $SHORT_HOSTNAME = 'data-util' ]]; then
     export ZSH='/home/mangesh/.oh-my-zsh'
@@ -97,10 +91,13 @@ elif [[ $SHORT_HOSTNAME = 'data-util' ]]; then
     export ZSH_HOME=/home/mangesh
 
     unset IPYTHON
-
-    export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
 fi
 
+# Add color to ls
+export LS_OPTIONS="--color=auto"
+if [[ "$(uname)" == "Darwin" ]]; then
+    export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
+fi
 
 # Add anaconda to the path if it exists.
 if [[ -d "$HOME/anaconda2" ]]; then
