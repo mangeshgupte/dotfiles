@@ -42,7 +42,6 @@
 (when (require 'volatile-highlights nil 'noerror)
   (volatile-highlights-mode t))
 
-
 ;; no mode-specific faces, everything in Monaco
 (when (system-type-is-darwin)
   (setq
@@ -55,16 +54,16 @@
   (setq aquamacs-autoface-mode nil)
 
   ;; Change the font used by emacs
-  (set-default-font "-*-Monaco-normal-normal-normal-*-14-*-*-*-m-0-iso10646-1")
-  ;;   (set-default-font "-apple-monaco*-medium-r-normal--14-*-*-*-*-*-fontset-monaco14")
+  (set-default-font "-*-Monaco-normal-normal-normal-*-15-*-*-*-m-0-iso10646-1")
+  ;; (set-default-font "-apple-monaco*-medium-r-normal--14-*-*-*-*-*-fontset-monaco14")
   ;; (set-default-font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-14-*-*-*-m-0-iso10646-1")
-  ;;(setq default-frame-alist '((font . "-misc-terminus-medium-r-normal--18-0-0-0-p-0-iso8859-1")))
+  ;; (setq default-frame-alist '((font . "-misc-terminus-medium-r-normal--18-0-0-0-p-0-iso8859-1")))
   ;; -Adobe-Courier-Medium-R-Normal--14-*-100-100-M-*-ISO8859-1
   ;; "-dec-terminal-medium-r-normal--14-140-75-75-c-80-iso8859-1"
   ;; "-*-helvetica-medium-r-*--*-120-*-*-*-*-iso8859-1"
   ;; "-*-courier-medium-r-*-*-*-120-*-*-*-*-iso8859-*"
   ;; (set-face-attribute 'default t :font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-14-*-*-*-m-0-iso10646-1")
-  ;;(add-to-list 'default-frame-alist
+  ;; (add-to-list 'default-frame-alist
   ;;				'(font . "DejaVu Sans Mono-10"))
 
   ;; (set-face-attribute 'mode-line nil :inherit 'unspecified) ; show modeline in Monaco

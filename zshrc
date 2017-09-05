@@ -80,7 +80,7 @@ plugins=(git brew pip history history-substring-search autojump jump zsh-syntax-
 export IPYTHON=1
 
 # Local aliases
-if [[ $SHORT_HOSTNAME = 'PA-MBP-C02LC18LFFT3' ]]; then
+if [[ $SHORT_HOSTNAME = 'PAC02LC18LFFT3' ]]; then
     # User configuration
     export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin:$PATH"
     export PYTHONPATH="/houzz/c2/python_home:/houzz/c2/python_home/houzz/search_utils_server/services"
@@ -97,6 +97,8 @@ elif [[ $SHORT_HOSTNAME = 'data-util' ]]; then
     export ZSH_HOME=/home/mangesh
 
     unset IPYTHON
+
+    export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
 fi
 
 
@@ -137,7 +139,6 @@ compctl -K _completemarks jump
 compctl -K _completemarks unmark
 
 source $ZSH/oh-my-zsh.sh
-
 
 # Use source highlighting with source-highlight.
 LESSPIPE=`command -v src-hilite-lesspipe.sh`

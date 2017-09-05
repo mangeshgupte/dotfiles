@@ -200,7 +200,7 @@
   (set-buffer-file-coding-system 'unix 't))
 
 (set-default 'tramp-default-proxies-alist
-             (quote (("hdwu01.hz" "hadoop" "/ssh:%h:"))))
+             (quote (("hdwu01.hz" "hadoop" "data-util" "/ssh:%h:"))))
 
 ;; Don't load outdated library files.
 (setq load-prefer-newer t)
