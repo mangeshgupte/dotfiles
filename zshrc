@@ -74,7 +74,7 @@ SHORT_HOSTNAME=${(%):-%m}
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git brew pip history history-substring-search autojump jump zsh-syntax-highlighting sudo dircycle)
+plugins=(git brew pip history history-substring-search autojump jump sudo dircycle zsh-syntax-highlighting)
 
 # Use ipython where available
 export IPYTHON=1
