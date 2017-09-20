@@ -37,6 +37,12 @@ export ZSH=$HOME/.oh-my-zsh
 export DOTFILES=$HOME/dotfiles
 export ZSH_HOME=~/
 
+if [[ $USER = hadoop ]]; then
+    export ZSH=/home/mangesh/.oh-my-zsh
+    export DOTFILES=/home/mangesh/dotfiles
+    export ZSH_HOME=/home/mangesh
+fi
+
 export UPDATE_DOTFILES_DAYS=1
 # Check for dotfiles update on initial load...
 env DOTFILES=$DOTFILES DISABLE_UPDATE_PROMPT=$DISABLE_UPDATE_PROMPT zsh -f $DOTFILES/utils/check_for_upgrade.sh
