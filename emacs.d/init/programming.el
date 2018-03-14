@@ -239,9 +239,9 @@
 	(local-set-key "\C-m" x)))
 (add-hook 'octave-mode-hook 'RET-behaves-as-LFD)
 
-;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
-(require 'ws-trim)
-(global-ws-trim-mode t)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; (require 'ws-trim)
+;; (global-ws-trim-mode t)
 
 ;; TAGS management.
 (setq tags-table-list
