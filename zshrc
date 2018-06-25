@@ -105,9 +105,16 @@ if [[ "$(uname)" == "Darwin" ]]; then
     export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
 fi
 
-# Add anaconda to the path if it exists.
+# Add packages to the path if they exists.
+
+# Anaconda
 if [[ -d "$HOME/anaconda2" ]]; then
     export PATH="$HOME/anaconda2/bin:$PATH"
+fi
+
+# Arcanist
+if [[ -d "$HOME/arc/arcanist/bin" ]]; then
+    export PATH="$HOME/arc/arcanist/bin:$PATH"
 fi
 
 setopt INTERACTIVE_COMMENTS
