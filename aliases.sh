@@ -1,6 +1,6 @@
 # Local aliases
 short_hostname=${(%):-%m}
-if [[ $short_hostname = PA-MBP-C02LC18LFFT3 ]]; then
+if [[ $short_hostname = 'PAC02LC18LFFT3' ]]; then
 	alias emacs=/Applications/Aquamacs.app/Contents/MacOS/Aquamacs
 	alias diffmerge=/Applications/DiffMerge.app/Contents/MacOS/DiffMerge
 	alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
