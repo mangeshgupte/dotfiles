@@ -37,6 +37,8 @@
   (setq ido-file-extensions-order '(".php" ".py" ".txt" ".zsh" ".sh" ".ini" ".emacs"))
   (setq ido-ignore-extensions t))
 
+(define-key (cdr ido-minor-mode-map-entry) [remap write-file] nil)
+
 (add-hook 'ido-make-buffer-list-hook 'ido-summary-buffers-to-end)
 
 (defun ido-summary-buffers-to-end ()
@@ -60,7 +62,7 @@
   (interactive)
   (let ((my-file-name) ; fill this with the file to open
         (position))    ; if the file is already open save position
-    (if (equal major-mode 'dired-mode) ; test if we are in dired-mode 
+    (if (equal major-mode 'dired-mode) ; test if we are in dired-mode
         (progn
           (setq my-file-name (dired-get-file-for-visit))
           (find-alternate-file (prepare-tramp-sudo-string my-file-name)))
