@@ -88,7 +88,7 @@ export IPYTHON=1
 # Local aliases
 if [[ $SHORT_HOSTNAME = 'PAC02LC18LFFT3' ]]; then
     # User configuration
-    export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/Users/mangesh/Library/Python/2.7/bin:/Users/mangesh/Library/Python/3.7/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin:$PATH"
+    export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/Users/mangesh/Library/Python/2.7/bin:/Users/mangesh/Library/Python/3.7/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin:/Library/TeX/texbin:$PATH"
     export PYTHONIOENCODING='utf-8'
     test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 elif [[ $SHORT_HOSTNAME = 'data-util' ]]; then
