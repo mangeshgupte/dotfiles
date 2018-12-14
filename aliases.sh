@@ -11,10 +11,6 @@ if [[ $short_hostname = 'PAC02LC18LFFT3' ]]; then
 
     # Staging tunnels.
     alias tunnelStg='ssh -L 18994:solr.hza:8994 `#SpacesNew` -L 18980:solr02:8980 `#Photos` -L 18981:solr.hza:8981 `#Products` -L 18986:solr02.hza:8986 `#Keywords` -L 18987:solr02.hza:8987 `#NER`  -L 18993:solr02.hza:8993 `#Answers` -L 18995:solr02.hza:8995 `#UsersNew` -L 18988:solr02.hza:8988 `#Ads` -L 33306:mysql-master:3306 `#mysql-master` -L 43306:mysql-slave:3306 `#mysql-slave` -L 16379:redis:6379 `#redis_main_and_feed` -L 18379:redis:18379 `#redis_cached_houses` stghouzz.hza'
-
-    export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/opt/gnu-tar/libexec/gnubin:$PATH"
-    export PATH="/houzz/c2ubuntu/tools/cluster_access:$PATH"
-    export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:/usr/local/man:$MANPATH"
 fi
 
 alias reload=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
@@ -45,7 +41,7 @@ alias grep="grep --color=always"
 alias grepp="grep"
 alias gitg="git grep --break --heading --line-number"
 
-HADOOP_SERVERS=(hdwu01 hdws01 data-util)
+HADOOP_SERVERS=(data-util r-data-util)
 if [[ ${HADOOP_SERVERS[*]} =~ $short_hostname ]]; then
     # Hadoop aliases
     alias hfs="noglob hadoop fs"
@@ -77,6 +73,13 @@ fi
 alias dw="ssh data-util.hzd"
 alias dws="ssh hdwu01.hz"
 alias stg="ssh stghouzz.hza"
+
+# AWS S3 filesystem aliases
+alias als="aws s3 ls"
+alias arm="aws s3 rm"
+alias acp="aws s3 cp"
+alias amv="aws s3 mv"
+
 
 # Aliases for most used git commands. Used this to get this list :
 # cat ~/.zsh_history|cut -d ';' -f 2- 2>/dev/null|grep "^git"|sort|uniq -c|sort -nr | head -20

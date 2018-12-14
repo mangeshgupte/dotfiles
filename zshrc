@@ -57,8 +57,6 @@ ZSH_THEME="mangesh"
 HOSTNAME="`hostname`"
 SHORT_HOSTNAME=${(%):-%m}
 
-# Example aliases
-
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -81,15 +79,16 @@ SHORT_HOSTNAME=${(%):-%m}
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git brew pip history history-substring-search autojump jump sudo dircycle zsh-syntax-highlighting)
+plugins=(git pip history sudo dircycle zsh-syntax-highlighting zsh-history-substring-search)
 
 # Use ipython where available
 export IPYTHON=1
 
-# Local aliases
+# User configuration
+# Local environment variables
 if [[ $SHORT_HOSTNAME = 'PAC02LC18LFFT3' ]]; then
-    # User configuration
-    export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:/Users/mangesh/Library/Python/2.7/bin:/Users/mangesh/Library/Python/3.7/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin:/Library/TeX/texbin:$PATH"
+    # $(brew --prefix coreutils) = /usr/local/opt/coreutils. Replace if that changes.
+    export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/gnu-tar/libexec/gnubin:/usr/local/bin:/Users/mangesh/Library/Python/2.7/bin:/Users/mangesh/Library/Python/3.7/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin:/Library/TeX/texbin:/houzz/c2ubuntu/tools/cluster_access:$PATH"
     export PYTHONIOENCODING='utf-8'
     test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 elif [[ $SHORT_HOSTNAME = 'data-util' ]]; then
@@ -97,6 +96,7 @@ elif [[ $SHORT_HOSTNAME = 'data-util' ]]; then
     export SPARK_DIST_CLASSPATH=$(hadoop classpath)
     export ZSH_HOME=/home/mangesh
 
+    export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:/usr/local/man:$MANPATH"
     unset IPYTHON
 fi
 
