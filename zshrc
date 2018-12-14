@@ -44,6 +44,7 @@ if [[ $USER = hadoop ]]; then
 fi
 
 export UPDATE_DOTFILES_DAYS=1
+export DISABLE_UPDATE_PROMPT=1
 # Check for dotfiles update on initial load...
 env DOTFILES=$DOTFILES DISABLE_UPDATE_PROMPT=$DISABLE_UPDATE_PROMPT zsh -f $DOTFILES/utils/check_for_upgrade.sh
 
