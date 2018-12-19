@@ -95,7 +95,7 @@ elif [[ $SHORT_HOSTNAME = 'data-util' ]]; then
     export ZSH='/home/mangesh/.oh-my-zsh'
     export SPARK_DIST_CLASSPATH=$(hadoop classpath)
     export ZSH_HOME=/home/mangesh
-
+    export ZSH_DISABLE_COMPFIX='true'
     export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:/usr/local/man:$MANPATH"
     unset IPYTHON
 fi
