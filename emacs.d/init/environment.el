@@ -124,7 +124,9 @@
        'ido-grid-mode ; makes ido-mode display vertically.
        'find-file-in-repository ; Auto complete file names for any file in repo.
        'flycheck ;
+       'thrift-mode
        ))
+
 
 ;; Check if all packages are installed.
 (defun packages-installed-p ()
