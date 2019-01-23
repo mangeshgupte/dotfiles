@@ -188,3 +188,10 @@
 ;;     (setq
 ;;      mode-line-buffer-identification
 ;;      my-mode-line-buffer-identification)))
+
+
+;; Use indentation instead of stars in org- mode
+(setq org-startup-indented t)
+
+;; fontify code in code blocks
+(setq org-src-fontify-natively t)
