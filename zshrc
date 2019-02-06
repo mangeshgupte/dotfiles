@@ -100,7 +100,6 @@ elif [[ $SHORT_HOSTNAME = 'data-util' ]]; then
     unset IPYTHON
 elif [[ $SHORT_HOSTNAME = 'psihaeg1o' ]]; then
     export PATH=~/anaconda3/bin:$PATH
-    source activate fastai
 fi
 
 # Add color to ls
