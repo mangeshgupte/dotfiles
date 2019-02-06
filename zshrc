@@ -98,6 +98,9 @@ elif [[ $SHORT_HOSTNAME = 'data-util' ]]; then
     export ZSH_DISABLE_COMPFIX='true'
     export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:/usr/local/man:$MANPATH"
     unset IPYTHON
+elif [[ $SHORT_HOSTNAME = 'psihaeg1o' ]]; then
+    export PATH=~/anaconda3/bin:$PATH
+    source activate fastai
 fi
 
 # Add color to ls
