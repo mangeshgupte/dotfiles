@@ -17,6 +17,7 @@ then
       unfunction preexec
   fi
   PS1='$ '
+  return
 fi
 
 # -------------------------------------------------------------------
@@ -120,7 +121,7 @@ if [[ -d "$HOME/tools/arcanist/bin" ]]; then
     export PATH="$HOME/tools/arcanist/bin:$PATH"
 fi
 
-setopt INTERACTIVE_COMMENTS
+setopt interactivecomments
 
 
 json_pretty_print() {
