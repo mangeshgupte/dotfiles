@@ -246,6 +246,7 @@
 ;; TAGS management.
 (setq tags-table-list
       '("/houzz/c2/TAGS"))
+
 (package-initialize)
 
 (elpy-enable)
