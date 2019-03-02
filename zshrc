@@ -17,6 +17,7 @@ then
       unfunction preexec
   fi
   PS1='$ '
+  return
 fi
 
 # -------------------------------------------------------------------
@@ -98,8 +99,6 @@ elif [[ $SHORT_HOSTNAME = 'data-util' ]]; then
     export ZSH_DISABLE_COMPFIX='true'
     export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:/usr/local/man:$MANPATH"
     unset IPYTHON
-elif [[ $SHORT_HOSTNAME = 'psihaeg1o' ]]; then
-    export PATH=~/anaconda3/bin:$PATH
 fi
 
 # Add color to ls
@@ -109,6 +108,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
 fi
 
 # Add packages to the path if they exists.
+<<<<<<< HEAD
 
 # Anaconda
 if [[ -d "$HOME/anaconda2" ]]; then
@@ -124,6 +124,15 @@ fi
 if [[ -d "$HOME/.local/bin" ]]; then
     export PATH="$HOME/.local/bin:$PATH"
 fi
+=======
+local_directories=('anaconda2' 'anaconda3' 'tools/arcanist' '.local')
+for directory in $local_directories;
+do
+    if [[ -d "$HOME/$directory" ]]; then
+        export PATH="$HOME/$directory/bin:$PATH";
+    fi
+done
+>>>>>>> aaea3011d435155459b49dabfb01a3871b0d34f8
 
 setopt interactivecomments
 

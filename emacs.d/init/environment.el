@@ -100,9 +100,15 @@
 
 (package-initialize)
 (setq package-archives
+<<<<<<< HEAD
       '(
+=======
+      '(("melpa-stable" . "https://stable.melpa.org/packages/")
+        ("melpa" . "http://melpa.milkbox.net/packages/")
+        ("gnu" . "http://elpa.gnu.org/packages/")
+>>>>>>> aaea3011d435155459b49dabfb01a3871b0d34f8
         ("marmalade" . "http://marmalade.ferrier.me.uk/packages/")
-        ("melpa" . "http://melpa.milkbox.net/packages/")))
+        ))
 
 (setq required-packages
       (list
