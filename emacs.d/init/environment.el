@@ -100,7 +100,7 @@
 
 (package-initialize)
 (setq package-archives
-      '(("gnu" . "http://elpa.gnu.org/packages/")
+      '(
         ("marmalade" . "http://marmalade.ferrier.me.uk/packages/")
         ("melpa" . "http://melpa.milkbox.net/packages/")))
 
@@ -124,7 +124,7 @@
        'ido-grid-mode ; makes ido-mode display vertically.
        'find-file-in-repository ; Auto complete file names for any file in repo.
        'flycheck ;
-       'thrift-mode
+
        ))
 
 

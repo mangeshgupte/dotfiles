@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+es#!/usr/bin/zsh
 
 # 'strict mode' so this fails fast.
 # set -euo pipefail
@@ -120,8 +120,12 @@ if [[ -d "$HOME/tools/arcanist/bin" ]]; then
     export PATH="$HOME/tools/arcanist/bin:$PATH"
 fi
 
-setopt INTERACTIVE_COMMENTS
+# Arcanist
+if [[ -d "$HOME/.local/bin" ]]; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
 
+setopt interactivecomments
 
 json_pretty_print() {
 	python -m json.tool $1 | pygmentize -l json | less
