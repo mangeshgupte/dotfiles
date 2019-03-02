@@ -1,4 +1,4 @@
-es#!/usr/bin/zsh
+#!/usr/bin/zsh
 
 # 'strict mode' so this fails fast.
 # set -euo pipefail
@@ -108,23 +108,6 @@ if [[ "$(uname)" == "Darwin" ]]; then
 fi
 
 # Add packages to the path if they exists.
-<<<<<<< HEAD
-
-# Anaconda
-if [[ -d "$HOME/anaconda2" ]]; then
-    export PATH="$HOME/anaconda2/bin:$PATH"
-fi
-
-# Arcanist
-if [[ -d "$HOME/tools/arcanist/bin" ]]; then
-    export PATH="$HOME/tools/arcanist/bin:$PATH"
-fi
-
-# Arcanist
-if [[ -d "$HOME/.local/bin" ]]; then
-    export PATH="$HOME/.local/bin:$PATH"
-fi
-=======
 local_directories=('anaconda2' 'anaconda3' 'tools/arcanist' '.local')
 for directory in $local_directories;
 do
@@ -132,7 +115,6 @@ do
         export PATH="$HOME/$directory/bin:$PATH";
     fi
 done
->>>>>>> aaea3011d435155459b49dabfb01a3871b0d34f8
 
 setopt interactivecomments
 
