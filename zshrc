@@ -122,17 +122,6 @@ json_pretty_print() {
 	python -m json.tool $1 | pygmentize -l json | less
 }
 
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-# 	echo 'remote hello'
-# else
-# 	echo 'local hello'
-# fi
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export TERM=xterm-256color
@@ -148,10 +137,19 @@ compctl -K _completemarks unmark
 
 source $ZSH/oh-my-zsh.sh
 
+# Make less more readable
 # Use source highlighting with source-highlight.
 LESSPIPE=`command -v src-hilite-lesspipe.sh`
 if [[ ! -z "$LESSPIPE" ]]; then
 	export LESSOPEN="| ${LESSPIPE} %s"
+fi
+
+if type lesspipe.sh >/dev/null 2>&1; then
+    export LESSOPEN='|lesspipe.sh %s'
+fi
+
+if type pygmentize >/dev/null 2>&1; then
+  export LESSCOLORIZER='pygmentize'
 fi
 
 # i: Case insensetive search for less.
@@ -169,3 +167,18 @@ function bm() {
     let "index = $HISTCMD - 1"
     echo $history[$index] " # $@" >> ~/.bookmarks.zsh
 }
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/mangesh/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/mangesh/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/mangesh/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/mangesh/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
