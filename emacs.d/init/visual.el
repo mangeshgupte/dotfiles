@@ -94,7 +94,9 @@
   ;; (set-face-foreground 'rainbow-delimiters-depth-8-face "slate blue")
   ;; (set-face-foreground 'rainbow-delimiters-depth-9-face "dark blue")
   (set-face-foreground 'rainbow-delimiters-unmatched-face "white"))
+
 (add-hook 'rainbow-delimiters-mode-hook 'rainbow-delimiters-colors)
+
 (when (require 'rainbow-delimiters nil 'noerror)
   (global-rainbow-delimiters-mode))
 
@@ -163,7 +165,6 @@
 (setq ansi-color-for-comint-mode t)
 (setq python-shell-interpreter "ipython"
     python-shell-interpreter-args "--simple-prompt -i")
-
 
 (system-name)
 ;; Show remote hostname if on a different host.

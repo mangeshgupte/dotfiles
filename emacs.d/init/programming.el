@@ -235,6 +235,12 @@
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+(add-hook 'sql-interactive-mode-hook
+          (lambda ()
+            (toggle-truncate-lines t)))
+
+(global-flycheck-mode)
+
 ;; TAGS management.
 (setq tags-table-list
       '("/houzz/c2/TAGS"))

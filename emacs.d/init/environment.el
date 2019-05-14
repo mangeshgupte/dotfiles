@@ -164,13 +164,6 @@
         (database :default "c2")
         (server :default "localhost")))
 
-(add-hook 'sql-interactive-mode-hook
-          (lambda ()
-            (toggle-truncate-lines t)))
-
-
-(global-flycheck-mode)
-
 ;; Common Settings
 (setq user-full-name "Mangesh Gupte")
 
