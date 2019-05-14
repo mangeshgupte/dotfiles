@@ -51,6 +51,11 @@
   "Get current system's type"
   (insert (format "%s" system-type)))
 
+(defun insert-date()
+  "Insert string for the current date formatted like '10 April, 2019, Monday'"
+  (interactive)                 ; permit invocation in minibuffer
+  (insert (format-time-string "%e %B, %Y, %A")))
+
 ;; Check if system is Darwin/Mac OS X
 (defun system-type-is-darwin ()
   (interactive)

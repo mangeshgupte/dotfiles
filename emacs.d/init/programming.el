@@ -197,7 +197,6 @@
 
 (defun my-php-mode-hook ()
   (c-add-style "gallucci" my-c-style t)
-  (setq indent-tabs-mode t)
   (let ((my-tab-width 4))
     (setq tab-width my-tab-width)
     (setq c-basic-offset my-tab-width)
@@ -214,7 +213,6 @@
 
 (defun my-web-mode-hook ()
   "Hooks for Web mode."
-  (setq indent-tabs-mode t)
   (setq web-mode-markup-indent-offset 4)
   (setq web-mode-code-indent-offset 4))
 (add-hook 'web-mode-hook 'my-web-mode-hook)
