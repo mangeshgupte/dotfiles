@@ -20,7 +20,6 @@
 (package-initialize)
 
 (load "~/.emacs.d/init/environment.el")
-(load "~/.emacs.d/init/editing.el")
 (load "~/.emacs.d/init/programming.el")
 (load "~/.emacs.d/init/visual.el")
 (load "~/.emacs.d/init/keymap.el")
