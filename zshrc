@@ -152,11 +152,7 @@ if type pygmentize >/dev/null 2>&1; then
   export LESSCOLORIZER='pygmentize'
 fi
 
-# i: Case insensetive search for less.
-# R:
-# F: Quit if
-# X: Keep screen.
-export LESS=' -RXFi '
+export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4'
 
 # aliases
 [[ -f $ZSH_HOME/.aliases.sh ]] && source $ZSH_HOME/.aliases.sh
