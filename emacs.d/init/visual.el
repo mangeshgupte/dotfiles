@@ -33,9 +33,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Set a dark color theme.
-(autoload 'color-theme "color-theme" "Themes !!" t)
-(color-theme-initialize)
-(color-theme-clarity)
+;; (autoload 'color-theme "color-theme" "Themes !!" t)
+;; (color-theme-initialize)
+;; (color-theme-clarity)
+(load-theme 'manoj-dark)
 
 ;; Volatile-highlight. Highlight the latest changes in the buffer (like text inserted from: yank, undo, etc.) until the
 ;; next command is run.
@@ -66,8 +67,8 @@
   ;; (add-to-list 'default-frame-alist
   ;;				'(font . "DejaVu Sans Mono-10"))
 
-  ;; (set-face-attribute 'mode-line nil :inherit 'unspecified) ; show modeline in Monaco
-  (set-face-attribute 'echo-area nil :family 'unspecified)  ; show echo area in Monaco
+  (set-face-attribute 'mode-line nil :inherit 'unspecified) ; show modeline in Monaco
+  ;; (set-face-attribute 'echo-area nil :family 'unspecified)  ; show echo area in Monaco
 
   ;; Stop ^M's from displaying in system shell window
   (add-hook 'comint-output-filter-functions 'shell-strip-ctrl-m nil t)
@@ -94,7 +95,9 @@
   ;; (set-face-foreground 'rainbow-delimiters-depth-8-face "slate blue")
   ;; (set-face-foreground 'rainbow-delimiters-depth-9-face "dark blue")
   (set-face-foreground 'rainbow-delimiters-unmatched-face "white"))
+
 (add-hook 'rainbow-delimiters-mode-hook 'rainbow-delimiters-colors)
+
 (when (require 'rainbow-delimiters nil 'noerror)
   (global-rainbow-delimiters-mode))
 
@@ -132,6 +135,9 @@
         (menu-bar-lines . 0)
         (unsplittable   . t))))
 
+(setq visible-bell nil)
+(setq ring-bell-function 'ignore)
+
 ;; Visual Bookmarks
 (when (require 'bm nil 'noerror)
   (global-set-key (kbd "<C-f2>") 'bm-toggle)
@@ -152,7 +158,8 @@
   (powerline-default-theme)
   (custom-set-faces
    '(mode-line             ((t (:foreground "#ffffff" :background "#003330" ))))
-   '(mode-line-inactive    ((t (:foreground "#999999" :background "#002320" :weight light :box nil :inherit (mode-line )))))))
+   '(mode-line-inactive    ((t (:foreground "#999999" :background "#002320"
+                                :weight light :box nil :inherit (mode-line )))))))
 
 
 ;; (require 'smooth-scrolling)
@@ -163,7 +170,6 @@
 (setq ansi-color-for-comint-mode t)
 (setq python-shell-interpreter "ipython"
     python-shell-interpreter-args "--simple-prompt -i")
-
 
 (system-name)
 ;; Show remote hostname if on a different host.

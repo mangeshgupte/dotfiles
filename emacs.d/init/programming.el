@@ -176,7 +176,6 @@
 (defun my-c-mode-common-hook ()
   (c-add-style "gallucci" my-c-style t)
   (c-set-offset 'member-init-intro '+)
-  (setq tab-width 4 indent-tabs-mode nil)
   (c-toggle-auto-hungry-state t)
   (define-key c-mode-base-map "\C-m" 'newline-and-indent)
   (modify-syntax-entry ?_ "w" c++-mode-syntax-table)
@@ -187,7 +186,6 @@
 (defun my-java-mode-common-hook ()
   (c-add-style "gallucci" my-c-style t)
   (c-set-offset 'member-init-intro '+)
-  (setq tab-width 4 indent-tabs-mode nil)
   (c-toggle-auto-hungry-state t)
   (define-key c-mode-base-map "\C-m" 'newline-and-indent)
   (modify-syntax-entry ?_ "w" c++-mode-syntax-table)
@@ -197,7 +195,6 @@
 
 (defun my-php-mode-hook ()
   (c-add-style "gallucci" my-c-style t)
-  (setq indent-tabs-mode t)
   (let ((my-tab-width 4))
     (setq tab-width my-tab-width)
     (setq c-basic-offset my-tab-width)
@@ -214,7 +211,6 @@
 
 (defun my-web-mode-hook ()
   "Hooks for Web mode."
-  (setq indent-tabs-mode t)
   (setq web-mode-markup-indent-offset 4)
   (setq web-mode-code-indent-offset 4))
 (add-hook 'web-mode-hook 'my-web-mode-hook)
@@ -223,8 +219,6 @@
 (defun my-python-mode-hook ()
   "Hook for python mode."
   (lambda ()
-    (setq indent-tabs-mode nil)
-    (setq tab-width 4)
     (setq python-indent 4)
     (setq fill-column 100)))
 
@@ -240,8 +234,12 @@
 (add-hook 'octave-mode-hook 'RET-behaves-as-LFD)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-;; (require 'ws-trim)
-;; (global-ws-trim-mode t)
+
+(add-hook 'sql-interactive-mode-hook
+          (lambda ()
+            (toggle-truncate-lines t)))
+
+(global-flycheck-mode)
 
 ;; TAGS management.
 (setq tags-table-list
@@ -250,46 +248,3 @@
 (package-initialize)
 
 (elpy-enable)
-;; (elpy-use-ipython)
-
-;; (speedbar-add-supported-extension ".php") ; not necessarily required
-;; (add-hook 'php-mode-user-hook 'semantic-default-java-setup)
-;; (add-hook 'php-mode-user-hook
-;; 		  (lambda ()
-;; 			(setq imenu-create-index-function
-;; 				  'semantic-create-imenu-index)
-;; 			))
-
-;; (global-ede-mode t)
-;; (autoload 'gtags-mode "gtags" "" t)
-;; (when window-system (speedbar t))
-
-(autoload 'apache-mode "apache-mode" "autoloaded" t)
-
-;; (load-file "~/.emacs.d/lisp/cedet/cedet-devel-load.el")
-
-;; (semantic-mode 1)
-;; (require 'semantic/ia)
-;; (require 'semantic/bovine/gcc)
-
-
-;; SQL mode
-(defun point-in-comment ()
-  (let ((syn (syntax-ppss)))
-    (and (nth 8 syn)
-         (not (nth 3 syn)))))
-
-(defun upcase-sql-keywords ()
-  (interactive)
-  (require 'sql)
-  (let ((start (point-min)) (end (point-max)))
-    (if (region-active-p)
-        (setq start (region-beginning) end (region-end)))
-    (save-excursion
-      (dolist (keywords sql-mode-mysql-font-lock-keywords)
-        (goto-char start)
-        (while (and (re-search-forward (car keywords) nil t)
-                    (< (point) end))
-          (unless (point-in-comment)
-            (goto-char (match-beginning 0))
-            (upcase-word 1)))))))

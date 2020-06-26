@@ -51,6 +51,11 @@
   "Get current system's type"
   (insert (format "%s" system-type)))
 
+(defun insert-date()
+  "Insert string for the current date formatted like '10 April, 2019, Monday'"
+  (interactive)                 ; permit invocation in minibuffer
+  (insert (format-time-string "%e %B, %Y, %A")))
+
 ;; Check if system is Darwin/Mac OS X
 (defun system-type-is-darwin ()
   (interactive)
@@ -68,17 +73,8 @@
  ((system-type-is-darwin) (setenv "HOME" "/Users/mangesh"))
  ((system-type-is-gnu) (setenv "HOME" "/home/mangesh")))
 
-;; Frame and window management:
-(when (system-type-is-darwin)
-  (tabbar-mode -1)		     ; no tabbar
-  (one-buffer-one-frame-mode -1)       ; no one-buffer-per-frame
-  (setq special-display-regexps nil)   ; do not open certain buffers in special windows/frames
-)
 
-;; then enter the text in that file's own buffer.
-(when (system-type-is-gnu)
-  (menu-bar-mode -1)
-)
+(menu-bar-mode -1)
 
 ;; Set the path in which i have kept my .el/.elc files
 (let ((default-directory "~/.emacs.d/lisp/"))
@@ -100,7 +96,7 @@
 
 (package-initialize)
 (setq package-archives
-      '(("melpa-stable" . "https://stable.melpa.org/packages/")
+      '(("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
         ("melpa" . "http://melpa.milkbox.net/packages/")
         ("gnu" . "http://elpa.gnu.org/packages/")
         ("marmalade" . "http://marmalade.ferrier.me.uk/packages/")
@@ -108,8 +104,7 @@
 
 (setq required-packages
       (list
-       'auto-complete ; auto-completion extension for GNU Emacs.
-       'autopair ; automagically pair braces and quotes.
+       ; 'auto-complete ; auto-completion extension for GNU Emacs.
        'js2-mode ; javascript-mode for emacs.
        'magit ; Emacs mode for Git.
        'markdown-mode ; Emacs mode for Markdown-formatted files.
@@ -118,7 +113,7 @@
        'session ; Session management for emacs.
        'web-mode ; handle mixed php and html files.
        'powerline ; Change the display line.
-       'color-theme ; Different color themes
+       ; 'color-theme-modern  ; Different color themes
        'ido ; Easier opening of files.
        ; 'ido-clever-match ; Smart matching between (exact, prefix, substring, flex)
        'flx-ido ; Fuzzy matching for Emacs ... a la Sublime Text.
@@ -126,7 +121,9 @@
        'ido-grid-mode ; makes ido-mode display vertically.
        'find-file-in-repository ; Auto complete file names for any file in repo.
        'flycheck ;
-
+       'go-mode ; Major mode for the Go language
+       'elpy ; Python mode
+       'php-mode
        ))
 
 
@@ -158,13 +155,6 @@
       '((user :default "root")
         (database :default "c2")
         (server :default "localhost")))
-
-(add-hook 'sql-interactive-mode-hook
-          (lambda ()
-            (toggle-truncate-lines t)))
-
-
-(global-flycheck-mode)
 
 ;; Common Settings
 (setq user-full-name "Mangesh Gupte")

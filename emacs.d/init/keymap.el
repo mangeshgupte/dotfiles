@@ -24,9 +24,9 @@
 (global-unset-key "\M-\C-r")
 (global-set-key "\M-\C-r" 'isearch-backward)
 
-(when (system-type-is-darwin)
-  (define-key osx-key-mode-map [home] 'beginning-of-line)
-  (define-key osx-key-mode-map [end] 'end-of-line))
+;;(when (system-type-is-darwin)
+;;  (define-key osx-key-mode-map [home] 'beginning-of-line)
+;;  (define-key osx-key-mode-map [end] 'end-of-line))
 
 ;; Remap Home and End keys to move within current line, and C-Home and
 ;; C-End keys to beginning and end of buffer
@@ -183,4 +183,3 @@
 					 " `git rev-parse --show-toplevel`")))
 
 (global-set-key [f6] 'git-grep)
-
