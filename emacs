@@ -102,7 +102,8 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (php-mode web-mode session powerline multi-term markdown-mode magit js2-mode ido-grid-mode go-mode flycheck flx-ido find-file-in-repository elpy))))
+    (helm org-ref php-mode web-mode session powerline multi-term markdown-mode magit js2-mode ido-grid-mode go-mode flycheck flx-ido find-file-in-repository elpy))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

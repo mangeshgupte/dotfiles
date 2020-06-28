@@ -96,10 +96,9 @@
 
 (package-initialize)
 (setq package-archives
-      '(("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
-        ("melpa" . "http://melpa.milkbox.net/packages/")
+      '(("melpa-stable" . "http://stable.melpa.org/packages/")
+        ("melpa" . "http://melpa.org/packages/")
         ("gnu" . "http://elpa.gnu.org/packages/")
-        ("marmalade" . "http://marmalade.ferrier.me.uk/packages/")
         ))
 
 (setq required-packages
@@ -124,6 +123,8 @@
        'go-mode ; Major mode for the Go language
        'elpy ; Python mode
        'php-mode
+       'helm
+       'org-ref
        ))
 
 

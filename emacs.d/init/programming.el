@@ -61,6 +61,7 @@
                 ("\\.ini\\'" . ini-mode)
                 ("\\.csv$'" . csv-mode)
                 ("\\.thrift$" . thrift-mode)
+                ("\\.org$" . org-mode)
               auto-mode-alist)))
 
 (autoload 'ini-mode "ini-mode" nil t)
