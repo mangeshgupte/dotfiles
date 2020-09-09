@@ -116,6 +116,3 @@ alias ta="tmux -2 attach"
 function histogram() {
     awk '{print $1}' | sort | uniq -c | sort -rn | head -50 | awk '!max{max=$1;}{r="";i=s=60*$1/max;while(i-->0)r=r"#";printf "%15s %5d %s %s",$2,$1,r,"\n";}'
 }
-
-source $HOME/courses/setup/aws-alias.sh
-
