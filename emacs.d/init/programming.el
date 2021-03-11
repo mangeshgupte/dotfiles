@@ -15,7 +15,7 @@
                 ("\\.php$"  . php-mode)
                 ("\\Response.php$"  . web-mode)
                 ("\\.inc$"  . php-mode)
-                ("\\.js\\'"       . javascript-mode)
+                ("\\.js\\'"       . js2-mode)
                 ("\\.yaml$"  . yaml-mode)
                 ("\\.m$"    . octave-mode)
                 ("\\.ma?k\\'" . makefile-mode)
@@ -173,6 +173,13 @@
                         defun-close-semi)))
     )
   "My C++ Programming Style")
+
+(defun my-js2-mode-common-hook ()
+  (setq-default js2-basic-offset 2))
+
+(setq js-indent-level 2)
+
+(add-hook 'js2-mode-common-hook 'my-js2-mode-common-hook)
 
 (defun my-c-mode-common-hook ()
   (c-add-style "gallucci" my-c-style t)

@@ -102,7 +102,8 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (helm org-ref php-mode web-mode session powerline multi-term markdown-mode magit js2-mode ido-grid-mode go-mode flycheck flx-ido find-file-in-repository elpy))))
+    (vue-mode helm org-ref php-mode web-mode session powerline multi-term markdown-mode magit js2-mode ido-grid-mode go-mode flycheck flx-ido find-file-in-repository elpy)))
+ '(session-use-package t nil (session)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

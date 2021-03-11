@@ -90,7 +90,7 @@ local_machines=("PAC02LC18LFFT3" "PA-MBP-C02LC18LFFT3" "garfield" "PAC02C10WXMD6
 
 if [[ ${local_machines[(r)$hostname]} == $hostname ]]; then
     # $(brew --prefix coreutils) = /usr/local/opt/coreutils. Replace if that changes.
-    export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/gnu-tar/libexec/gnubin:/usr/local/bin:/Users/mangesh/Library/Python/2.7/bin:/Users/mangesh/Library/Python/3.7/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin:/Library/TeX/texbin:/houzz/c2ubuntu/tools/cluster_access:$PATH"
+    export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/opt/gnu-tar/libexec/gnubin:/usr/local/bin:/Users/mangesh/Library/Python/2.7/bin:/Users/mangesh/Library/Python/3.7/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin:/Library/TeX/texbin:/houzz/c2ubuntu/tools/cluster_access:/home/mangesh/.npm-global/bin:$PATH"
     export PYTHONIOENCODING='utf-8'
     test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 elif [[ $hostname = 'data-util' ]]; then
