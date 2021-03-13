@@ -83,25 +83,6 @@
 ;; and hit M-x eval-buffer This will give you the font string you
 ;; need.
 
-;; Rainbow parentheses
-(defun rainbow-delimiters-colors ()
-  (set-face-foreground 'rainbow-delimiters-depth-1-face "yellow")
-  (set-face-foreground 'rainbow-delimiters-depth-2-face "green")
-  (set-face-foreground 'rainbow-delimiters-depth-3-face "orange")
-  (set-face-foreground 'rainbow-delimiters-depth-4-face "light blue")
-  (set-face-foreground 'rainbow-delimiters-depth-5-face "light gray")
-  (set-face-foreground 'rainbow-delimiters-depth-6-face "dark green")
-  (set-face-foreground 'rainbow-delimiters-depth-7-face "gray")
-  ;; (set-face-foreground 'rainbow-delimiters-depth-8-face "slate blue")
-  ;; (set-face-foreground 'rainbow-delimiters-depth-9-face "dark blue")
-  (set-face-foreground 'rainbow-delimiters-unmatched-face "white"))
-
-(add-hook 'rainbow-delimiters-mode-hook 'rainbow-delimiters-colors)
-
-(when (require 'rainbow-delimiters nil 'noerror)
-  (global-rainbow-delimiters-mode))
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MODE LINE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
