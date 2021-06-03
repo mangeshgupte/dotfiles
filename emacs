@@ -80,6 +80,7 @@
 ;;
 ;; Putting a newline as part of the replaced string.
 ;; M-x replace-string RET <string> RET C-q C-j RET
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -97,6 +98,9 @@
  '(custom-safe-themes
    (quote
     ("4c8372c68b3eab14516b6ab8233de2f9e0ecac01aaa859e547f902d27310c0c3" default)))
+ '(elpy-modules
+   (quote
+    (elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))
  '(global-auto-revert-mode t nil (autorevert))
  '(global-font-lock-mode t nil (font-lock))
  '(inhibit-startup-screen t)
