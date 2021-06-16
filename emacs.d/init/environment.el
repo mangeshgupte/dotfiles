@@ -125,6 +125,7 @@
        'php-mode
        'helm
        'org-ref
+       'nginx-mode
        ))
 
 
