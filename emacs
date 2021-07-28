@@ -106,7 +106,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (nginx-mode dockerfile-mode jinja2-mode vue-mode helm org-ref php-mode web-mode session powerline multi-term markdown-mode magit js2-mode ido-grid-mode go-mode flycheck flx-ido find-file-in-repository elpy)))
+    (yaml-mode nginx-mode dockerfile-mode jinja2-mode vue-mode helm org-ref php-mode web-mode session powerline multi-term markdown-mode magit js2-mode ido-grid-mode go-mode flycheck flx-ido find-file-in-repository elpy)))
  '(session-use-package t nil (session)))
 
 (custom-set-faces
