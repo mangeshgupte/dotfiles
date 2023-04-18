@@ -44,7 +44,7 @@ if [[ $USER = hadoop ]]; then
     export ZSH_HOME=/home/mangesh
 fi
 
-export UPDATE_DOTFILES_DAYS=1
+export UPDATE_DOTFILES_DAYS=7
 export DISABLE_UPDATE_PROMPT="true"
 # Check for dotfiles update on initial load...
 env DOTFILES=$DOTFILES DISABLE_UPDATE_PROMPT=$DISABLE_UPDATE_PROMPT zsh -f $DOTFILES/utils/check_for_upgrade.sh
@@ -115,7 +115,7 @@ fi
 export LS_COLORS
 
 # Add packages to the path if they exists.
-local_directories=('anaconda2' 'anaconda3' 'tools/arcanist' '.local')
+local_directories=('anaconda2' 'anaconda3' 'tools/arcanist' '.local/bin')
 for directory in $local_directories;
 do
     if [[ -d "$HOME/$directory" ]]; then
@@ -174,15 +174,20 @@ function bm() {
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/mangesh/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/mangesh/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/mangesh/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/mangesh/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
+# __conda_setup="$('/home/mangesh/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/home/mangesh/anaconda3/etc/profile.d/conda.sh" ]; then
+#         . "/home/mangesh/anaconda3/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/home/mangesh/anaconda3/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
 # <<< conda initialize <<<
+
+
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+    source /etc/profile.d/vte.sh
+fi
