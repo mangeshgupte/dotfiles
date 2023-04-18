@@ -1,3 +1,9 @@
+;;; programming --- Startup settings related to coding
+
+;;; Commentary:
+
+;;; Code:
+
 ;; Go into proper mode according to file extension
 (setq auto-mode-alist
       (append '(("\\.C$"    . c++-mode)
@@ -232,6 +238,9 @@
     (setq fill-column 100)))
 
 (add-hook 'python-mode-hook 'my-python-mode-hook)
+
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "--simple-prompt -i")
 
 ;; YAML mode
 (setq yaml-indent-offset 4)
