@@ -17,7 +17,9 @@
                 ("\\.ipp$"  . c++-mode)
                 ("\\.c$"    . c-mode)
                 ("\\.py$"   . python-mode)
-                ("\\.less$" . css-mode)
+                ("\\.css$"  . css-mode)
+                ("\\.sass$" . scss-mode)
+                ("\\.scss$" . scss-mode)
                 ("\\.php$"  . php-mode)
                 ("\\Response.php$"  . web-mode)
                 ("\\.inc$"  . php-mode)
@@ -67,11 +69,10 @@
                 ("\\.thrift$" . thrift-mode)
                 ("\\.org$" . org-mode)
                 ("\\.js\\'"       . js2-mode)
+                ("\\.vue\\'"       . vue-mode)
                 ("\\.html$" . html-helper-mode)
                 ("\\.vue$" . vue-mode)
               auto-mode-alist)))
-
-(autoload 'ini-mode "ini-mode" nil t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C Programming

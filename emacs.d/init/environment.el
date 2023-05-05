@@ -11,34 +11,6 @@
 (setq mac-command-modifier 'meta) ; Sets the command (Apple) key as Meta
 (setq mac-option-modifier 'meta)  ; Sets the option key as Meta (this is server)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Emacs auto customize section. Emacs will add to this section when
-;; you use the customize tool available on the help menu
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(c++-font-lock-extra-types
-   (quote ("\\sw+_t" "\\([iof]\\|str\\)+stream\\(buf\\)?" "ios" "string" "rope" "list"
-		   "slist" "deque" "vector" "bit_vector" "set" "multiset" "map" "multimap"
-		   "hash\\(_\\(m\\(ap\\|ulti\\(map\\|set\\)\\)\\|set\\)\\)?" "stack" "queue"
-		   "priority_queue" "iterator" "const_iterator" "reverse_iterator" "const_reverse_iterator"
-		   "reference" "const_reference" "LPCTSTR" "BYTE" "WORD" "DWORD" "FIXME" "true"
-		   "false" "private" "protected" "public" "__forceinline")))
- '(c-font-lock-extra-types (quote ("FILE" "\\sw+_t" "LPCTSTR" "WORD" "DWORD" "BYTE" "FIXME")))
- '(completion-ignored-extensions
-   (quote (".bci" ".bin" ".binf" ".com" ".ext" ".free" ".beam" ".vee" ".jam" ".o" "~" ".lbin"
-		   ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/"
-		   ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem"
-		   ".x86f" ".sparcf" ".fasl" ".ufsl" ".fsl" ".dxl" ".pfsl" ".dfsl" ".p64fsl" ".d64fsl"
-		   ".dx64fsl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr"
-		   ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".aux" ".bbl" ".toc")))
- '(global-auto-revert-mode t nil (autorevert))
- '(global-font-lock-mode t nil (font-lock))
- '(inhibit-startup-screen t))
-
 ;; Get current system's name
 (defun insert-system-name()
   (interactive)
@@ -86,8 +58,6 @@
             (normal-top-level-add-subdirs-to-load-path)))
          load-path)))
 
-;; Common list primitives
-(require 'cl)
 
 ;; Package management
 (cond
@@ -191,7 +161,7 @@
 (setq delete-auto-save-files t)  ; delete unnecessary autosave files
 
 (defun dos2unix ()
-  "Not exactly but it's easier to remember"
+  "Not exactly but it's easier to remember."
   (interactive)
   (set-buffer-file-coding-system 'unix 't))
 
