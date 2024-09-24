@@ -1,4 +1,4 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Key Bindings / Key Map
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key "\C-cy" 'do-smart-yank)
@@ -24,9 +24,11 @@
 (global-unset-key "\M-\C-r")
 (global-set-key "\M-\C-r" 'isearch-backward)
 
-;;(when (system-type-is-darwin)
-;;  (define-key osx-key-mode-map [home] 'beginning-of-line)
-;;  (define-key osx-key-mode-map [end] 'end-of-line))
+(when (system-type-is-darwin)
+  (setq mac-command-modifier 'control)
+  (setq mac-command-alternate 'meta)
+  )
+
 
 ;; Remap Home and End keys to move within current line, and C-Home and
 ;; C-End keys to beginning and end of buffer
@@ -163,23 +165,3 @@
    (define-key term-raw-map (kbd "C-y") 'term-paste)
    (define-key term-raw-map (kbd "C-v") 'term-paste)
    (define-key term-raw-map (kbd "s-v") 'term-paste)))
-
-;; Search Git using Grep
-(defun git-grep-prompt ()
-  (let* ((default (current-word))
-         (prompt (if default
-                     (concat "Search for: (default " default ") ")
-                   "Search for: "))
-         (search (read-from-minibuffer prompt nil nil nil nil default)))
-    (if (> (length search) 0)
-        search
-      (or default ""))))
-
-(defun git-grep (search)
-  "git-grep the entire current repo"
-  (interactive (list (git-grep-prompt)))
-  (grep-find (concat "git --no-pager grep -n "
-                     (shell-quote-argument search)
-					 " `git rev-parse --show-toplevel`")))
-
-(global-set-key [f6] 'git-grep)
