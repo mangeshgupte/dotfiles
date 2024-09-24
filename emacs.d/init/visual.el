@@ -5,31 +5,6 @@
 ;;; Code:
 
 
-;; Startup Screen
-(defconst fancy-splash-text "Welcome to Emacs")
-(defconst fancy-splash-image "/usr/share/emacs/27.1/etc/images/splash.svg")
-
-;; If concise is non-nil, that would mean to display a concise version of the splash screen in another window.
-;; But instead I disable the screen if concise is non-nil.
-(defun fancy-startup-screen (&optional concise)
-  (if (not concise)
-	  (let ((splash-buffer (get-buffer-create "STARTUP")))
-		(with-current-buffer splash-buffer
-		  (let ((inhibit-read-only t))
-			(erase-buffer)
-			(setq default-directory command-line-default-directory)
-			(make-local-variable 'startup-screen-inhibit-startup-screen)
-			(fancy-splash-head)
-			(setq offsetLen (/ (length fancy-splash-text) 2))
-			(insert (propertize " " 'display
-								`(space :align-to (- center offsetLen))))
-			(insert (propertize fancy-splash-text 'face 'bold))
-			)
-		  (setq buffer-read-only t))
-		(switch-to-buffer splash-buffer))))
-
-(display-splash-screen)
-
 ;; Put as much syntax highlighting into documents as possible
 (setq font-lock-maximum-decoration t)
 (scroll-bar-mode -1)  ;; no scrollbars
