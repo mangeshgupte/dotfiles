@@ -8,9 +8,6 @@
   (interactive)
   (load-file "~/.emacs"))
 
-(setq mac-command-modifier 'meta) ; Sets the command (Apple) key as Meta
-(setq mac-option-modifier 'meta)  ; Sets the option key as Meta (this is server)
-
 ;; Get current system's name
 (defun insert-system-name()
   (interactive)
