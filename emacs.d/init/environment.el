@@ -89,6 +89,8 @@
        'flycheck ;
        'go-mode ; Major mode for the Go language
        'elpy ; Python mode
+       'volatile-highlights ; Highlight the latest changes in the buffer (like text inserted from:
+                            ; yank, undo, etc.) until the next command is run.
        'php-mode
        'helm
        'org-ref

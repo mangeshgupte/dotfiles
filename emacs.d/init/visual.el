@@ -13,8 +13,6 @@
 (setq-default cursor-type 'box)   ;; Make cursor into a box.
 
 
-
-
 ;; Highlight matching paranthesis.
 (show-paren-mode t)
 (setq show-paren-delay 0)
@@ -32,8 +30,7 @@
 ;; (color-theme-clarity)
 (load-theme 'manoj-dark)
 
-;; Volatile-highlight. Highlight the latest changes in the buffer (like text inserted from: yank, undo, etc.) until the
-;; next command is run.
+;; Volatile-highlight.
 (when (require 'volatile-highlights nil 'noerror)
   (volatile-highlights-mode t))
 
@@ -53,7 +50,7 @@
     )
 
   ;; Change the font used by emacs
-  (set-default-font "-*-Monaco-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1")
+  (set-frame-font "-*-Monaco-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1")
   (set-face-attribute 'mode-line nil :inherit 'unspecified) ; show modeline in Monaco
   ;; (set-face-attribute 'echo-area nil :family 'unspecified)  ; show echo area in Monaco
 
@@ -84,7 +81,7 @@
 (column-number-mode t)
 
 ;; Displays which function the cursor is currently in, in certain modes
-(which-func-mode 1)
+(which-function-mode 1)
 
 ;; Frame title bar formatting to show full path of file
 (setq-default
@@ -100,14 +97,6 @@
                                   dired-directory
                                   (revert-buffer-function " %b"
                                   ("%b - Dir:  " default-directory)))))))
-
-(setq speedbar-frame-parameters
-      (quote
-       ((minibuffer)
-        (width          . 45)
-        (border-width   . 0)
-        (menu-bar-lines . 0)
-        (unsplittable   . t))))
 
 (setq visible-bell nil)
 (setq ring-bell-function 'ignore)
@@ -135,7 +124,6 @@
 
 (setq ansi-color-for-comint-mode t)
 
-(system-name)
 ;; Show remote hostname if on a different host.
 ;; (defconst my-mode-line-buffer-identification
 ;;   (list

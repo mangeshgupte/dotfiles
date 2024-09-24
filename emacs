@@ -95,12 +95,11 @@
    '(elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults))
  '(global-auto-revert-mode t nil (autorevert))
  '(global-font-lock-mode t nil (font-lock))
- '(package-selected-packages
-   '(yaml-mode nginx-mode dockerfile-mode jinja2-mode vue-mode helm org-ref php-mode web-mode session powerline multi-term markdown-mode magit js2-mode ido-grid-mode go-mode flycheck flx-ido find-file-in-repository elpy))
+ '(inhibit-startup-screen t)
  '(initial-scratch-message nil)
- '(inhibit-startup-message t)
- '(session-use-package t nil (session))
- )
+ '(package-selected-packages
+   '(volatile-highlights yaml-mode nginx-mode dockerfile-mode jinja2-mode vue-mode helm org-ref php-mode web-mode session powerline multi-term markdown-mode magit js2-mode ido-grid-mode go-mode flycheck flx-ido find-file-in-repository elpy))
+ '(session-use-package t nil (session)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

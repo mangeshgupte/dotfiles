@@ -1,6 +1,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Key Bindings / Key Map
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(when (system-type-is-darwin)
+  (setq mac-command-modifier 'control)
+  (setq mac-command-alternate 'meta)
+  )
+
 (global-set-key "\C-cy" 'do-smart-yank)
 
 (fset 'do-smart-yank "\C-y\C-c\C-q")
@@ -24,10 +29,6 @@
 (global-unset-key "\M-\C-r")
 (global-set-key "\M-\C-r" 'isearch-backward)
 
-(when (system-type-is-darwin)
-  (setq mac-command-modifier 'control)
-  (setq mac-command-alternate 'meta)
-  )
 
 
 ;; Remap Home and End keys to move within current line, and C-Home and
@@ -107,7 +108,6 @@
 	  )))
 (global-set-key [f10] (lambda () (interactive) (mcg-key-swap mcg-key-pairs)))
 (global-set-key [(shift f10)] (lambda () (interactive) (mcg-key-restore mcg-key-pairs)))
-
 
 ;; Kill current buffer without confirmation
 (global-set-key "\C-xk" 'kill-current-buffer)
