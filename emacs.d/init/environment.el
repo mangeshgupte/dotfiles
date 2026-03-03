@@ -95,6 +95,7 @@
        'helm
        'org-ref
        'nginx-mode
+       'markdown-mode
        ))
 
 
