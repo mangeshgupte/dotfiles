@@ -1,9 +1,11 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Key Bindings / Key Map
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Set alt and command to meta(alt)
 (when (system-type-is-darwin)
-  (setq mac-command-modifier 'control)
-  (setq mac-command-alternate 'meta)
+  (setq mac-command-modifier 'meta)
+  (setq mac-option-modifier 'meta)
   )
 
 (global-set-key "\C-cy" 'do-smart-yank)

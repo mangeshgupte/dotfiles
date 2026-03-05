@@ -107,5 +107,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(mode-line ((t (:foreground "#ffffff" :background "#003330"))))
- '(mode-line-inactive ((t (:foreground "#999999" :background "#002320" :weight light :box nil :inherit (mode-line))))))
+ '(mode-line ((t (:foreground "#ffffff" :background "#005f87" :box nil))))
+ '(mode-line-inactive ((t (:foreground "#b0b0b0" :background "#3a3a3a" :weight light :box nil)))))

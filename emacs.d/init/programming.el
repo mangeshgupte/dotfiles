@@ -8,7 +8,6 @@
 (setq auto-mode-alist
       (append '(("\\.C$"    . c++-mode)
                 ("\\.cc$"   . c++-mode)
-                ("\\.cpp$"  . c++-mode)
                 ("\\.cxx$"  . c++-mode)
                 ("\\.hxx$"  . c++-mode)
                 ("\\.h$"    . c++-mode)
@@ -16,7 +15,6 @@
                 ("\\.idl$"  . c++-mode)
                 ("\\.ipp$"  . c++-mode)
                 ("\\.c$"    . c-mode)
-                ("\\.py$"   . python-mode)
                 ("\\.css$"  . css-mode)
                 ("\\.sass$" . scss-mode)
                 ("\\.scss$" . scss-mode)
@@ -30,7 +28,6 @@
                 ("\\.pl$"   . perl-mode)
                 ("\\.pro$"  . prolog-mode)
                 ("\\.pm$"   . perl-mode)
-                ("\\.java$" . java-mode)
                 ("\\.txt$"  . text-mode)
                 ("\\.zsh$"  . sh-mode)
                 ("\\.zsh-theme$"  . sh-mode)
@@ -68,10 +65,8 @@
                 ("\\.csv$'" . csv-mode)
                 ("\\.thrift$" . thrift-mode)
                 ("\\.org$" . org-mode)
-                ("\\.js\\'"       . js2-mode)
                 ("\\.vue\\'"       . vue-mode)
-                ("\\.html$" . html-helper-mode)
-                ("\\.vue$" . vue-mode)
+                ("\\.html$" . html-mode)
                 ("\\.md$" . markdown-mode)
               auto-mode-alist)))
 
@@ -200,16 +195,6 @@
 
 (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
 
-(defun my-java-mode-common-hook ()
-  (c-add-style "gallucci" my-c-style t)
-  (c-set-offset 'member-init-intro '+)
-  (c-toggle-auto-hungry-state t)
-  (define-key c-mode-base-map "\C-m" 'newline-and-indent)
-  (modify-syntax-entry ?_ "w" c++-mode-syntax-table)
-  (modify-syntax-entry ?_ "w" c-mode-syntax-table))
-
-(add-hook 'java-mode-common-hook 'my-java-mode-common-hook)
-
 (defun my-php-mode-hook ()
   (c-add-style "gallucci" my-c-style t)
   (let ((my-tab-width 4))
@@ -235,7 +220,6 @@
 ;; Python mode
 (defun my-python-mode-hook ()
   "Hook for python mode."
-  (setq python-indent 4)
   (setq fill-column 100))
 
 (add-hook 'python-mode-hook 'my-python-mode-hook)
@@ -258,6 +242,9 @@
           (lambda ()
             (toggle-truncate-lines t)))
 
-(global-flycheck-mode)
 
-(elpy-enable)
+(when (require 'flycheck nil 'noerror)
+  (global-flycheck-mode))
+
+(when (require 'elpy nil 'noerror)
+  (elpy-enable))

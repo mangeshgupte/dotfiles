@@ -4,9 +4,6 @@
 
 ;;; Code:
 
-;; Startup Screen
-(defconst fancy-splash-text "Welcome to Emacs")
-
 ;; Put as much syntax highlighting into documents as possible
 (setq font-lock-maximum-decoration t)
 (scroll-bar-mode -1)  ;; no scrollbars
@@ -45,18 +42,15 @@
    select-enable-primary t)
 
   (when (boundp 'aquamacs-version)
-    '(aquamacs-autoface-mode nil)
+    '(aquamacs-autoface-muode nil)
     (smart-frame-positioning-mode -1)  ; do not place frames behind the Dock or outside of screen boundaries
     )
 
-  ;; Change the font used by emacs
-  ;; (set-default-font "-*-Monaco-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1")
-  (set-face-attribute 'mode-line nil :inherit 'unspecified) ; show modeline in Monaco
-  ;; (set-face-attribute 'echo-area nil :family 'unspecified)  ; show echo area in Monaco
+  ;; Set font to match terminal (Monaco 12)
+  (set-frame-font "Monaco-12" nil t)
+  ;; (set-face-attribute 'mode-line nil :inherit "Monaco-12")
 
   ;; Stop ^M's from displaying in system shell window
-  (add-hook 'comint-output-filter-functions 'shell-strip-ctrl-m nil t)
-  ;; (add-to-list 'comint-output-filter-functions 'shell-strip-ctrl-m)
   (add-hook 'comint-output-filter-functions 'ansi-color-process-output)
 )
 
@@ -72,10 +66,23 @@
 ;; Enable powerline
 (when (require 'powerline nil 'noerror)
   (powerline-default-theme)
-  (custom-set-faces
-   '(mode-line             ((t (:foreground "#ffffff" :background "#003330" ))))
-   '(mode-line-inactive    ((t (:foreground "#999999" :background "#002320"
-                                :weight light :box nil :inherit (mode-line )))))))
+  ;; Set mode-line colors directly to override theme
+  (set-face-attribute 'mode-line nil
+                      :foreground "#ffffff" :background "#005f87" :box nil :height 1.1)
+  (set-face-attribute 'mode-line-inactive nil
+                      :foreground "#b0b0b0" :background "#3a3a3a" :weight 'light :box nil :height 1.1)
+  (set-face-attribute 'powerline-active1 nil
+                      :foreground "#ffffff" :background "#005f5f")
+  (set-face-attribute 'powerline-active2 nil
+                      :foreground "#ffffff" :background "#004050")
+  (set-face-attribute 'powerline-inactive1 nil
+                      :foreground "#999999" :background "#2e2e2e")
+  (set-face-attribute 'powerline-inactive2 nil
+                      :foreground "#999999" :background "#252525")
+  ;; Override manoj-dark's orange buffer name
+  (set-face-attribute 'mode-line-buffer-id nil
+                      :foreground "#87d7ff" :background "#000000" :weight 'bold)
+  (powerline-reset))
 
 (line-number-mode t)
 (column-number-mode t)

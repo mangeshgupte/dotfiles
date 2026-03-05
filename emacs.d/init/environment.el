@@ -51,10 +51,7 @@
 
 
 ;; Package management
-(cond
- ((>= emacs-major-version 24)  (require 'package))
- ((< emacs-major-version 24)   (load (expand-file-name "~/.emacs.d/elpa/package.el"))))
-
+(require 'package)
 (package-initialize)
 (setq package-archives
       '(("melpa-stable" . "https://stable.melpa.org/packages/")
@@ -68,12 +65,10 @@
        'magit ; Emacs mode for Git.
        'markdown-mode ; Emacs mode for Markdown-formatted files.
        'multi-term ; managing multiple terminal buffers in Emacs.
-       'recentf ; is a minor mode that builds a list of recently opened files.
        'session ; Session management for emacs.
        'web-mode ; handle mixed php and html files.
        'powerline ; Change the display line.
        ; 'color-theme-modern  ; Different color themes
-       'ido ; Easier opening of files.
        ; 'ido-clever-match ; Smart matching between (exact, prefix, substring, flex)
        'flx-ido ; Fuzzy matching for Emacs ... a la Sublime Text.
        ; 'ido-vertical-mode ; makes ido-mode display vertically.
@@ -88,6 +83,9 @@
        'helm
        'org-ref
        'nginx-mode
+       'vue-mode
+       'yaml-mode
+
        ))
 
 
