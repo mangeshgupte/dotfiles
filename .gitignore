@@ -9,3 +9,16 @@ emacs.d/new/cedet/
 emacs.d/transient/
 emacs.d/auto-save-list/
 SessionDesktop.el
+
+# temp files directories
+cache/
+log/
+*.swp
+.DS_Store
+
+# editor configs
+.vscode
+.idea
+
+# zcompile cached files
+*.zwc
