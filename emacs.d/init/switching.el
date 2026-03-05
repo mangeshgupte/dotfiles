@@ -85,7 +85,11 @@
                  (tramp-file-name-host vec))))
     (concat "/sudo:root@localhost:" tempfile)))
 
-(setq tramp-default-method "ssh")
+(setq tramp-default-method "sshx")
+;; Disable backup files for remote (TRAMP) files
+(setq tramp-backup-directory-alist `((".*" . nil)))
+(setq auto-save-default nil)
+
 
 ;; flx-ido
 (when (require 'flx-ido nil 'noerror)
@@ -134,18 +138,6 @@
 ;; Custom built functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; multi-term
-
-;; Use Emacs terminfo, not system terminfo
-;; tic -o ~/.terminfo /usr/share/emacs/24.3/etc/e/eterm-color.ti
-(setq system-uses-terminfo nil)
-
-;; http://www.emacswiki.org/emacs/MultiTerm
-(when (require 'multi-term nil t)
-  (global-set-key "\C-z" 'multi-term)
-  (global-set-key (kbd "C-c n") 'multi-term-next)
-  (global-set-key (kbd "C-c p") 'multi-term-prev)
-  (setq multi-term--program "/usr/local/bin/zsh"))
 
 (global-set-key (kbd "C-x f") 'find-file-in-repository)
 (global-set-key [C-double-mouse-1] 'browse-url)

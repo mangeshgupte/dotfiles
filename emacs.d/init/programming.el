@@ -72,6 +72,7 @@
                 ("\\.vue\\'"       . vue-mode)
                 ("\\.html$" . html-helper-mode)
                 ("\\.vue$" . vue-mode)
+                ("\\.md$" . markdown-mode)
               auto-mode-alist)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -234,9 +235,8 @@
 ;; Python mode
 (defun my-python-mode-hook ()
   "Hook for python mode."
-  (lambda ()
-    (setq python-indent 4)
-    (setq fill-column 100)))
+  (setq python-indent 4)
+  (setq fill-column 100))
 
 (add-hook 'python-mode-hook 'my-python-mode-hook)
 

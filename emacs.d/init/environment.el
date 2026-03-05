@@ -63,10 +63,9 @@
 
 (package-initialize)
 (setq package-archives
-      '(("melpa-stable" . "http://stable.melpa.org/packages/")
-        ("melpa" . "http://melpa.org/packages/")
-        ("gnu" . "http://elpa.gnu.org/packages/")
-        ))
+      '(("melpa-stable" . "https://stable.melpa.org/packages/")
+        ("melpa" . "https://melpa.org/packages/")
+        ("gnu" . "https://elpa.gnu.org/packages/"))
 
 (setq required-packages
       (list
@@ -136,16 +135,13 @@
   "An alias for y-or-n-p, because I hate having to type 'yes' or 'no'."
   (y-or-n-p arg))
 
-;; Set garbage collection to 20M
-(setq gc-cons-threshold 20000000)
-
 ;; Make sure UTF-8 is used everywhere.
 (set-language-environment 'UTF-8)
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
-(setq default-buffer-file-coding-system 'utf-8-unix)
+(set-default 'buffer-file-coding-system 'utf-8-unix)
 
 ;; Change default major mode to text from fundamental
 (setq initial-major-mode
@@ -165,8 +161,9 @@
   (interactive)
   (set-buffer-file-coding-system 'unix 't))
 
-(set-default 'tramp-default-proxies-alist
-             (quote (("hdwu01.hz" "hadoop" "data-util" "/ssh:%h:"))))
+;; Access internal-server by jumping through bastion
+;; (set-default 'tramp-default-proxies-alist
+;;              (quote (("hdwu01.hz" "hadoop" "data-util" "/ssh:%h:"))))
 
 ;; Don't load outdated library files.
 (setq load-prefer-newer t)

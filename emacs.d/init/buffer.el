@@ -12,22 +12,13 @@
 
 (setq-default fill-column 100)
 
-(setq default-tab-width 4)
+(setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)    ; use only spaces and no tabs
 
 (define-key global-map (kbd "RET") 'newline-and-indent)
 
 ;; Shut off annoying beep. Keep it on only for special situations
 (setq visible-bell t)
-
-;; Enable copy/paste from emacs to other apps
-(setq
- interprogram-cut-function 'x-select-text
- interprogram-paste-function 'x-selection-value
- save-interprogram-paste-before-kill t
- select-active-regions t
- x-select-enable-clipboard t
- x-select-enable-primary t)
 
 ;; Shut off message buffer. Note - if you need to debug emacs,
 ;; comment these out so you can see what's going on.

@@ -4,6 +4,8 @@
 
 ;;; Code:
 
+;; Startup Screen
+(defconst fancy-splash-text "Welcome to Emacs")
 
 ;; Put as much syntax highlighting into documents as possible
 (setq font-lock-maximum-decoration t)
@@ -50,7 +52,7 @@
     )
 
   ;; Change the font used by emacs
-  (set-frame-font "-*-Monaco-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1")
+  ;; (set-default-font "-*-Monaco-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1")
   (set-face-attribute 'mode-line nil :inherit 'unspecified) ; show modeline in Monaco
   ;; (set-face-attribute 'echo-area nil :family 'unspecified)  ; show echo area in Monaco
 
@@ -98,7 +100,14 @@
                                   (revert-buffer-function " %b"
                                   ("%b - Dir:  " default-directory)))))))
 
-(setq visible-bell nil)
+(setq speedbar-frame-parameters
+      (quote
+       ((minibuffer)
+        (width          . 45)
+        (border-width   . 0)
+        (menu-bar-lines . 0)
+        (unsplittable   . t))))
+
 (setq ring-bell-function 'ignore)
 
 ;; Visual Bookmarks
