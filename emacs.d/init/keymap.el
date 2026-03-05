@@ -39,12 +39,8 @@
 (global-unset-key [end])
 (global-set-key [end] 'end-of-line)
 
-(global-unset-key [home])
 (global-set-key [\C-home] 'beginning-of-buffer)
-
-(global-unset-key [home])
 (global-set-key [\C-end] 'end-of-buffer)
-(global-unset-key [home])
 (global-set-key [delete] 'delete-char)          ;; Make DEL behave like delete not like backspace
 
 ;; Make the % key jump to the matching {}[]() if on another, like VI
@@ -63,23 +59,9 @@
 ;; C-k kills whole line and newline if at beginning of line
 (setq kill-whole-line t)
 
-;; Support for marking a rectangle of text with highlighting.
-(define-key ctl-x-map "r\C-@" 'rm-set-mark)
-(define-key ctl-x-map [?r ?\C-\ ] 'rm-set-mark)
-(define-key ctl-x-map "r\C-x" 'rm-exchange-point-and-mark)
-(define-key ctl-x-map "r\C-w" 'rm-kill-region)
-(define-key ctl-x-map "r\M-w" 'rm-kill-ring-save)
-(define-key global-map [S-down-mouse-1] 'rm-mouse-drag-region)
-(autoload 'rm-set-mark "rect-mark"
-  "Set mark for rectangle." t)
-(autoload 'rm-exchange-point-and-mark "rect-mark"
-  "Exchange point and mark for rectangle." t)
-(autoload 'rm-kill-region "rect-mark"
-  "Kill a rectangular region and save it in the kill ring." t)
-(autoload 'rm-kill-ring-save "rect-mark"
-  "Copy a rectangular region to the kill ring." t)
-(autoload 'rm-mouse-drag-region "rect-mark"
-  "Drag out a rectangular region with the mouse." t)
+;; Rectangle marking - use built-in rectangle-mark-mode (C-x SPC)
+;; Also available: C-x r k (kill), C-x r y (yank),
+;; C-x r t (string-rectangle), C-x r o (open)
 
 ;; Swap keys
 (setq mcg-key-pairs

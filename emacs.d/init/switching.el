@@ -72,23 +72,21 @@
       (goto-char position))))
 
 (defun prepare-tramp-sudo-string (tempfile)
+  "Open TEMPFILE as root, proxying through SSH for remote files."
   (if (file-remote-p tempfile)
-      (let ((vec (tramp-dissect-file-name tempfile)))
-
-        (tramp-make-tramp-file-name
-         "sudo"
-         (tramp-file-name-user nil)
-         (tramp-file-name-host vec)
-         (tramp-file-name-localname vec)
-         (format "ssh:%s@%s|"
-                 (tramp-file-name-user vec)
-                 (tramp-file-name-host vec))))
+      (let ((user (file-remote-p tempfile 'user))
+            (host (file-remote-p tempfile 'host))
+            (localname (file-remote-p tempfile 'localname)))
+        (format "/ssh:%s@%s|sudo:root@%s:%s" user host host localname))
     (concat "/sudo:root@localhost:" tempfile)))
 
 (setq tramp-default-method "sshx")
-;; Disable backup files for remote (TRAMP) files
+;; Disable backup and auto-save for remote (TRAMP) files
 (setq tramp-backup-directory-alist `((".*" . nil)))
-(setq auto-save-default nil)
+(add-hook 'find-file-hook
+          (lambda ()
+            (when (file-remote-p default-directory)
+              (auto-save-mode -1))))
 
 
 ;; flx-ido

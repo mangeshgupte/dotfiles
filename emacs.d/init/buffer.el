@@ -31,19 +31,15 @@
   (interactive)
   (indent-region 0 (point-max) nil))
 
-;; autopair
-(when (require 'autopair nil 'noerror)
-  (autopair-global-mode 1)
-  ;; tells autopair to automatically wrap the selection region with the
-  ;; delimiters you’re trying to insert.
-  (setq autopair-autowrap t))
+;; Auto-pair delimiters using built-in electric-pair-mode
+(electric-pair-mode 1)
 
-;; Turn off current-line-highlighting and auto-pair.
-(defadvice term-char-mode (after term-char-mode-fixes ())
-  (autopair-mode 1)
+;; Turn off current-line-highlighting in term-mode.
+(defun my-term-char-mode-fixes (&rest _)
+  "Disable line highlighting in terminal modes."
   (set (make-local-variable 'hl-line-mode) nil)
   (set (make-local-variable 'global-hl-line-mode) nil))
-(ad-activate 'term-char-mode)
+(advice-add 'term-char-mode :after #'my-term-char-mode-fixes)
 
 ;; Automatically turn on auto-fill-mode when editing text files
 (add-hook 'text-mode-hook 'turn-on-auto-fill)

@@ -10,14 +10,14 @@
 
 ;; Get current system's name
 (defun insert-system-name()
+  "Get current system's name."
   (interactive)
-  "Get current system's name"
   (insert (format "%s" system-name)))
 
 ;; Get current system's type
 (defun insert-system-type()
+  "Get current system's type."
   (interactive)
-  "Get current system's type"
   (insert (format "%s" system-type)))
 
 (defun insert-date()
@@ -27,21 +27,15 @@
 
 ;; Check if system is Darwin/Mac OS X
 (defun system-type-is-darwin ()
+  "Return true if system is darwin-based (Mac OS X)."
   (interactive)
-  "Return true if system is darwin-based (Mac OS X)"
   (string-equal system-type "darwin"))
 
 ;; Check if system is GNU/Linux
 (defun system-type-is-gnu ()
+  "Return true if system is GNU/Linux-based."
   (interactive)
-  "Return true if system is GNU/Linux-based"
   (string-equal system-type "gnu/linux"))
-
-;; Home is at different places.
-(cond
- ((system-type-is-darwin) (setenv "HOME" "/Users/mangesh"))
- ((system-type-is-gnu) (setenv "HOME" "/home/mangesh")))
-
 
 (menu-bar-mode -1)
 
@@ -65,7 +59,7 @@
 (setq package-archives
       '(("melpa-stable" . "https://stable.melpa.org/packages/")
         ("melpa" . "https://melpa.org/packages/")
-        ("gnu" . "https://elpa.gnu.org/packages/"))
+        ("gnu" . "https://elpa.gnu.org/packages/")))
 
 (setq required-packages
       (list
@@ -94,16 +88,12 @@
        'helm
        'org-ref
        'nginx-mode
-       'markdown-mode
        ))
 
 
 ;; Check if all packages are installed.
 (defun packages-installed-p ()
-  (let ((value t))
-    (dolist (p required-packages value)
-      (if (not (package-installed-p p)) (setq value nil) (setq value (and t value))))
-    ))
+  (cl-every #'package-installed-p required-packages))
 
 ;; if not all packages are installed, check one by one and install the missing ones.
 (unless (packages-installed-p)
@@ -117,23 +107,11 @@
       (message "Installing package '%s'" p)
       (package-install p))))
 
-;; SQL settings
-
-;; Set location of mysql binary.
-(setq sql-mysql-program "/usr/local/mysql/bin/mysql")
-
-(setq sql-mysql-login-params
-      '((user :default "root")
-        (database :default "c2")
-        (server :default "localhost")))
-
 ;; Common Settings
 (setq user-full-name "Mangesh Gupte")
 
 ;; Replace "yes or no" with y or n
-(defun yes-or-no-p (arg)
-  "An alias for y-or-n-p, because I hate having to type 'yes' or 'no'."
-  (y-or-n-p arg))
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Make sure UTF-8 is used everywhere.
 (set-language-environment 'UTF-8)

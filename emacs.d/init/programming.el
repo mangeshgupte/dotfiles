@@ -260,8 +260,4 @@
 
 (global-flycheck-mode)
 
-;; TAGS management.
-(setq tags-table-list
-      '("/houzz/c2/TAGS"))
-
 (elpy-enable)

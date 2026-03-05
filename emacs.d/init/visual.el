@@ -39,8 +39,6 @@
 ;; no mode-specific faces, everything in Monaco
 (when (system-type-is-darwin)
   (setq
-   interprogram-cut-function 'x-select-text
-   interprogram-paste-function 'x-selection-value
    save-interprogram-paste-before-kill t
    select-active-regions t
    select-enable-clipboard t
