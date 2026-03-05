@@ -68,9 +68,9 @@
   (powerline-default-theme)
   ;; Set mode-line colors directly to override theme
   (set-face-attribute 'mode-line nil
-                      :foreground "#ffffff" :background "#005f87" :box nil :height 1.1)
+                      :foreground "#ffffff" :background "#005f87" :box nil :height 1.2)
   (set-face-attribute 'mode-line-inactive nil
-                      :foreground "#b0b0b0" :background "#3a3a3a" :weight 'light :box nil :height 1.1)
+                      :foreground "#b0b0b0" :background "#3a3a3a" :weight 'light :box nil :height 1.2)
   (set-face-attribute 'powerline-active1 nil
                       :foreground "#ffffff" :background "#005f5f")
   (set-face-attribute 'powerline-active2 nil
@@ -104,14 +104,6 @@
                                   dired-directory
                                   (revert-buffer-function " %b"
                                   ("%b - Dir:  " default-directory)))))))
-
-(setq speedbar-frame-parameters
-      (quote
-       ((minibuffer)
-        (width          . 45)
-        (border-width   . 0)
-        (menu-bar-lines . 0)
-        (unsplittable   . t))))
 
 (setq ring-bell-function 'ignore)
 
