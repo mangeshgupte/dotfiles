@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Custom filter for lesspipe.sh to render markdown files with colored formatting.
+# Called automatically by lesspipe.sh before its own processing.
+# Dependencies: brew install glow lesspipe
+case "$1" in
+  *.md|*.MD|*.mkd|*.markdown)
+    CLICOLOR_FORCE=1 glow -s dark -w 0 "$1" 2>/dev/null && exit 0 || exit 1
+    ;;
+  *)
+    exit 1
+    ;;
+esac
