@@ -144,6 +144,9 @@
 ;; Don't load outdated library files.
 (setq load-prefer-newer t)
 
+;; Disable lock files (.#filename)
+(setq create-lockfiles nil)
+
 ;; Set garbage collection to 20M
 (setq gc-cons-threshold 20000000)
 ;; (setq garbage-collection-messages t)
