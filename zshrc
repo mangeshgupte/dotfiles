@@ -942,16 +942,20 @@ export NVM_DIR="$HOME/.nvm"
 
 # ── Plugins (must be near end, order matters) ────────────────────────
 # Syntax highlighting
-source $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+[[ -f $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] \
+  && source $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # History substring search (must be after syntax highlighting)
 # Type a partial command, then Up/Down to cycle matches containing that substring
-source $DOTFILES/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-[[ -n "${terminfo[kcuu1]}" ]] && bindkey "${terminfo[kcuu1]}" history-substring-search-up
-[[ -n "${terminfo[kcud1]}" ]] && bindkey "${terminfo[kcud1]}" history-substring-search-down
+if [[ -f $DOTFILES/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh ]]; then
+  source $DOTFILES/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+  bindkey '^[[A' history-substring-search-up
+  bindkey '^[[B' history-substring-search-down
+  [[ -n "${terminfo[kcuu1]}" ]] && bindkey "${terminfo[kcuu1]}" history-substring-search-up
+  [[ -n "${terminfo[kcud1]}" ]] && bindkey "${terminfo[kcud1]}" history-substring-search-down
+fi
 
 # Multi-word history search on Ctrl-R
 # Type multiple words to filter history to entries containing all of them
-source $DOTFILES/zsh/plugins/history-search-multi-word/history-search-multi-word.plugin.zsh
+[[ -f $DOTFILES/zsh/plugins/history-search-multi-word/history-search-multi-word.plugin.zsh ]] \
+  && source $DOTFILES/zsh/plugins/history-search-multi-word/history-search-multi-word.plugin.zsh
