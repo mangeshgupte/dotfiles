@@ -32,6 +32,11 @@ for file in $files; do
 	echo "linked"
 done
 
+# Initialize zsh plugin submodules
+echo -n "Initializing submodules ... "
+git submodule update --init --recursive
+echo "done"
+
 echo "Creating empty files"
 touch ~/.z
 
