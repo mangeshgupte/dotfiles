@@ -452,7 +452,8 @@ function _termsupport_preexec {
 
 if [[ -z "$INSIDE_EMACS" || "$INSIDE_EMACS" = vterm ]]; then
   add-zsh-hook precmd _termsupport_precmd
-  add-zsh-hook preexec _termsupport_preexec
+  # Uncomment to show running command name in tab title:
+  # add-zsh-hook preexec _termsupport_preexec
 fi
 
 # OSC 7: report cwd to terminal (enables "new tab in same directory")
