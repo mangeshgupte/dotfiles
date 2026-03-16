@@ -60,7 +60,6 @@
 
 (setq required-packages
       (list
-       ; 'auto-complete ; auto-completion extension for GNU Emacs.
        'js2-mode ; javascript-mode for emacs.
        'magit ; Emacs mode for Git.
        'markdown-mode ; Emacs mode for Markdown-formatted files.
@@ -68,10 +67,7 @@
        'session ; Session management for emacs.
        'web-mode ; handle mixed php and html files.
        'powerline ; Change the display line.
-       ; 'color-theme-modern  ; Different color themes
-       ; 'ido-clever-match ; Smart matching between (exact, prefix, substring, flex)
        'flx-ido ; Fuzzy matching for Emacs ... a la Sublime Text.
-       ; 'ido-vertical-mode ; makes ido-mode display vertically.
        'ido-grid-mode ; makes ido-mode display vertically.
        'find-file-in-repository ; Auto complete file names for any file in repo.
        'flycheck ;
@@ -110,13 +106,12 @@
 (setq user-full-name "Mangesh Gupte")
 
 ;; Replace "yes or no" with y or n
-(defalias 'yes-or-no-p 'y-or-n-p)
+(if (boundp 'use-short-answers)
+    (setq use-short-answers t)
+  (defalias 'yes-or-no-p 'y-or-n-p))
 
 ;; Make sure UTF-8 is used everywhere.
 (set-language-environment 'UTF-8)
-(setq locale-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 (set-default 'buffer-file-coding-system 'utf-8-unix)
 
@@ -127,8 +122,6 @@
         (turn-on-auto-fill)))
 
 ;; Tell emacs to save backups in the global backups directory...
-;;(defun make-backup-file-name (file)
-;;  (concat "~/.emacs.d/autosave/" (file-name-nondirectory file) "~"))
 (setq backup-directory-alist `(("." . "~/.emacs.autosave/")))
 (setq auto-save-file-name-transforms `((".*" "~/.emacs.autosave/" t)))
 (setq delete-auto-save-files t)  ; delete unnecessary autosave files
@@ -137,10 +130,6 @@
   "Not exactly but it's easier to remember."
   (interactive)
   (set-buffer-file-coding-system 'unix 't))
-
-;; Access internal-server by jumping through bastion
-;; (set-default 'tramp-default-proxies-alist
-;;              (quote (("hdwu01.hz" "hadoop" "data-util" "/ssh:%h:"))))
 
 ;; Don't load outdated library files.
 (setq load-prefer-newer t)
@@ -157,8 +146,7 @@
 
 ;; Completion ignored extensions
 (setq completion-ignored-extensions
-      '(".bci" ".bin" ".binf" ".com" ".ext" ".free" ".beam" ".vee" ".jam" ".o" "~" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".fasl" ".ufsl" ".fsl" ".dxl" ".pfsl" ".dfsl" ".p64fsl" ".d64fsl" ".dx64fsl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".aux" ".bbl" ".toc"))
+      '(".bci" ".bin" ".binf" ".com" ".ext" ".free" ".beam" ".vee" ".jam" ".o" "~" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".fasl" ".ufsl" ".fsl" ".dxl" ".pfsl" ".dfsl" ".p64fsl" ".d64fsl" ".dx64fsl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo"))
 
 ;; Set garbage collection to 20M
 (setq gc-cons-threshold 20000000)
-;; (setq garbage-collection-messages t)
