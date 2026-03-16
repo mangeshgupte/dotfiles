@@ -33,20 +33,6 @@
 
 ;; =====================================================================
 
-;; To copy to named register: C-x r s a - Where a is the name of the
-;; register ( a - z ) to save the text to.
-
-;; To paste from named register: C-x r i a - Where a is the name of
-;; the register ( a - z ) to paste the saved text from.
-
-;; To remember current point: C-x r spc a - Where a is the name of the
-;; register to save point to.
-
-;; To jump to named point: C-x r j a - Where a is the name of the
-;; register holding desired point to jump to
-
-;; =====================================================================
-
 ;; Accumulating text
 ;;
 ;; M-x append-to-buffer
@@ -60,20 +46,10 @@
 ;; M-x append-to-file
 ;;   Append region to contents of specified file, at the end.
 
-;; =====================================================================
-;;
-;; Printing
-;;
-;; M-x ps-spool-buffer[-with-faces]
-;; Generate postscript for the current buffer with faces. Stores in a
-;; special *postscript* buffer
-
 ;; ====================================================================
 ;; Search and Replace
 ;;
 ;; Putting a newline as part of the replaced string.
 ;; M-x replace-string RET <string> RET C-q C-j RET
 
-
-;; Prevent auth-source from prompting to save credentials
-(setq auth-source-save-behavior nil)
+;; ====================================================================

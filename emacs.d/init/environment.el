@@ -150,3 +150,6 @@
 
 ;; Set garbage collection to 20M
 (setq gc-cons-threshold 20000000)
+
+;; Prevent auth-source from prompting to save credentials
+(setq auth-source-save-behavior nil)
