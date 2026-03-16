@@ -89,8 +89,10 @@
                       :foreground "#999999" :background "#252525")
   ;; Override manoj-dark's orange buffer name
   (set-face-attribute 'mode-line-buffer-id nil
-                      :foreground "#87d7ff" :background "#000000" :weight 'bold
-                      :height 1.0)
+                      :foreground "#ffffff" :background 'unspecified :weight 'bold)
+  ;; Make which-function readable on dark powerline background
+  (set-face-attribute 'which-func nil
+                      :foreground "#87d7ff")
   (powerline-reset))
 
 (line-number-mode t)
