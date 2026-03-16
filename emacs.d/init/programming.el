@@ -259,5 +259,13 @@
 (when (require 'flycheck nil 'noerror)
   (global-flycheck-mode))
 
+;; C/C++ font-lock extra types
+(setq c++-font-lock-extra-types
+      '("\\sw+_t" "\\([iof]\\|str\\)+stream\\(buf\\)?" "ios" "string" "rope" "list" "slist" "deque" "vector" "bit_vector" "set" "multiset" "map" "multimap" "hash\\(_\\(m\\(ap\\|ulti\\(map\\|set\\)\\)\\|set\\)\\)?" "stack" "queue" "priority_queue" "iterator" "const_iterator" "reverse_iterator" "const_reverse_iterator" "reference" "const_reference" "LPCTSTR" "BYTE" "WORD" "DWORD" "FIXME" "true" "false" "private" "protected" "public" "__forceinline"))
+(setq c-font-lock-extra-types
+      '("FILE" "\\sw+_t" "LPCTSTR" "WORD" "DWORD" "BYTE" "FIXME"))
+
 (when (require 'elpy nil 'noerror)
-  (elpy-enable))
+  (elpy-enable)
+  (setq elpy-modules
+        '(elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults)))

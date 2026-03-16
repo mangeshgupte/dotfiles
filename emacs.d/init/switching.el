@@ -4,6 +4,7 @@
 
 ;;; Code:
 (when (require 'session nil 'noerror)
+  (setq session-use-package t)
   (add-hook 'after-init-hook 'session-initialize))
 
 (when (require 'recentf nil 'noerror)

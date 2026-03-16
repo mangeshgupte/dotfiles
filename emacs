@@ -79,25 +79,5 @@
 ;; M-x replace-string RET <string> RET C-q C-j RET
 
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(auth-source-save-behavior nil)
- '(c++-font-lock-extra-types
-   '("\\sw+_t" "\\([iof]\\|str\\)+stream\\(buf\\)?" "ios" "string" "rope" "list" "slist" "deque" "vector" "bit_vector" "set" "multiset" "map" "multimap" "hash\\(_\\(m\\(ap\\|ulti\\(map\\|set\\)\\)\\|set\\)\\)?" "stack" "queue" "priority_queue" "iterator" "const_iterator" "reverse_iterator" "const_reverse_iterator" "reference" "const_reference" "LPCTSTR" "BYTE" "WORD" "DWORD" "FIXME" "true" "false" "private" "protected" "public" "__forceinline"))
- '(c-font-lock-extra-types '("FILE" "\\sw+_t" "LPCTSTR" "WORD" "DWORD" "BYTE" "FIXME"))
- '(completion-ignored-extensions
-   '(".bci" ".bin" ".binf" ".com" ".ext" ".free" ".beam" ".vee" ".jam" ".o" "~" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".fasl" ".ufsl" ".fsl" ".dxl" ".pfsl" ".dfsl" ".p64fsl" ".d64fsl" ".dx64fsl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".aux" ".bbl" ".toc"))
- '(custom-safe-themes
-   '("4c8372c68b3eab14516b6ab8233de2f9e0ecac01aaa859e547f902d27310c0c3" default))
- '(elpy-modules
-   '(elpy-module-company elpy-module-eldoc elpy-module-flymake elpy-module-pyvenv elpy-module-yasnippet elpy-module-django elpy-module-sane-defaults))
- '(global-auto-revert-mode t nil (autorevert))
- '(global-font-lock-mode t nil (font-lock))
- '(inhibit-startup-screen t)
- '(initial-scratch-message nil)
- '(package-selected-packages
-   '(yaml-mode nginx-mode dockerfile-mode jinja2-mode vue-mode helm org-ref php-mode web-mode session powerline multi-term markdown-mode magit js2-mode ido-grid-mode go-mode flycheck flx-ido find-file-in-repository elpy))
- '(session-use-package t nil (session)))
+;; Prevent auth-source from prompting to save credentials
+(setq auth-source-save-behavior nil)
