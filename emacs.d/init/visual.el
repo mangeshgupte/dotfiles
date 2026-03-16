@@ -47,6 +47,9 @@
 ;; MODE LINE
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Displays which function the cursor is currently in, in certain modes
+(which-function-mode 1)
+
 ;; Enable powerline
 (when (require 'powerline nil 'noerror)
   (powerline-default-theme)
@@ -63,17 +66,16 @@
                       :foreground "#999999" :background "#2e2e2e")
   (set-face-attribute 'powerline-inactive2 nil
                       :foreground "#999999" :background "#252525")
+  ;; Make which-function readable on dark powerline background
+  (set-face-attribute 'which-func nil :foreground "#87d7ff")
+
   ;; Override manoj-dark's orange buffer name
   (set-face-attribute 'mode-line-buffer-id nil
                       :foreground "#ffffff" :background 'unspecified :weight 'bold)
-  ;; Make which-function readable on dark powerline background
-  (set-face-attribute 'which-func nil :foreground "#87d7ff")
   (powerline-reset))
 
 (column-number-mode t)
 
-;; Displays which function the cursor is currently in, in certain modes
-(which-function-mode 1)
 
 ;; Frame title bar formatting to show full path of file
 (setq-default

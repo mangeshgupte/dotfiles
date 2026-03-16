@@ -1,8 +1,4 @@
-;;; package -- .emacs Dotfiles for Mangesh
-
-;;; Commentary:
-;; Filename : .emacs
-;; User     : Mangesh Gupte
+;;; package -- .emacs dotfile  -*- mode: emacs-lisp -*-
 
 ;;; Code:
 
