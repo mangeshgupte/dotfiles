@@ -71,7 +71,8 @@
 
   ;; Override manoj-dark's orange buffer name
   (set-face-attribute 'mode-line-buffer-id nil
-                      :foreground "#ffffff" :background 'unspecified :weight 'bold)
+                      :foreground "#87d7ff" :background "#000000" :weight 'bold
+                      :height 1.1)
   (powerline-reset))
 
 (column-number-mode t)
