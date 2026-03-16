@@ -47,7 +47,16 @@
     )
 
   ;; Menlo: same look as Monaco but with real bold/italic variants
-  (set-frame-font "Menlo-12" nil t)
+  ;; Larger font on external monitor (lower res = smaller text)
+  (defun my-adjust-font-for-monitor (&optional frame)
+    "Set font size based on the monitor FRAME is on."
+    (let* ((attrs (frame-monitor-attributes frame))
+           (width (nth 3 (assq 'geometry attrs)))
+           (font-size (if (<= (or width (display-pixel-width)) 1920) 14 12)))
+      (set-frame-font (format "Menlo-%d" font-size) nil t)))
+
+  (my-adjust-font-for-monitor)
+  (add-hook 'move-frame-functions #'my-adjust-font-for-monitor)
 
   ;; Stop ^M's from displaying in system shell window
   (add-hook 'comint-output-filter-functions 'ansi-color-process-output)
