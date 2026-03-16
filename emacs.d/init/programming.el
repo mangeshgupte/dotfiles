@@ -70,6 +70,19 @@
                 ("\\.md$" . markdown-mode)
               auto-mode-alist)))
 
+;; Restrict auto-linked URI schemes to common ones only.
+;; The default list includes "urn" which falsely matches words like "turn:" or "return:".
+(setq markdown-uri-types
+      '("file" "ftp" "http" "https" "mailto" "ssh"))
+
+;; Reveal markdown syntax at point (like org-appear for markdown)
+(when (require 'markdown-appear nil 'noerror)
+  (add-hook 'markdown-mode-hook #'markdown-appear-mode))
+
+;; Pixel-align table columns (works with variable-pitch fonts)
+(when (require 'valign nil 'noerror)
+  (add-hook 'markdown-mode-hook #'valign-mode))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C Programming
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

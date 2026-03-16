@@ -154,6 +154,21 @@
 ;;      my-mode-line-buffer-identification)))
 
 
+;; Markdown inline code: muted amber on dark gray
+(custom-set-faces
+ '(markdown-inline-code-face ((t (:foreground "#d7875f"))))
+ '(markdown-code-face ((t (:foreground "#d7875f"))))
+ '(markdown-pre-face ((t (:foreground "#d7875f")))))
+
+;; Markdown heading sizes
+(custom-set-faces
+ '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.8 :family "Helvetica"))))
+ '(markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.5 :family "Helvetica"))))
+ '(markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.3 :family "Helvetica"))))
+ '(markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.15 :family "Helvetica"))))
+ '(markdown-header-face-5 ((t (:inherit markdown-header-face :height 1.05 :family "Helvetica"))))
+ '(markdown-header-face-6 ((t (:inherit markdown-header-face :height 1.0 :family "Helvetica")))))
+
 ;; Use indentation instead of stars in org- mode
 (setq org-startup-indented t)
 

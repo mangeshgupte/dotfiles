@@ -85,6 +85,7 @@
        'nginx-mode
        'vue-mode
        'yaml-mode
+       'valign ; Pixel-align table columns in markdown/org
 
        ))
 
