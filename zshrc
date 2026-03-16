@@ -616,115 +616,6 @@ function work_in_progress() {
   command git -c log.showSignature=false log -n 1 2>/dev/null | grep -q -- "--wip--" && echo "WIP!!"
 }
 
-# Core
-alias g='git'
-alias grt='cd "$(git rev-parse --show-toplevel || echo .)"'
-
-# Add
-alias ga='git add'
-alias gaa='git add --all'
-alias gapa='git add --patch'
-alias gau='git add --update'
-alias gav='git add --verbose'
-
-# Branch
-alias gb='git branch'
-alias gba='git branch --all'
-alias gbd='git branch --delete'
-alias gbD='git branch --delete --force'
-alias gbm='git branch --move'
-alias gbnm='git branch --no-merged'
-alias gbr='git branch --remote'
-alias ggsup='git branch --set-upstream-to=origin/$(git_current_branch)'
-
-function gbda() {
-  git branch --no-color --merged | command grep -vE "^([+*]|\s*($(git_main_branch)|$(git_develop_branch))\s*$)" | command xargs git branch --delete 2>/dev/null
-}
-
-# Checkout
-alias gco='git checkout'
-alias gcor='git checkout --recurse-submodules'
-alias gcb='git checkout -b'
-alias gcB='git checkout -B'
-alias gcd='git checkout $(git_develop_branch)'
-alias gcm='git checkout $(git_main_branch)'
-
-# Cherry-pick
-alias gcp='git cherry-pick'
-alias gcpa='git cherry-pick --abort'
-alias gcpc='git cherry-pick --continue'
-
-# Clean / Clone
-alias gclean='git clean --interactive -d'
-alias gcl='git clone --recurse-submodules'
-
-# Commit
-alias gc='git commit --verbose'
-alias gca='git commit --verbose --all'
-alias 'gca!'='git commit --verbose --all --amend'
-alias 'gcan!'='git commit --verbose --all --no-edit --amend'
-alias 'gc!'='git commit --verbose --amend'
-alias 'gcn!'='git commit --verbose --no-edit --amend'
-alias gcmsg='git commit --message'
-alias gcsm='git commit --signoff --message'
-alias gcam='git commit --all --message'
-alias gcf='git config --list'
-alias gcfu='git commit --fixup'
-
-# Diff
-alias gd='git diff'
-alias gdca='git diff --cached'
-alias gdcw='git diff --cached --word-diff'
-alias gds='git diff --staged'
-alias gdw='git diff --word-diff'
-alias gdup='git diff @{upstream}'
-alias gdt='git diff-tree --no-commit-id --name-only -r'
-function gdv() { git diff -w "$@" | view - }
-compdef _git gdv=git-diff
-
-# Fetch
-alias gf='git fetch'
-is-at-least 2.8 "$git_version" \
-  && alias gfa='git fetch --all --tags --prune --jobs=10' \
-  || alias gfa='git fetch --all --tags --prune'
-alias gfo='git fetch origin'
-
-# Log
-alias glg='git log --stat'
-alias glgp='git log --stat --patch'
-alias glgg='git log --graph'
-alias glgga='git log --graph --decorate --all'
-alias glgm='git log --graph --max-count=10'
-alias glo='git log --oneline --decorate'
-alias glog='git log --oneline --decorate --graph'
-alias gloga='git log --oneline --decorate --graph --all'
-alias glol='git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset"'
-alias glola='git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset" --all'
-alias glols='git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset" --stat'
-alias glod='git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset"'
-alias glods='git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset" --date=short'
-
-# Merge
-alias gm='git merge'
-alias gma='git merge --abort'
-alias gmc='git merge --continue'
-alias gms='git merge --squash'
-alias gmff='git merge --ff-only'
-alias gmom='git merge origin/$(git_main_branch)'
-alias gmum='git merge upstream/$(git_main_branch)'
-alias gmtl='git mergetool --no-prompt'
-
-# Pull
-alias gl='git pull'
-alias gpr='git pull --rebase'
-alias gprv='git pull --rebase -v'
-alias gpra='git pull --rebase --autostash'
-alias gprav='git pull --rebase --autostash -v'
-alias gprom='git pull --rebase origin $(git_main_branch)'
-alias gprum='git pull --rebase upstream $(git_main_branch)'
-alias ggpull='git pull origin "$(git_current_branch)"'
-alias glum='git pull upstream $(git_main_branch)'
-
 function ggu() {
   local b; [[ $# != 1 ]] && b="$(git_current_branch)"
   git pull --rebase origin "${b:-$1}"
@@ -736,20 +627,6 @@ function ggl() {
   else local b; [[ $# == 0 ]] && b="$(git_current_branch)"; git pull origin "${b:-$1}"; fi
 }
 compdef _git ggl=git-pull
-
-# Push
-alias gp='git push'
-alias gpd='git push --dry-run'
-alias 'gpf!'='git push --force'
-is-at-least 2.30 "$git_version" \
-  && alias gpf='git push --force-with-lease --force-if-includes' \
-  || alias gpf='git push --force-with-lease'
-alias gpsup='git push --set-upstream origin $(git_current_branch)'
-alias gpv='git push --verbose'
-alias gpoat='git push origin --all && git push origin --tags'
-alias gpod='git push origin --delete'
-alias ggpush='git push origin "$(git_current_branch)"'
-alias gpu='git push upstream'
 
 function ggp() {
   if [[ $# != 0 ]] && [[ $# != 1 ]]; then git push origin "${*}"
