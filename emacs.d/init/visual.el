@@ -46,9 +46,8 @@
     (smart-frame-positioning-mode -1)  ; do not place frames behind the Dock or outside of screen boundaries
     )
 
-  ;; Set font to match terminal (Monaco 12)
-  (set-frame-font "Monaco-12" nil t)
-  ;; (set-face-attribute 'mode-line nil :inherit "Monaco-12")
+  ;; Menlo: same look as Monaco but with real bold/italic variants
+  (set-frame-font "Menlo-12" nil t)
 
   ;; Stop ^M's from displaying in system shell window
   (add-hook 'comint-output-filter-functions 'ansi-color-process-output)
@@ -159,6 +158,11 @@
  '(markdown-inline-code-face ((t (:foreground "#d7875f"))))
  '(markdown-code-face ((t (:foreground "#d7875f"))))
  '(markdown-pre-face ((t (:foreground "#d7875f")))))
+
+;; Markdown bold/italic faces
+(custom-set-faces
+ '(markdown-bold-face ((t (:inherit bold :weight extra-bold))))
+ '(markdown-italic-face ((t (:inherit italic :slant italic)))))
 
 ;; Markdown heading sizes
 (custom-set-faces

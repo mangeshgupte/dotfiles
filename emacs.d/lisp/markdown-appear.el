@@ -5,10 +5,11 @@
 ;;              the cursor is on the same line for easy editing.
 ;;              Inspired by org-appear.
 ;;
-;; Uses markdown-mode's built-in `markdown-hide-markup' to conceal
-;; syntax.  Registers a jit-lock function that strips hiding from the
-;; cursor line after every fontification pass, so font-lock can never
-;; fight us.
+;; Uses markdown-mode's built-in markup hiding via invisibility-spec.
+;; Markup delimiters always carry `invisible markdown-markup' — hiding
+;; is controlled by whether `markdown-markup' is in the spec.  This
+;; mode enables that, then strips the invisible property from the
+;; cursor line so raw markdown is visible for editing.
 
 ;;; Code:
 
@@ -21,9 +22,9 @@
 
 (defun markdown-appear--strip-hiding (beg end)
   "Remove markup-hiding text properties between BEG and END.
-Only removes `display' properties that equal \"\" and `invisible'
-properties that equal `markdown-markup' (i.e., those set by
-`markdown-hide-markup').  Other properties are left alone."
+Removes `invisible' properties equal to `markdown-markup' and
+`display' properties equal to \"\" (both set by markdown-mode
+for markup hiding).  Other properties are left alone."
   (with-silent-modifications
     (let ((pos beg))
       (while (< pos end)
@@ -40,9 +41,8 @@ properties that equal `markdown-markup' (i.e., those set by
 
 (defun markdown-appear--after-fontify (beg end)
   "Jit-lock function: strip hiding from cursor line after font-lock runs.
-Called by jit-lock after font-lock fontifies the region BEG..END.
-If the region overlaps the current cursor line, re-strip the hiding
-properties that font-lock just re-applied."
+If the fontified region overlaps the current cursor line, re-strip
+the hiding properties that font-lock just applied."
   (when (and markdown-appear-mode markdown-appear--current-line-beg)
     (let ((line-beg markdown-appear--current-line-beg)
           (line-end (save-excursion
@@ -77,24 +77,27 @@ properties that font-lock just re-applied."
 ;;;###autoload
 (define-minor-mode markdown-appear-mode
   "Toggle revealing markdown syntax at point.
-When enabled, leverages `markdown-hide-markup' to conceal formatting
-delimiters.  Moving the cursor to a line reveals the raw markdown
-on that line for editing.  Moving away hides it again."
+When enabled, leverages markdown-mode's markup hiding to conceal
+formatting delimiters.  Moving the cursor to a line reveals the
+raw markdown for editing.  Moving away hides it again."
   :lighter " Appear"
   :group 'markdown-appear
   (if markdown-appear-mode
       (progn
+        ;; Enable hiding the proper way: toggle sets the variable,
+        ;; updates invisibility-spec, and reloads font-lock keywords.
         (setq-local markdown-hide-markup t)
-        (font-lock-flush)
-        (font-lock-ensure)
+        (add-to-invisibility-spec 'markdown-markup)
+        (markdown-reload-extensions)
         (jit-lock-register #'markdown-appear--after-fontify)
         (add-hook 'post-command-hook #'markdown-appear--post-command nil t))
     (remove-hook 'post-command-hook #'markdown-appear--post-command t)
     (jit-lock-unregister #'markdown-appear--after-fontify)
     (markdown-appear--cleanup)
+    ;; Disable hiding
     (setq-local markdown-hide-markup nil)
-    (font-lock-flush)
-    (font-lock-ensure)))
+    (remove-from-invisibility-spec 'markdown-markup)
+    (markdown-reload-extensions)))
 
 (provide 'markdown-appear)
 ;;; markdown-appear.el ends here
