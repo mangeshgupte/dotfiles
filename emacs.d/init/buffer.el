@@ -1,14 +1,8 @@
-;; make searches case-INsensitive
-(set-default 'case-fold-search t)
-
 ;; TAB expands even during isearch
 (define-key isearch-mode-map [tab] 'isearch-yank-word)
 
 ;; Scroll just one line when hitting the bottom of the window
 (setq scroll-step 1)
-
-;; do NOT add newlines if I cursor past last line in file
-(setq next-line-add-newlines nil)
 
 (setq-default fill-column 100)
 
@@ -17,13 +11,6 @@
 
 (define-key global-map (kbd "RET") 'newline-and-indent)
 
-;; Shut off annoying beep. Keep it on only for special situations
-(setq visible-bell t)
-
-;; Shut off message buffer. Note - if you need to debug emacs,
-;; comment these out so you can see what's going on.
-;; (setq message-log-max nil)
-;; (kill-buffer "*Messages*")
 
 (defun indent-buffer()
   "Indent the whole buffer from point-min to point-max using
@@ -37,8 +24,8 @@
 ;; Turn off current-line-highlighting in term-mode.
 (defun my-term-char-mode-fixes (&rest _)
   "Disable line highlighting in terminal modes."
-  (set (make-local-variable 'hl-line-mode) nil)
-  (set (make-local-variable 'global-hl-line-mode) nil))
+  (setq-local hl-line-mode nil)
+  (setq-local global-hl-line-mode nil))
 (advice-add 'term-char-mode :after #'my-term-char-mode-fixes)
 
 ;; Automatically turn on auto-fill-mode when editing text files
@@ -54,18 +41,12 @@
     (while (re-search-forward "^\\(.*\n\\)\\1+" end t)
       (replace-match "\\1"))))
 
-(autoload 'zap-up-to-char "misc"
-  "Kill up to, but not including ARGth occurrence of CHAR.
-  \(fn arg char)"
-  'interactive)
-
 (global-set-key "\M-z" 'zap-up-to-char)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Advanced Editing Features
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; Code:
 (defvar swap-paren-pairs '("()" "[]"))
 (defun swap-parens-at-points (b e)
   (let ((open-char (buffer-substring b (+ b 1)))
