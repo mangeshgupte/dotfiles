@@ -76,9 +76,9 @@
   (powerline-default-theme)
   ;; Set mode-line colors directly to override theme
   (set-face-attribute 'mode-line nil
-                      :foreground "#ffffff" :background "#005f87" :box nil :height 1.2)
+                      :foreground "#ffffff" :background "#005f87" :box nil :height 1.1)
   (set-face-attribute 'mode-line-inactive nil
-                      :foreground "#b0b0b0" :background "#3a3a3a" :weight 'light :box nil :height 1.2)
+                      :foreground "#b0b0b0" :background "#3a3a3a" :weight 'light :box nil :height 1.1)
   (set-face-attribute 'powerline-active1 nil
                       :foreground "#ffffff" :background "#005f5f")
   (set-face-attribute 'powerline-active2 nil
@@ -89,7 +89,8 @@
                       :foreground "#999999" :background "#252525")
   ;; Override manoj-dark's orange buffer name
   (set-face-attribute 'mode-line-buffer-id nil
-                      :foreground "#87d7ff" :background "#000000" :weight 'bold)
+                      :foreground "#87d7ff" :background "#000000" :weight 'bold
+                      :height 1.0)
   (powerline-reset))
 
 (line-number-mode t)
