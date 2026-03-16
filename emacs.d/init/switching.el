@@ -80,7 +80,7 @@
         (format "/ssh:%s@%s|sudo:root@%s:%s" user host host localname))
     (concat "/sudo:root@localhost:" tempfile)))
 
-(setq tramp-default-method "sshx")
+(setq tramp-default-method "ssh")
 ;; Disable backup and auto-save for remote (TRAMP) files
 (setq tramp-backup-directory-alist `((".*" . nil)))
 (add-hook 'find-file-hook
