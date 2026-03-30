@@ -776,6 +776,16 @@ if [[ ${local_machines[(r)$hostname]} == $hostname ]]; then
   test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 fi
 
+# ── Specific Servers ────────────────────────────────────────────
+specific_servers=("devvm8210")
+if [[ ${specific_servers[(r)$hostname]} == $hostname ]]; then
+    # myclaw instance: wyld
+    alias myclaw-wyld='MYCLAW_HOME=~/.myclaw-wyld myclaw'
+
+    # myclaw instance: poc
+    alias myclaw-poc='MYCLAW_HOME=~/.myclaw-poc myclaw'
+fi
+
 # ── Less configuration ──────────────────────────────────────────────
 LESSPIPE=$(command -v src-hilite-lesspipe.sh)
 if [[ -n "$LESSPIPE" ]]; then
