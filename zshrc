@@ -786,6 +786,14 @@ if [[ ${specific_servers[(r)$hostname]} == $hostname ]]; then
     alias myclaw-poc='MYCLAW_HOME=~/.myclaw-poc myclaw'
 fi
 
+
+specific_servers=("mangesh-mbp")
+if [[ ${specific_servers[(r)$hostname]} == $hostname ]]; then
+    # PARA workspace configuration
+    export PARA_MODE="local"
+    export PARA_ROOT="$HOME/Library/CloudStorage/GoogleDrive-mangesh@meta.com/My Drive/claude"
+fi
+
 # ── Less configuration ──────────────────────────────────────────────
 LESSPIPE=$(command -v src-hilite-lesspipe.sh)
 if [[ -n "$LESSPIPE" ]]; then
