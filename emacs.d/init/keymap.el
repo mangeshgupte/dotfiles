@@ -17,6 +17,8 @@
 
 (global-set-key "\M-[" 'swap-parens)
 
+(global-set-key (kbd "M-SPC") 'set-mark-command)
+
 (global-set-key "\C-s" 'isearch-forward-regexp)
 (global-set-key "\C-r" 'isearch-backward-regexp)
 

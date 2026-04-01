@@ -45,6 +45,12 @@
 (when (require 'valign nil 'noerror)
   (add-hook 'markdown-mode-hook #'valign-mode))
 
+;; Soft-wrap markdown at fill-column without inserting hard newlines
+(add-hook 'markdown-mode-hook #'visual-line-mode)
+(when (require 'visual-fill-column nil 'noerror)
+  (setq visual-fill-column-width 80)
+  (add-hook 'markdown-mode-hook #'visual-fill-column-mode))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C Programming
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
