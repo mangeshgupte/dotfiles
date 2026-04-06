@@ -1,6 +1,6 @@
 printf '\033[0;34m%s\033[0m\n' "Upgrading all dotfiles"
 cd "$DOTFILES/utils"
-if git pull --rebase --stat origin master
+if git pull --rebase --stat origin main
 then
   printf '\033[0;32m%s\033[0m\n' '       _       _    __ _ _            '
   printf '\033[0;32m%s\033[0m\n' '    __| | ___ | |_ / _(_) | ___  ___  '
