@@ -31,6 +31,9 @@
 ;; Automatically turn on auto-fill-mode when editing text files
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
+;; Disable auto-fill in markdown files
+(add-hook 'markdown-mode-hook 'turn-off-auto-fill)
+
 (put 'downcase-region 'disabled nil)
 
 (defun uniquify-region-lines (beg end)

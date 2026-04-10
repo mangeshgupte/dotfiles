@@ -101,6 +101,11 @@
 
 
 ;; fix copy/paste
+(defun timestamp ()
+  "Insert current date and time in YYYY-MM-DD HH:MM format at point."
+  (interactive)
+  (insert (format-time-string "%Y-%m-%d %H:%M")))
+
 (add-hook
  'term-mode-hook
  (lambda ()
