@@ -45,6 +45,19 @@
 (when (require 'valign nil 'noerror)
   (add-hook 'markdown-mode-hook #'valign-mode))
 
+;; Insert an HTML comment for personal notes in markdown
+(defun markdown-insert-comment ()
+  "Insert <!-- M:  --> and place point where the comment text goes."
+  (interactive)
+  (insert "<!-- M:  -->")
+  (backward-char 4))
+
+(with-eval-after-load 'markdown-mode
+  (define-key markdown-mode-map (kbd "C-c C-;") #'markdown-insert-comment))
+
+;; Display inline images in markdown buffers by default
+(add-hook 'markdown-mode-hook #'markdown-display-inline-images)
+
 ;; Soft-wrap markdown at fill-column without inserting hard newlines
 (add-hook 'markdown-mode-hook #'visual-line-mode)
 (when (require 'visual-fill-column nil 'noerror)
