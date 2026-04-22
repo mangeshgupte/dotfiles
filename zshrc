@@ -777,7 +777,11 @@ if [[ ${local_machines[(r)$hostname]} == $hostname ]]; then
     fi
   done
 
-  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+  if [[ -f "${HOME}/.iterm2_shell_integration.zsh" ]]; then
+    source "${HOME}/.iterm2_shell_integration.zsh"
+  else
+    print -P "%F{yellow}⚠ iTerm2 shell integration not found%f"
+  fi
 fi
 
 # ── Specific Servers ────────────────────────────────────────────
@@ -812,7 +816,11 @@ fi
 export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4'
 
 # ── User aliases (overrides git aliases like gl, gp, gs) ─────────────
-[[ -f $ZSH_HOME/.aliases.sh ]] && source $ZSH_HOME/.aliases.sh
+if [[ -f $ZSH_HOME/.aliases.sh ]]; then
+  source $ZSH_HOME/.aliases.sh
+else
+  print -P "%F{yellow}⚠ aliases not found: $ZSH_HOME/.aliases.sh%f"
+fi
 
 # ── Tilix / VTE ──────────────────────────────────────────────────────
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
@@ -834,16 +842,31 @@ unset __conda_setup
 
 # ── NVM ──────────────────────────────────────────────────────────────
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+  \. "$NVM_DIR/nvm.sh"
+else
+  print -P "%F{yellow}⚠ nvm not found: $NVM_DIR/nvm.sh%f"
+fi
+if [ -s "$NVM_DIR/bash_completion" ]; then
+  \. "$NVM_DIR/bash_completion"
+else
+  print -P "%F{yellow}⚠ nvm bash_completion not found: $NVM_DIR/bash_completion%f"
+fi
 
 # ── Local env ────────────────────────────────────────────────────────
-[ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
+if [ -f "$HOME/.local/bin/env" ]; then
+  . "$HOME/.local/bin/env"
+else
+  print -P "%F{yellow}⚠ local env not found: $HOME/.local/bin/env%f"
+fi
 
 # ── Plugins (must be near end, order matters) ────────────────────────
 # Syntax highlighting
-[[ -f $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] \
-  && source $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ -f $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+  source $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+else
+  print -P "%F{yellow}⚠ plugin not found: zsh-syntax-highlighting%f"
+fi
 
 # History substring search (must be after syntax highlighting)
 # Type a partial command, then Up/Down to cycle matches containing that substring
@@ -853,12 +876,17 @@ if [[ -f $DOTFILES/zsh/plugins/zsh-history-substring-search/zsh-history-substrin
   bindkey '^[[B' history-substring-search-down
   [[ -n "${terminfo[kcuu1]}" ]] && bindkey "${terminfo[kcuu1]}" history-substring-search-up
   [[ -n "${terminfo[kcud1]}" ]] && bindkey "${terminfo[kcud1]}" history-substring-search-down
+else
+  print -P "%F{yellow}⚠ plugin not found: zsh-history-substring-search%f"
 fi
 
 # Multi-word history search on Ctrl-R
 # Type multiple words to filter history to entries containing all of them
-[[ -f $DOTFILES/zsh/plugins/history-search-multi-word/history-search-multi-word.plugin.zsh ]] \
-  && source $DOTFILES/zsh/plugins/history-search-multi-word/history-search-multi-word.plugin.zsh
+if [[ -f $DOTFILES/zsh/plugins/history-search-multi-word/history-search-multi-word.plugin.zsh ]]; then
+  source $DOTFILES/zsh/plugins/history-search-multi-word/history-search-multi-word.plugin.zsh
+else
+  print -P "%F{yellow}⚠ plugin not found: history-search-multi-word%f"
+fi
 
 # Claude Config
 alias cl="claude --model 'claude-opus-4-7[1m]'"
