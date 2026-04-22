@@ -861,5 +861,4 @@ fi
   && source $DOTFILES/zsh/plugins/history-search-multi-word/history-search-multi-word.plugin.zsh
 
 # Claude Config
-export CLAUDE_CODE_VERSION_OVERRIDE="latest"
 alias cl="claude --model 'claude-opus-4-7[1m]'"
