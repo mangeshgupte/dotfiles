@@ -695,6 +695,10 @@ sudo-command-line() {
 zle -N sudo-command-line
 bindkey '\e\e' sudo-command-line
 
+if [[ -n "$TMUX" || -n "$SSH_CONNECTION" ]]; then
+    precmd() { print -Pn "\e]1;⟦%m⟧ %~\a" }
+fi
+
 # ── Dircycle (Ctrl+Shift+Arrows) ─────────────────────────────────────
 switch-to-dir() {
   if [[ $1 == -- ]]; then
@@ -855,3 +859,7 @@ fi
 # Type multiple words to filter history to entries containing all of them
 [[ -f $DOTFILES/zsh/plugins/history-search-multi-word/history-search-multi-word.plugin.zsh ]] \
   && source $DOTFILES/zsh/plugins/history-search-multi-word/history-search-multi-word.plugin.zsh
+
+# Claude Config
+export CLAUDE_CODE_VERSION_OVERRIDE="latest"
+alias cl="claude --model 'claude-opus-4-7[1m]'"

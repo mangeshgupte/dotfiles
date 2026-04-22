@@ -64,6 +64,19 @@
   (setq visual-fill-column-width 80)
   (add-hook 'markdown-mode-hook #'visual-fill-column-mode))
 
+
+(with-eval-after-load 'markdown-mode
+    (defun my-markdown-no-underscore-emphasis (orig-fun last)
+      "Skip emphasis matches using underscore delimiters."
+      (let (result)
+        (while (and (setq result (funcall orig-fun last))
+                    (let ((delim (match-string-no-properties 1)))
+                      (and delim (string-match-p "^_+$" delim)))))
+        result))
+
+    (advice-add 'markdown-match-italic :around #'my-markdown-no-underscore-emphasis)
+    (advice-add 'markdown-match-bold :around #'my-markdown-no-underscore-emphasis))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C Programming
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
