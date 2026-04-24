@@ -4,7 +4,7 @@
 ;; Scroll just one line when hitting the bottom of the window
 (setq scroll-step 1)
 
-(setq-default fill-column 100)
+(setq-default fill-column 170)
 
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)    ; use only spaces and no tabs
@@ -30,9 +30,6 @@
 
 ;; Automatically turn on auto-fill-mode when editing text files
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
-
-;; Disable auto-fill in markdown files
-(add-hook 'markdown-mode-hook 'turn-off-auto-fill)
 
 (put 'downcase-region 'disabled nil)
 
