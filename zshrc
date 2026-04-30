@@ -889,4 +889,4 @@ else
 fi
 
 # Claude Config
-alias cl="claude --model 'claude-opus-4-7[1m]'"
+alias cl="claude --permission-mode auto"
