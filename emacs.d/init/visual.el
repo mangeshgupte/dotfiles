@@ -102,12 +102,47 @@
  '(markdown-pre-face ((t (:foreground "#d7875f"))))
  '(markdown-bold-face ((t (:inherit bold :weight extra-bold))))
  '(markdown-italic-face ((t (:inherit italic :slant italic))))
- '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.8 :family "Helvetica"))))
- '(markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.5 :family "Helvetica"))))
- '(markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.3 :family "Helvetica"))))
- '(markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.15 :family "Helvetica"))))
- '(markdown-header-face-5 ((t (:inherit markdown-header-face :height 1.05 :family "Helvetica"))))
- '(markdown-header-face-6 ((t (:inherit markdown-header-face :height 1.0 :family "Helvetica")))))
+ '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.8 :family "Avenir Next"))))
+ '(markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.5 :family "Avenir Next"))))
+ '(markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.3 :family "Avenir Next"))))
+ '(markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.15 :family "Avenir Next"))))
+ '(markdown-header-face-5 ((t (:inherit markdown-header-face :height 1.05 :family "Avenir Next"))))
+ '(markdown-header-face-6 ((t (:inherit markdown-header-face :height 1.0 :family "Avenir Next")))))
 
 ;; Use indentation instead of stars in org-mode
 (setq org-startup-indented t)
+
+;; Olivetti: centered text with wide margins for distraction-free reading.
+;; Toggle manually with M-x olivetti-mode; auto-enable for prose modes.
+;; Use a fractional width (0.7 = 70% of window) instead of a column count
+;; because variable-pitch glyphs vary in width, so column-based sizing
+;; misbehaves and the centering looks off.
+(when (require 'olivetti nil 'noerror)
+  (setq-default olivetti-body-width 0.7)
+  (add-hook 'markdown-mode-hook #'olivetti-mode)
+  (add-hook 'org-mode-hook #'olivetti-mode))
+
+;; Variable-pitch: proportional font for prose, monospace for code blocks.
+;; markdown-mode and org-mode inherit from variable-pitch / fixed-pitch faces,
+;; so setting these once gives readable body text with code blocks staying mono.
+(defun mcg-first-available-font (families)
+  "Return the first font family in FAMILIES that is installed, or nil."
+  (cl-find-if (lambda (f) (find-font (font-spec :family f))) families))
+
+(when (system-type-is-darwin)
+  (let ((prose-font (mcg-first-available-font
+                     '("Iowan Old Style" "iA Writer Quattro S" "Charter" "Menlo"))))
+    (when prose-font
+      (set-face-attribute 'variable-pitch nil :family prose-font :height 160)))
+  (set-face-attribute 'fixed-pitch nil :family "Menlo" :height 140))
+
+(when (system-type-is-gnu)
+  (set-face-attribute 'variable-pitch nil :family "DejaVu Serif" :height 140)
+  (set-face-attribute 'fixed-pitch nil :family "Fira Code" :height 120))
+
+(add-hook 'markdown-mode-hook #'variable-pitch-mode)
+(add-hook 'org-mode-hook #'variable-pitch-mode)
+
+;; Soft word-wrap: break at word boundaries instead of mid-word at window edge.
+(add-hook 'markdown-mode-hook #'visual-line-mode)
+(add-hook 'org-mode-hook #'visual-line-mode)

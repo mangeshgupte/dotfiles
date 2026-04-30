@@ -83,6 +83,7 @@
        'yaml-mode
        'valign ; Pixel-align table columns in markdown/org
        'visual-fill-column ; Soft-wrap text at fill-column
+       'olivetti ; Centered text with wide margins for distraction-free reading
 
        ))
 

@@ -58,11 +58,6 @@
 ;; Display inline images in markdown buffers by default
 (add-hook 'markdown-mode-hook #'markdown-display-inline-images)
 
-;; Soft-wrap markdown at fill-column without inserting hard newlines
-(add-hook 'markdown-mode-hook #'visual-line-mode)
-(when (require 'visual-fill-column nil 'noerror)
-  (setq visual-fill-column-width 80)
-  (add-hook 'markdown-mode-hook #'visual-fill-column-mode))
 
 
 (with-eval-after-load 'markdown-mode
