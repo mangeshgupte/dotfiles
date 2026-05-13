@@ -57,6 +57,8 @@
 
 ;; Display inline images in markdown buffers by default
 (add-hook 'markdown-mode-hook #'markdown-display-inline-images)
+(require 'markdown-mermaid)
+(add-hook 'markdown-mermaid-mode #'markdown-mermaid-mode)
 
 
 

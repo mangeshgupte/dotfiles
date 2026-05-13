@@ -889,4 +889,10 @@ else
 fi
 
 # Claude Config
-alias cl="claude --permission-mode auto"
+alias cl="claude --model 'claude-opus-4-7[1m]' --permission-mode auto"
+
+# Navi CLI
+export PATH="/Users/mangesh/.navi/bin:$PATH"
+
+# Add .local/bin
+export PATH="$HOME/.local/bin:$PATH"
