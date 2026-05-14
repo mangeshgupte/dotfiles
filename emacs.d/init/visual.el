@@ -6,6 +6,7 @@
 
 (scroll-bar-mode -1)  ;; no scrollbars
 (tool-bar-mode -1)    ;; Turn off the tool bar
+(fringe-mode 0)       ;; no fringes (gray bars at window edges)
 (setq-default cursor-type 'box)   ;; Make cursor into a box.
 
 ;; Highlight matching paranthesis.
@@ -146,3 +147,4 @@
 ;; Soft word-wrap: break at word boundaries instead of mid-word at window edge.
 (add-hook 'markdown-mode-hook #'visual-line-mode)
 (add-hook 'org-mode-hook #'visual-line-mode)
+
