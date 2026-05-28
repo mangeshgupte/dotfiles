@@ -68,19 +68,6 @@ setopt auto_pushd         # cd pushes onto the directory stack
 setopt pushd_ignore_dups  # no duplicates in the stack
 setopt pushdminus         # swap +/- meaning for pushd
 
-alias -- -='cd -'
-alias 1='cd -1'
-alias 2='cd -2'
-alias 3='cd -3'
-alias 4='cd -4'
-alias 5='cd -5'
-alias 6='cd -6'
-alias 7='cd -7'
-alias 8='cd -8'
-alias 9='cd -9'
-
-alias md='mkdir -p'
-alias rd=rmdir
 
 function d () {
   if [[ -n $1 ]]; then
@@ -250,11 +237,6 @@ esac
 if command diff --color /dev/null{,} &>/dev/null; then
   function diff { command diff --color "$@" }
 fi
-
-# Colored grep
-alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox,.venv,venv}"
-alias egrep="grep -E"
-alias fgrep="grep -F"
 
 # ── Async prompt infrastructure ──────────────────────────────────────
 zmodload zsh/system
@@ -554,8 +536,6 @@ function take() {
   fi
 }
 
-alias _='sudo '
-
 path() {
   echo $PATH | tr ":" "\n" | \
     awk "{ sub(\"/usr\",   \"$fg_no_bold[green]/usr$reset_color\"); \
@@ -635,12 +615,6 @@ function ggp() {
 compdef _git ggp=git-push
 
 unset git_version
-
-# ── History aliases ──────────────────────────────────────────────────
-alias h='history'
-alias hl='history | less'
-alias hs='history | grep'
-alias hsi='history | grep -i'
 
 # ── Sudo toggle (Esc-Esc) ───────────────────────────────────────────
 __sudo-replace-buffer() {
@@ -770,19 +744,20 @@ if [[ ${local_machines[(r)$hostname]} == $hostname ]]; then
          '/opt/homebrew/share/google-cloud-sdk/bin'
         )
 
-  local_directories=('.local' '.npm-global')
-  for directory in $local_directories; do
-    if [[ -d "$HOME/$directory" ]]; then
-      path+=("$HOME/$directory/bin")
-    fi
-  done
-
   if [[ -f "${HOME}/.iterm2_shell_integration.zsh" ]]; then
     source "${HOME}/.iterm2_shell_integration.zsh"
   else
     print -P "%F{yellow}⚠ iTerm2 shell integration not found%f"
   fi
 fi
+
+# Add .local/bin
+local_directories=('.local' '.npm-global' '.navi')
+for directory in $local_directories; do
+    if [[ -d "$HOME/$directory" ]]; then
+        path+=("$HOME/$directory/bin")
+    fi
+done
 
 # ── Specific Servers ────────────────────────────────────────────
 specific_servers=("devvm8210")
@@ -815,42 +790,18 @@ if type pygmentize >/dev/null 2>&1; then
 fi
 export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4'
 
-# ── User aliases (overrides git aliases like gl, gp, gs) ─────────────
-if [[ -f $ZSH_HOME/.aliases.sh ]]; then
-  source $ZSH_HOME/.aliases.sh
-else
-  print -P "%F{yellow}⚠ aliases not found: $ZSH_HOME/.aliases.sh%f"
-fi
-
-# ── Tilix / VTE ──────────────────────────────────────────────────────
-if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-  source /etc/profile.d/vte.sh
-fi
-
-# ── Conda ────────────────────────────────────────────────────────────
-__conda_setup="$('/Users/mangesh/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-  eval "$__conda_setup"
-else
-  if [ -f "/Users/mangesh/miniforge3/etc/profile.d/conda.sh" ]; then
-    . "/Users/mangesh/miniforge3/etc/profile.d/conda.sh"
-  else
-    export PATH="/Users/mangesh/miniforge3/bin:$PATH"
-  fi
-fi
-unset __conda_setup
-
 # ── NVM ──────────────────────────────────────────────────────────────
-export NVM_DIR="$HOME/.nvm"
-if [ -s "$NVM_DIR/nvm.sh" ]; then
-  \. "$NVM_DIR/nvm.sh"
-else
-  print -P "%F{yellow}⚠ nvm not found: $NVM_DIR/nvm.sh%f"
-fi
-if [ -s "$NVM_DIR/bash_completion" ]; then
-  \. "$NVM_DIR/bash_completion"
-else
-  print -P "%F{yellow}⚠ nvm bash_completion not found: $NVM_DIR/bash_completion%f"
+if [[ -d "$HOME/.nvm" ]]; then
+    if [ -s "$HOME/.nvm/nvm.sh" ]; then
+        \. "$HOME/.nvm/nvm.sh"
+    else
+        print -P "%F{yellow}⚠ nvm not found: $HOME/.nvm/nvm.sh%f"
+    fi
+    if [ -s "$HOME/.nvm/bash_completion" ]; then
+        \. "$HOME/.nvm/bash_completion"
+    else
+        print -P "%F{yellow}⚠ nvm bash_completion not found: $HOME/.nvm/bash_completion%f"
+    fi
 fi
 
 # ── Local env ────────────────────────────────────────────────────────
@@ -858,6 +809,13 @@ if [ -f "$HOME/.local/bin/env" ]; then
   . "$HOME/.local/bin/env"
 else
   print -P "%F{yellow}⚠ local env not found: $HOME/.local/bin/env%f"
+fi
+
+# ── User aliases (overrides git aliases like gl, gp, gs) ─────────────
+if [[ -f $ZSH_HOME/.aliases.sh ]]; then
+  source $ZSH_HOME/.aliases.sh
+else
+  print -P "%F{yellow}⚠ aliases not found: $ZSH_HOME/.aliases.sh%f"
 fi
 
 # ── Plugins (must be near end, order matters) ────────────────────────
@@ -887,12 +845,3 @@ if [[ -f $DOTFILES/zsh/plugins/history-search-multi-word/history-search-multi-wo
 else
   print -P "%F{yellow}⚠ plugin not found: history-search-multi-word%f"
 fi
-
-# Claude Config
-alias cl="claude --model 'claude-opus-4-7[1m]' --permission-mode auto"
-
-# Navi CLI
-export PATH="/Users/mangesh/.navi/bin:$PATH"
-
-# Add .local/bin
-export PATH="$HOME/.local/bin:$PATH"
