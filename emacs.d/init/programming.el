@@ -1,11 +1,19 @@
-;;; programming --- Startup settings related to coding
+;;; programming --- Startup settings related to coding  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
 ;;; Code:
 
-;; Go into proper mode according to file extension
+;; Bundled modes in ~/.emacs.d/lisp/ are on `load-path' but are not
+;; autoloaded, so declare autoloads before referencing them below.
+(autoload 'thrift-mode "thrift-mode" "Major mode for editing Thrift files." t)
+(autoload 'ini-mode "ini-mode" "Major mode for editing INI files." t)
+
+;; Go into proper mode according to file extension.
 ;; Only overrides and non-built-in modes; Emacs defaults are preserved via append.
+;; (Entries for modes that aren't installed -- gnuplot-mode, apache-mode,
+;; bhl-mode, mel-mode, csv-mode -- were removed: they only caused
+;; void-function errors when opening matching files.)
 (setq auto-mode-alist
       (append '(("\\.ipp$"  . c++-mode)
                 ("\\.sass$" . scss-mode)
@@ -18,15 +26,7 @@
                 ("\\.pro$"  . prolog-mode)
                 ("\\.zsh$"  . sh-mode)
                 ("\\.zsh-theme$"  . sh-mode)
-                ("\\.gp$"         . gnuplot-mode)
-                ("\\.htaccess$"   . apache-mode)
-                ("httpd\\.conf$"  . apache-mode)
-                ("srm\\.conf$"    . apache-mode)
-                ("access\\.conf$" . apache-mode)
-                ("\\.bhl$"        . bhl-mode)
-                ("\\.mel$"        . mel-mode)
                 ("\\.ini\\'" . ini-mode)
-                ("\\.csv$'" . csv-mode)
                 ("\\.thrift$" . thrift-mode)
                 ("\\.vue\\'"       . vue-mode)
                 ("\\.md$" . markdown-mode))
@@ -57,8 +57,11 @@
 
 ;; Display inline images in markdown buffers by default
 (add-hook 'markdown-mode-hook #'markdown-display-inline-images)
-(require 'markdown-mermaid)
-(add-hook 'markdown-mermaid-mode #'markdown-mermaid-mode)
+;; Enable inline mermaid previews in markdown buffers.  The mode itself
+;; checks for the `mmdc' CLI and degrades gracefully when it's missing,
+;; so this is safe on machines without mermaid-cli installed.
+(when (require 'markdown-mermaid nil 'noerror)
+  (add-hook 'markdown-mode-hook #'markdown-mermaid-mode))
 
 
 
@@ -183,7 +186,7 @@
 
 (setq js-indent-level 2)
 
-(add-hook 'js2-mode-common-hook 'my-js2-mode-common-hook)
+(add-hook 'js2-mode-hook 'my-js2-mode-common-hook)
 
 (defun my-c-mode-common-hook ()
   (c-add-style "gallucci" my-c-style t)

@@ -1,3 +1,5 @@
+;;; buffer --- Editing and buffer behavior  -*- lexical-binding: t; -*-
+
 ;; TAB expands even during isearch
 (define-key isearch-mode-map [tab] 'isearch-yank-word)
 
@@ -9,14 +11,13 @@
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)    ; use only spaces and no tabs
 
-(define-key global-map (kbd "RET") 'newline-and-indent)
+;; RET indenting is handled by `electric-indent-mode' (on by default since
+;; Emacs 24.4), so an explicit global newline-and-indent binding is redundant.
 
-
-(defun indent-buffer()
-  "Indent the whole buffer from point-min to point-max using
-   the command indent-region"
+(defun indent-buffer ()
+  "Indent the whole buffer using `indent-region'."
   (interactive)
-  (indent-region 0 (point-max) nil))
+  (indent-region (point-min) (point-max)))
 
 ;; Auto-pair delimiters using built-in electric-pair-mode
 (electric-pair-mode 1)
@@ -50,7 +51,8 @@
 (defvar swap-paren-pairs '("()" "[]"))
 (defun swap-parens-at-points (b e)
   (let ((open-char (buffer-substring b (+ b 1)))
-        (paren-pair-list (append swap-paren-pairs swap-paren-pairs)))
+        (paren-pair-list (append swap-paren-pairs swap-paren-pairs))
+        to-replace)
     (while paren-pair-list
       (if (eq (aref open-char 0) (aref (car paren-pair-list) 0))
           (save-excursion

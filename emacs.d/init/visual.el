@@ -1,4 +1,4 @@
-;;; visual --- Startup settings related to the look and feel of the buffers.
+;;; visual --- Startup settings related to the look and feel of the buffers.  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
@@ -17,7 +17,7 @@
 ;; Text Options
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load-theme 'manoj-dark)
+(load-theme 'manoj-dark t)   ;; t = load without the "is this safe?" prompt
 
 ;; Volatile-highlight.
 (when (require 'volatile-highlights nil 'noerror)
@@ -96,19 +96,8 @@
 
 (setq ring-bell-function 'ignore)
 
-;; Markdown faces
-(custom-set-faces
- '(markdown-inline-code-face ((t (:foreground "#d7875f"))))
- '(markdown-code-face ((t (:foreground "#d7875f"))))
- '(markdown-pre-face ((t (:foreground "#d7875f"))))
- '(markdown-bold-face ((t (:inherit bold :weight extra-bold))))
- '(markdown-italic-face ((t (:inherit italic :slant italic))))
- '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.8 :family "Avenir Next"))))
- '(markdown-header-face-2 ((t (:inherit markdown-header-face :height 1.5 :family "Avenir Next"))))
- '(markdown-header-face-3 ((t (:inherit markdown-header-face :height 1.3 :family "Avenir Next"))))
- '(markdown-header-face-4 ((t (:inherit markdown-header-face :height 1.15 :family "Avenir Next"))))
- '(markdown-header-face-5 ((t (:inherit markdown-header-face :height 1.05 :family "Avenir Next"))))
- '(markdown-header-face-6 ((t (:inherit markdown-header-face :height 1.0 :family "Avenir Next")))))
+;; Markdown faces are defined once via Customize in ~/.emacs.d/custom.el
+;; (the `custom-file'); the duplicate copy that used to live here was removed.
 
 ;; Use indentation instead of stars in org-mode
 (setq org-startup-indented t)

@@ -1,11 +1,17 @@
-;;; switching --- All settings related to changing buffers, opening files etc.
+;;; switching --- All settings related to changing buffers, opening files etc.  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
 ;;; Code:
-(when (require 'session nil 'noerror)
-  (setq session-use-package t)
-  (add-hook 'after-init-hook 'session-initialize))
+
+;; Built-in session persistence (replaces the MELPA `session' package):
+;;   savehist   -> minibuffer history, kill-ring, search rings across restarts
+;;   save-place -> restore point position when reopening a file
+;;   recentf    -> recently-opened file list
+(savehist-mode 1)
+(setq savehist-additional-variables
+      '(kill-ring search-ring regexp-search-ring))
+(save-place-mode 1)
 
 (recentf-mode 1)
 
@@ -96,9 +102,6 @@
 (global-set-key "\C-cf" 'open-file-under-cursor)
 (fset 'open-file-under-cursor
    [?\C-\M-b ?\C-  ?\C-\M-f ?\C-\M-f ?\M-w ?\C-x ?\C-f ?\C-y return])
-
-;; ignored extensions
-(delete ".log" completion-ignored-extensions)
 
 (global-set-key (kbd "C-x f") 'find-file-in-repository)
 (global-set-key [C-double-mouse-1] 'browse-url)

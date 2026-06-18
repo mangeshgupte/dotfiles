@@ -5,6 +5,8 @@ emacs.d/recentf
 emacs.d/tramp
 emacs.d/ido.last
 emacs.d/session.*
+emacs.d/history
+emacs.d/places
 emacs.d/new/cedet/
 emacs.d/transient/
 emacs.d/auto-save-list/

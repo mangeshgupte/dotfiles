@@ -1,3 +1,6 @@
+;;; registers --- Persistent file registers  -*- lexical-binding: t; -*-
+
+;;; Code:
 (set-register ?a '(file . "~/.aliases.sh"))
 (set-register ?i '(file . "~/.emacs"))
 (set-register ?s '(file . "~/.ssh/known_hosts"))

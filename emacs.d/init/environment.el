@@ -1,4 +1,4 @@
-;;; environment --- Startup settings related to the os, variables etc.
+;;; environment --- Startup settings related to the os, variables etc.  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
@@ -50,21 +50,22 @@
          load-path)))
 
 
-;; Package management
+;; Package management.  Emacs 27+ runs `package-initialize' automatically
+;; before the init file is loaded, so we only set the archives here.
 (require 'package)
-(package-initialize)
 (setq package-archives
       '(("melpa-stable" . "https://stable.melpa.org/packages/")
         ("melpa" . "https://melpa.org/packages/")
         ("gnu" . "https://elpa.gnu.org/packages/")))
 
+;; Declared special so the list works under lexical binding.
+(defvar required-packages)
 (setq required-packages
       (list
        'js2-mode ; javascript-mode for emacs.
        'magit ; Emacs mode for Git.
        'markdown-mode ; Emacs mode for Markdown-formatted files.
        'multi-term ; managing multiple terminal buffers in Emacs.
-       'session ; Session management for emacs.
        'web-mode ; handle mixed php and html files.
        'powerline ; Change the display line.
        'flx-ido ; Fuzzy matching for Emacs ... a la Sublime Text.
@@ -117,11 +118,9 @@
 (prefer-coding-system 'utf-8)
 (set-default 'buffer-file-coding-system 'utf-8-unix)
 
-;; Change default major mode to text from fundamental
-(setq initial-major-mode
-      (lambda ()
-        (text-mode)
-        (turn-on-auto-fill)))
+;; Change default major mode to text from fundamental.
+;; (auto-fill is enabled via `text-mode-hook' in buffer.el.)
+(setq initial-major-mode 'text-mode)
 
 ;; Tell emacs to save backups in the global backups directory...
 (setq backup-directory-alist `(("." . "~/.emacs.autosave/")))

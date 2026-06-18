@@ -1,4 +1,5 @@
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; keymap --- Key bindings / key map  -*- lexical-binding: t; -*-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Key Bindings / Key Map
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -49,10 +50,11 @@
 ;; C-x r t (string-rectangle), C-x r o (open)
 
 ;; Swap keys
+(defvar mcg-key-pairs)   ;; declared special for lexical binding
 (setq mcg-key-pairs
       '((?! ?1) (?@ ?2) (?# ?3) (?$ ?4) (?% ?5)
-        (?^ ?6) (?& ?7) (?* ?8) (?( ?9) (?) ?0)
-		(?{ ?[) (?} ?])  ; (?- ?_) ; (?` ?~)          ; (?| ?\\) (?\" ?')
+        (?^ ?6) (?& ?7) (?* ?8) (?\( ?9) (?\) ?0)
+		(?{ ?\[) (?} ?\])  ; (?- ?_) ; (?` ?~)          ; (?| ?\\) (?\" ?')
         ))
 
 (defun mcg-key-swap (key-pairs)
