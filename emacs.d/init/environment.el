@@ -39,6 +39,22 @@
 
 (menu-bar-mode -1)
 
+;; GUI Emacs on macOS is launched by launchd (Dock/Finder), not the shell,
+;; so it does NOT inherit the shell's PATH.  Homebrew's bin dirs and any
+;; nvm-managed Node bin (where npm-global CLIs such as mmdc land) are then
+;; missing from `exec-path'/PATH, and `executable-find' fails for tools like
+;; pandoc and mmdc even though they work in a terminal.  Prepend whichever
+;; of these exist to both `exec-path' (for `executable-find'/`call-process')
+;; and the PATH env var (for subprocesses spawned via a shell).
+(when (system-type-is-darwin)
+  (dolist (dir (append '("/usr/local/bin" "/opt/homebrew/bin")
+                       (file-expand-wildcards
+                        (expand-file-name "~/.nvm/versions/node/*/bin"))))
+    (setq dir (expand-file-name dir))
+    (when (file-directory-p dir)
+      (add-to-list 'exec-path dir)
+      (setenv "PATH" (concat dir path-separator (getenv "PATH"))))))
+
 ;; Set the path in which i have kept my .el/.elc files
 (let ((default-directory "~/.emacs.d/lisp/"))
   (setq load-path

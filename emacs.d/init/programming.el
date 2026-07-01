@@ -45,6 +45,17 @@
 (when (require 'valign nil 'noerror)
   (add-hook 'markdown-mode-hook #'valign-mode))
 
+;; Inline SVG previews of markdown tables: renders each pipe table to an
+;; SVG image (generated in pure elisp, no external tools) shown over the
+;; source, so wide cells wrap within their column while columns stay
+;; aligned -- something valign/soft-wrap cannot do in-buffer.  Move point
+;; into a table to edit the source; move out to see the image again.
+;; Toggle per-buffer with C-c t.
+(when (require 'markdown-table-preview nil 'noerror)
+  (add-hook 'markdown-mode-hook #'markdown-table-preview-mode)
+  (with-eval-after-load 'markdown-mode
+    (define-key markdown-mode-map (kbd "C-c t") #'markdown-table-preview-mode)))
+
 ;; Insert an HTML comment for personal notes in markdown
 (defun markdown-insert-comment ()
   "Insert <!-- M:  --> and place point where the comment text goes."
