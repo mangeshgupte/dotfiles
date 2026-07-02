@@ -81,6 +81,15 @@
 (when (require 'markdown-mermaid nil 'noerror)
   (add-hook 'markdown-mode-hook #'markdown-mermaid-mode))
 
+;; Inline LaTeX math previews: render `$..$' / `$$..$$' spans to SVG via
+;; MathJax (the markdown-math.js companion script) and show each image over
+;; its source.  Move point into a span to edit; move out to see the image.
+;; Degrades gracefully when node/mathjax-full is missing.  Toggle with C-c m.
+(when (require 'markdown-math nil 'noerror)
+  (add-hook 'markdown-mode-hook #'markdown-math-mode)
+  (with-eval-after-load 'markdown-mode
+    (define-key markdown-mode-map (kbd "C-c m") #'markdown-math-mode)))
+
 
 
 (with-eval-after-load 'markdown-mode
