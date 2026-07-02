@@ -5,8 +5,9 @@
 
 ;; Set alt and command to meta(alt)
 (when (system-type-is-darwin)
-  (setq mac-command-modifier 'control)
-  (setq mac-option-modifier 'meta)
+  (setq mac-command-modifier 'meta)
+  (setq mac-control-modifier 'control)
+  (setq mac-option-modifier 'control)
   )
 
 (global-set-key "\C-cy" 'do-smart-yank)
