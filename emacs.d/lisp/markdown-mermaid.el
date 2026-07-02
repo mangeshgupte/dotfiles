@@ -69,6 +69,9 @@ Set to nil to disable idle rendering and rely on save/manual refresh."
 (defvar-local markdown-mermaid--pending nil
   "Hash table mapping cache keys to t for in-flight renders.")
 
+(defvar-local markdown-mermaid--overlays nil
+  "List of preview overlays in the current buffer.")
+
 ;;; Cache helpers -----------------------------------------------------
 
 (defun markdown-mermaid--theme ()
@@ -128,24 +131,39 @@ If a render for KEY is already in flight, do nothing."
 
 ;;; Overlays ----------------------------------------------------------
 
-(defun markdown-mermaid--make-image-overlay (end png)
-  "Create or update overlay after END displaying PNG."
-  (let ((ov (or (cl-find-if (lambda (o) (overlay-get o 'markdown-mermaid))
-                            (overlays-at end))
-                (make-overlay end end))))
+(defun markdown-mermaid--make-image-overlay (beg end png)
+  "Overlay BEG..END with the image at PNG, replacing the block source.
+The image is shown by default; `markdown-mermaid--reveal' swaps it for
+the source while point is inside the block.  The overlay spans the whole
+block (never an empty region), so the `evaporate' property is safe -- an
+empty overlay carrying `evaporate' is deleted by Emacs the instant it is
+created, which previously destroyed the preview."
+  (let ((ov (make-overlay beg end))
+        (image (create-image png nil nil
+                             :scale markdown-mermaid-image-scale
+                             :ascent 'center)))
     (overlay-put ov 'markdown-mermaid t)
+    (overlay-put ov 'mm-image image)
+    (overlay-put ov 'display image)
     (overlay-put ov 'evaporate t)
-    (overlay-put ov 'after-string
-                 (concat "\n"
-                         (propertize " "
-                                     'display
-                                     (create-image png nil nil
-                                                   :scale markdown-mermaid-image-scale))
-                         "\n"))
+    (overlay-put ov 'help-echo "Mermaid preview -- move point in to edit")
+    (push ov markdown-mermaid--overlays)
     ov))
 
 (defun markdown-mermaid--clear-overlays ()
+  (mapc (lambda (ov) (when (overlayp ov) (delete-overlay ov)))
+        markdown-mermaid--overlays)
+  (setq markdown-mermaid--overlays nil)
   (remove-overlays (point-min) (point-max) 'markdown-mermaid t))
+
+(defun markdown-mermaid--reveal ()
+  "Show source for the block under point, the image for the others."
+  (dolist (ov markdown-mermaid--overlays)
+    (when (overlay-buffer ov)
+      (if (and (>= (point) (overlay-start ov))
+               (<= (point) (overlay-end ov)))
+          (overlay-put ov 'display nil)
+        (overlay-put ov 'display (overlay-get ov 'mm-image))))))
 
 ;;; Walk + dispatch ---------------------------------------------------
 
@@ -169,12 +187,13 @@ If a render for KEY is already in flight, do nothing."
   (markdown-mermaid--clear-overlays)
   (let ((buf (current-buffer)))
     (dolist (block (markdown-mermaid--blocks))
-      (let* ((end  (nth 1 block))
+      (let* ((beg  (nth 0 block))
+             (end  (nth 1 block))
              (body (nth 2 block))
              (key  (markdown-mermaid--cache-key body))
              (png  (markdown-mermaid--cache-path key)))
         (if (file-exists-p png)
-            (markdown-mermaid--make-image-overlay end png)
+            (markdown-mermaid--make-image-overlay beg end png)
           (markdown-mermaid--render-async
            body key
            (lambda (path)
@@ -188,7 +207,10 @@ If a render for KEY is already in flight, do nothing."
                      (when (equal (markdown-mermaid--cache-key (match-string 1))
                                   key)
                        (markdown-mermaid--make-image-overlay
-                        (match-end 0) path)))))))))))))
+                        (match-beginning 0) (match-end 0) path))))
+                 (markdown-mermaid--reveal)))))))))
+  ;; A block under point stays revealed after a (re-)render.
+  (markdown-mermaid--reveal))
 
 ;;; Triggers ----------------------------------------------------------
 
@@ -215,8 +237,9 @@ If a render for KEY is already in flight, do nothing."
 (define-minor-mode markdown-mermaid-mode
   "Toggle inline Mermaid diagram previews in markdown buffers.
 When enabled, ```mermaid fenced blocks are rendered to PNG via the
-mmdc CLI and shown as inline overlays.  Renders run asynchronously
-and are cached by content hash."
+mmdc CLI and shown in place of their source.  Move point into a block
+to reveal the source for editing; move out to see the image again.
+Renders run asynchronously and are cached by content hash."
   :lighter " Mmd"
   :group 'markdown-mermaid
   (if markdown-mermaid-mode
@@ -226,9 +249,11 @@ and are cached by content hash."
                    markdown-mermaid-mmdc-executable))
         (setq markdown-mermaid--pending (make-hash-table :test 'equal))
         (add-hook 'after-save-hook #'markdown-mermaid--after-save nil t)
+        (add-hook 'post-command-hook #'markdown-mermaid--reveal nil t)
         (markdown-mermaid--start-idle-timer)
         (markdown-mermaid-render-buffer))
     (remove-hook 'after-save-hook #'markdown-mermaid--after-save t)
+    (remove-hook 'post-command-hook #'markdown-mermaid--reveal t)
     (markdown-mermaid--cancel-idle-timer)
     (markdown-mermaid--clear-overlays)
     (setq markdown-mermaid--pending nil)))
