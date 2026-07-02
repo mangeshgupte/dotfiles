@@ -109,6 +109,10 @@
 ;; misbehaves and the centering looks off.
 (when (require 'olivetti nil 'noerror)
   (setq-default olivetti-body-width 0.7)
+  ;; Body never shrinks below this many columns (measured in monospace
+  ;; frame-char widths, so ~90-100 variable-pitch characters); in windows
+  ;; narrower than this, margins drop to zero and text gets the full width.
+  (setq olivetti-minimum-body-width 80)
   (add-hook 'markdown-mode-hook #'olivetti-mode)
   (add-hook 'org-mode-hook #'olivetti-mode))
 

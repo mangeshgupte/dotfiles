@@ -15,6 +15,11 @@
 ;;     columns align regardless of the buffer's (variable-pitch) font.
 ;;   - A column wider than `markdown-table-preview-max-column-chars' wraps
 ;;     to that width; narrow columns keep their natural width.
+;;   - Previews fit the window: when a table would be wider than the
+;;     narrowest window showing the buffer, wide columns wrap tighter
+;;     (never below `markdown-table-preview-min-column-chars'), and a
+;;     table that still cannot fit is scaled down so nothing is clipped.
+;;     Previews re-render when the window width changes.
 ;;   - The rendered SVG replaces the table source via an overlay.  Move
 ;;     point into a table to reveal the source for editing; move out and
 ;;     the image returns.  Save to re-render.  Toggling the mode off
@@ -48,6 +53,19 @@ Must be monospace: column widths assume a fixed character advance."
   "Columns wider than this many characters wrap to this width."
   :type 'integer :group 'markdown-table-preview)
 
+(defcustom markdown-table-preview-fit-window t
+  "If non-nil, fit table previews to the window width.
+Wide columns wrap more aggressively (down to
+`markdown-table-preview-min-column-chars') until the table fits the
+narrowest window displaying the buffer; a table that still cannot
+fit is scaled down.  Previews re-render when the window width
+changes."
+  :type 'boolean :group 'markdown-table-preview)
+
+(defcustom markdown-table-preview-min-column-chars 8
+  "Narrowest wrap width that window fitting may impose on a column."
+  :type 'integer :group 'markdown-table-preview)
+
 (defcustom markdown-table-preview-scale 1.0
   "Scale factor applied to rendered SVG images."
   :type 'number :group 'markdown-table-preview)
@@ -56,8 +74,18 @@ Must be monospace: column widths assume a fixed character advance."
   "If non-nil, re-render previews after each save."
   :type 'boolean :group 'markdown-table-preview)
 
+;; Defined by `define-minor-mode' at the bottom; declared here for the
+;; helper functions above it that check the mode state.
+(defvar markdown-table-preview-mode)
+
 (defvar-local markdown-table-preview--overlays nil
   "List of preview overlays in the current buffer.")
+
+(defvar-local markdown-table-preview--last-width nil
+  "Pixel width the previews were last rendered for, or nil.")
+
+(defvar-local markdown-table-preview--resize-timer nil
+  "Pending idle timer for a fit re-render, or nil.")
 
 ;;; Colors -------------------------------------------------------------
 
@@ -178,6 +206,50 @@ Tokens longer than WIDTH are hard-broken."
       (when (> (length cur) 0) (push cur lines))
       (nreverse lines))))
 
+;;; Window fitting -----------------------------------------------------
+
+(defun markdown-table-preview--fit-cap (natural cw padx target-px)
+  "Return the column wrap cap, in characters, that fits TARGET-PX.
+NATURAL is the vector of uncapped column widths, CW the pixel
+advance per character, PADX the horizontal cell padding.  Returns
+the largest cap no greater than
+`markdown-table-preview-max-column-chars' whose total table width
+fits TARGET-PX (total width is monotonic in the cap, so binary
+search), but never less than
+`markdown-table-preview-min-column-chars' -- the caller scales the
+image down when even that is too wide."
+  (let* ((ncols (length natural))
+         (maxc markdown-table-preview-max-column-chars)
+         (minc (max 1 (min markdown-table-preview-min-column-chars maxc)))
+         (width-at (lambda (cap)
+                     (let ((tw 0))
+                       (dotimes (c ncols)
+                         (setq tw (+ tw (* (min (aref natural c) cap) cw)
+                                     (* 2 padx))))
+                       tw))))
+    (if (<= (funcall width-at maxc) target-px)
+        maxc
+      (let ((lo minc) (hi maxc))
+        (while (< lo hi)
+          (let ((mid (/ (+ lo hi 1) 2)))
+            (if (<= (funcall width-at mid) target-px)
+                (setq lo mid)
+              (setq hi (1- mid)))))
+        lo))))
+
+(defun markdown-table-preview--available-width ()
+  "Return the usable pixel width for previews, or nil when unconstrained.
+This is the text-area width of the narrowest window displaying the
+buffer (window margins, e.g. olivetti's, are already excluded),
+less a small edge gap.  Returns nil when fitting is disabled or the
+buffer is not displayed in any window."
+  (when markdown-table-preview-fit-window
+    (let ((windows (get-buffer-window-list nil nil t)))
+      (when windows
+        (max 1 (- (apply #'min (mapcar (lambda (w) (window-body-width w t))
+                                       windows))
+                  (* 2 (frame-char-width))))))))
+
 ;;; SVG generation -----------------------------------------------------
 
 (defun markdown-table-preview--xml-escape (s)
@@ -187,9 +259,12 @@ Tokens longer than WIDTH are hard-broken."
   (setq s (replace-regexp-in-string ">" "&gt;" s t t))
   s)
 
-(defun markdown-table-preview--svg (rows aligns)
+(defun markdown-table-preview--svg (rows aligns &optional target-px)
   "Return an SVG string rendering ROWS with per-column ALIGNS.
-ROWS is a list of cell-string lists (header first)."
+ROWS is a list of cell-string lists (header first).  When TARGET-PX
+is non-nil, wrap columns tighter as needed so the table fits that
+pixel width, within the limits of
+`markdown-table-preview-min-column-chars'."
   (let* ((ncols (length aligns))
          (fs markdown-table-preview-font-size)
          (cw (max 1 (round (* fs markdown-table-preview-char-width-ratio))))
@@ -201,12 +276,18 @@ ROWS is a list of cell-string lists (header first)."
          (widths (make-vector ncols 1))
          (nrows (length rows))
          wrapped colpx xpos rowh ypos totalw totalh parts)
-    ;; Natural (single-line) width per column, capped at MAXC.
+    ;; Natural (single-line) width per column, then the cap: MAXC,
+    ;; tightened further when the table must fit TARGET-PX.
     (dotimes (c ncols)
       (let ((mx 1))
         (dolist (r rows)
           (setq mx (max mx (length (string-trim (or (nth c r) ""))))))
-        (aset widths c (min mx maxc))))
+        (aset widths c mx)))
+    (let ((cap (if target-px
+                   (markdown-table-preview--fit-cap widths cw padx target-px)
+                 maxc)))
+      (dotimes (c ncols)
+        (aset widths c (min (aref widths c) cap))))
     ;; Wrap every cell to its column width.
     (setq wrapped
           (mapcar (lambda (r)
@@ -273,12 +354,20 @@ ROWS is a list of cell-string lists (header first)."
     (push "</svg>" parts)
     (mapconcat #'identity (nreverse parts) "\n")))
 
-(defun markdown-table-preview--image (rows aligns)
-  "Return an SVG image object for ROWS/ALIGNS."
-  (create-image (markdown-table-preview--svg rows aligns)
-                'svg t
-                :scale markdown-table-preview-scale
-                :ascent 'center))
+(defun markdown-table-preview--image (rows aligns &optional max-px)
+  "Return an SVG image object for ROWS/ALIGNS.
+When MAX-PX is non-nil, reflow the table to fit that many pixels
+and, as a last resort, let the display engine scale the image down
+to it (`:max-width'), so the preview is never clipped."
+  (let ((layout-px (and max-px
+                        (max 1 (floor (/ max-px
+                                         markdown-table-preview-scale))))))
+    (apply #'create-image
+           (markdown-table-preview--svg rows aligns layout-px)
+           'svg t
+           :scale markdown-table-preview-scale
+           :ascent 'center
+           (when max-px (list :max-width max-px)))))
 
 ;;; Overlays -----------------------------------------------------------
 
@@ -315,13 +404,15 @@ ROWS is a list of cell-string lists (header first)."
   "Render or refresh SVG previews for every pipe table in the buffer."
   (interactive)
   (markdown-table-preview--clear)
-  (dolist (tbl (markdown-table-preview--tables))
-    (pcase-let ((`(,beg ,end ,rows ,aligns) tbl))
-      (condition-case err
-          (markdown-table-preview--make-overlay
-           beg end (markdown-table-preview--image rows aligns))
-        (error (message "markdown-table-preview: %s"
-                        (error-message-string err))))))
+  (let ((target (markdown-table-preview--available-width)))
+    (setq markdown-table-preview--last-width target)
+    (dolist (tbl (markdown-table-preview--tables))
+      (pcase-let ((`(,beg ,end ,rows ,aligns) tbl))
+        (condition-case err
+            (markdown-table-preview--make-overlay
+             beg end (markdown-table-preview--image rows aligns target))
+          (error (message "markdown-table-preview: %s"
+                          (error-message-string err)))))))
   ;; A table under point stays revealed after a re-render.
   (markdown-table-preview--reveal))
 
@@ -329,6 +420,33 @@ ROWS is a list of cell-string lists (header first)."
   "Re-render previews on save when enabled."
   (when (and markdown-table-preview-mode markdown-table-preview-render-on-save)
     (markdown-table-preview-render-buffer)))
+
+(defun markdown-table-preview--schedule-render (window)
+  "Schedule a fit re-render for WINDOW's buffer.
+Added buffer-locally to `window-size-change-functions' and
+`window-buffer-change-functions', so WINDOW shows this buffer.
+Runs on a short idle timer: this coalesces bursts of resize events
+and measures the window after other hooks (e.g. olivetti's margin
+updates) have settled."
+  (when (windowp window)
+    (with-current-buffer (window-buffer window)
+      (when (and markdown-table-preview-mode
+                 markdown-table-preview-fit-window
+                 (not markdown-table-preview--resize-timer))
+        (setq markdown-table-preview--resize-timer
+              (run-with-idle-timer
+               0.15 nil #'markdown-table-preview--render-if-resized
+               (current-buffer)))))))
+
+(defun markdown-table-preview--render-if-resized (buf)
+  "Re-render previews in BUF if the available width has changed."
+  (when (buffer-live-p buf)
+    (with-current-buffer buf
+      (setq markdown-table-preview--resize-timer nil)
+      (when (and markdown-table-preview-mode
+                 (not (eql (markdown-table-preview--available-width)
+                           markdown-table-preview--last-width)))
+        (markdown-table-preview-render-buffer)))))
 
 ;;;###autoload
 (define-minor-mode markdown-table-preview-mode
@@ -344,9 +462,20 @@ point into a table to edit the source; move out to see the image."
           (user-error "markdown-table-preview: this Emacs lacks SVG support"))
         (add-hook 'after-save-hook #'markdown-table-preview--after-save nil t)
         (add-hook 'post-command-hook #'markdown-table-preview--reveal nil t)
+        (add-hook 'window-size-change-functions
+                  #'markdown-table-preview--schedule-render nil t)
+        (add-hook 'window-buffer-change-functions
+                  #'markdown-table-preview--schedule-render nil t)
         (markdown-table-preview-render-buffer))
     (remove-hook 'after-save-hook #'markdown-table-preview--after-save t)
     (remove-hook 'post-command-hook #'markdown-table-preview--reveal t)
+    (remove-hook 'window-size-change-functions
+                 #'markdown-table-preview--schedule-render t)
+    (remove-hook 'window-buffer-change-functions
+                 #'markdown-table-preview--schedule-render t)
+    (when (timerp markdown-table-preview--resize-timer)
+      (cancel-timer markdown-table-preview--resize-timer))
+    (setq markdown-table-preview--resize-timer nil)
     (markdown-table-preview--clear)))
 
 (provide 'markdown-table-preview)

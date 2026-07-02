@@ -66,6 +66,13 @@
 (with-eval-after-load 'markdown-mode
   (define-key markdown-mode-map (kbd "C-c C-;") #'markdown-insert-comment))
 
+;; Make code-span file references like `mu.md` clickable.  A span is
+;; linkified only when its text resolves to a real file: same directory,
+;; a parent directory, or a date-prefixed sibling (`vst.md` finds
+;; 2026-05-01-vst.md).  mouse-1 or C-c C-o on the span opens the file.
+(when (require 'markdown-filelink nil 'noerror)
+  (add-hook 'markdown-mode-hook #'markdown-filelink-mode))
+
 ;; Display inline images in markdown buffers by default
 (add-hook 'markdown-mode-hook #'markdown-display-inline-images)
 ;; Enable inline mermaid previews in markdown buffers.  The mode itself
