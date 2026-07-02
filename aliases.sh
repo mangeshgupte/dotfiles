@@ -75,7 +75,7 @@ alias ta="tmux -2 attach"
 # Neat commands
 
 # Claude Config
-alias cl="claude --model 'claude-opus-4-8[1m]' --permission-mode auto"
+alias cl="claude --permission-mode auto"
 
 
 function histogram() {
