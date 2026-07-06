@@ -30,6 +30,7 @@
 
 (require 'cl-lib)
 (require 'subr-x)
+(require 'markdown-emoji)
 
 (defgroup markdown-table-preview nil
   "Inline SVG previews of markdown tables."
@@ -276,6 +277,10 @@ pixel width, within the limits of
          (widths (make-vector ncols 1))
          (nrows (length rows))
          wrapped colpx xpos rowh ypos totalw totalh parts)
+    ;; Emoji would abort Emacs when librsvg lays out the SVG <text> (its
+    ;; Pango/CoreText backend crashes on color-font fallback), so replace
+    ;; them before any width math -- see `markdown-emoji-sanitize'.
+    (setq rows (mapcar (lambda (r) (mapcar #'markdown-emoji-sanitize r)) rows))
     ;; Natural (single-line) width per column, then the cap: MAXC,
     ;; tightened further when the table must fit TARGET-PX.
     (dotimes (c ncols)

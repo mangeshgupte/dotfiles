@@ -29,6 +29,7 @@
 
 (require 'cl-lib)
 (require 'subr-x)
+(require 'markdown-emoji)
 
 (defvar markdown-mermaid-mode)  ; forward ref for trigger functions
 
@@ -263,7 +264,11 @@ created, which previously destroyed the preview."
     (save-excursion
       (goto-char (point-min))
       (while (re-search-forward markdown-mermaid--block-re nil t)
-        (push (list (match-beginning 0) (match-end 0) (match-string 1))
+        ;; Sanitize here so the body carried downstream (cache key, mmdc
+        ;; input, image) is emoji-free -- mmdc would emit them as SVG <text>
+        ;; and crash librsvg.  See `markdown-emoji-sanitize'.
+        (push (list (match-beginning 0) (match-end 0)
+                    (markdown-emoji-sanitize (match-string 1)))
               blocks)))
     (nreverse blocks)))
 
@@ -296,7 +301,8 @@ created, which previously destroyed the preview."
                  (save-excursion
                    (goto-char (point-min))
                    (while (re-search-forward markdown-mermaid--block-re nil t)
-                     (when (equal (markdown-mermaid--cache-key (match-string 1))
+                     (when (equal (markdown-mermaid--cache-key
+                                   (markdown-emoji-sanitize (match-string 1)))
                                   key)
                        (markdown-mermaid--make-image-overlay
                         (match-beginning 0) (match-end 0) path
