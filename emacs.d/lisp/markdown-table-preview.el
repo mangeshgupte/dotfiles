@@ -207,6 +207,64 @@ Tokens longer than WIDTH are hard-broken."
       (when (> (length cur) 0) (push cur lines))
       (nreverse lines))))
 
+;;; Inline styling -----------------------------------------------------
+
+(defun markdown-table-preview--parse-inline (text)
+  "Strip **bold**/__bold__ markers from TEXT.
+Return (VISIBLE . BOLD): VISIBLE is TEXT with the markers removed,
+trimmed, and inner whitespace runs collapsed to single spaces;
+BOLD is a bool-vector marking VISIBLE's bold characters.  Column
+widths and wrapping must use VISIBLE so the markers take no space."
+  (let ((chars '()) (flags '()) (pos 0))
+    ;; Like GFM, the delimited text may not start or end with whitespace.
+    (while (string-match
+            "\\(\\*\\*\\|__\\)\\([^ \t]\\(?:.*?[^ \t]\\)?\\)\\1" text pos)
+      (let ((inner (match-string 2 text)))
+        (dotimes (i (- (match-beginning 0) pos))
+          (push (aref text (+ pos i)) chars) (push nil flags))
+        (dotimes (i (length inner))
+          (push (aref inner i) chars) (push t flags))
+        (setq pos (match-end 0))))
+    (dotimes (i (- (length text) pos))
+      (push (aref text (+ pos i)) chars) (push nil flags))
+    ;; Trim and collapse whitespace, keeping the flags aligned: a
+    ;; collapsed space keeps its own flag so a bold phrase stays one run.
+    (let ((out '()) (oflags '()) (pending nil) (pending-flag nil))
+      (cl-loop for ch in (nreverse chars) for f in (nreverse flags) do
+               (if (memq ch '(?\s ?\t))
+                   (when out (setq pending t pending-flag f))
+                 (when pending (push ?\s out) (push pending-flag oflags)
+                       (setq pending nil))
+                 (push ch out) (push f oflags)))
+      (let* ((s (apply #'string (nreverse out)))
+             (bv (make-bool-vector (length s) nil)))
+        (cl-loop for f in (nreverse oflags) for i from 0
+                 do (when f (aset bv i t)))
+        (cons s bv)))))
+
+(defun markdown-table-preview--line-runs (visible bold width)
+  "Wrap VISIBLE to WIDTH and split each line into style runs.
+BOLD is VISIBLE's bold mask from `markdown-table-preview--parse-inline'.
+Return a list of lines, each a list of (TEXT . BOLD-P) runs; a blank
+line is the empty list."
+  (let ((lines (markdown-table-preview--wrap visible width))
+        (pos 0) out)
+    (dolist (ln lines)
+      ;; A break at a word boundary drops one space from VISIBLE; a
+      ;; hard break inside a long word drops nothing.
+      (when (and (< pos (length visible)) (eq (aref visible pos) ?\s))
+        (setq pos (1+ pos)))
+      (let ((runs '()) (i 0) (n (length ln)))
+        (while (< i n)
+          (let ((b (aref bold (+ pos i))) (j i))
+            (while (and (< j n) (eq (aref bold (+ pos j)) b))
+              (setq j (1+ j)))
+            (push (cons (substring ln i j) b) runs)
+            (setq i j)))
+        (push (nreverse runs) out)
+        (setq pos (+ pos n))))
+    (nreverse out)))
+
 ;;; Window fitting -----------------------------------------------------
 
 (defun markdown-table-preview--fit-cap (natural cw padx target-px)
@@ -260,6 +318,17 @@ buffer is not displayed in any window."
   (setq s (replace-regexp-in-string ">" "&gt;" s t t))
   s)
 
+(defun markdown-table-preview--runs-xml (runs)
+  "Return the XML text content for RUNS, a list of (TEXT . BOLD-P).
+Bold runs become <tspan> continuations, which inherit the current
+text position, so mixed-style lines stay on the monospace grid."
+  (mapconcat (lambda (run)
+               (let ((esc (markdown-table-preview--xml-escape (car run))))
+                 (if (cdr run)
+                     (concat "<tspan font-weight=\"bold\">" esc "</tspan>")
+                   esc)))
+             runs ""))
+
 (defun markdown-table-preview--svg (rows aligns &optional target-px)
   "Return an SVG string rendering ROWS with per-column ALIGNS.
 ROWS is a list of cell-string lists (header first).  When TARGET-PX
@@ -281,26 +350,33 @@ pixel width, within the limits of
     ;; Pango/CoreText backend crashes on color-font fallback), so replace
     ;; them before any width math -- see `markdown-emoji-sanitize'.
     (setq rows (mapcar (lambda (r) (mapcar #'markdown-emoji-sanitize r)) rows))
+    ;; Strip **bold** markers, keeping a per-character bold mask: each
+    ;; cell becomes (VISIBLE . BOLD), and all width math below uses the
+    ;; visible text only.
+    (setq rows (mapcar (lambda (r)
+                         (mapcar #'markdown-table-preview--parse-inline r))
+                       rows))
     ;; Natural (single-line) width per column, then the cap: MAXC,
     ;; tightened further when the table must fit TARGET-PX.
     (dotimes (c ncols)
       (let ((mx 1))
         (dolist (r rows)
-          (setq mx (max mx (length (string-trim (or (nth c r) ""))))))
+          (setq mx (max mx (length (car (nth c r))))))
         (aset widths c mx)))
     (let ((cap (if target-px
                    (markdown-table-preview--fit-cap widths cw padx target-px)
                  maxc)))
       (dotimes (c ncols)
         (aset widths c (min (aref widths c) cap))))
-    ;; Wrap every cell to its column width.
+    ;; Wrap every cell to its column width, splitting lines into runs.
     (setq wrapped
           (mapcar (lambda (r)
                     (let ((cells '()))
                       (dotimes (c ncols)
-                        (push (markdown-table-preview--wrap
-                               (or (nth c r) "") (aref widths c))
-                              cells))
+                        (let ((cell (nth c r)))
+                          (push (markdown-table-preview--line-runs
+                                 (car cell) (cdr cell) (aref widths c))
+                                cells)))
                       (nreverse cells)))
                   rows))
     ;; Column pixel widths and x offsets.
@@ -341,8 +417,8 @@ pixel width, within the limits of
             (let ((lines (nth c r))
                   (align (nth c aligns))
                   (li 0))
-              (dolist (ln lines)
-                (unless (string-empty-p ln)
+              (dolist (runs lines)
+                (when runs
                   (let ((ty (+ (aref ypos ri) pady (* li lh) (round (* fs 0.82))))
                         (anchor (pcase align ('right "end") ('center "middle") (_ "start")))
                         (tx (pcase align
@@ -352,7 +428,7 @@ pixel width, within the limits of
                     (push (format "<text x=\"%d\" y=\"%d\" font-family=\"%s\" font-size=\"%d\" fill=\"%s\" text-anchor=\"%s\"%s>%s</text>"
                                   tx ty markdown-table-preview-font-family fs fg anchor
                                   (if header " font-weight=\"bold\"" "")
-                                  (markdown-table-preview--xml-escape ln))
+                                  (markdown-table-preview--runs-xml runs))
                           parts)))
                 (setq li (1+ li))))))
         (setq ri (1+ ri))))
