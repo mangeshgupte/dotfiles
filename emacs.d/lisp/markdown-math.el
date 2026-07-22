@@ -67,6 +67,16 @@ of `npm root -g' on other systems."
   "Scale factor applied to rendered images."
   :type 'number :group 'markdown-math)
 
+(defcustom markdown-math-inline-hpad 3
+  "Horizontal padding, in pixels, added on each side of an inline math image.
+A rendered inline span has no side bearing of its own, so its glyphs sit
+flush against the image's left edge.  Without this padding the image butts
+against the surrounding prose -- the source space before `$' collapses to a
+hair -- even though the space is still there.  A few pixels give the image
+the breathing room a real glyph gets from its side bearings.  Set to 0 to
+disable.  Block (`$$..$$') images sit on their own line and are unaffected."
+  :type 'integer :group 'markdown-math)
+
 (defcustom markdown-math-ex-size 8
   "Pixels per MathJax `ex' unit; the base render size before scaling.
 Raise for larger equations; roughly half the prose font's pixel height."
@@ -184,14 +194,20 @@ Raise for larger equations; roughly half the prose font's pixel height."
 
 ;;; Overlays ----------------------------------------------------------
 
-(defun markdown-math--image (path)
-  "Return an SVG image object for the file at PATH."
-  (create-image path 'svg nil :scale markdown-math-scale :ascent 'center))
+(defun markdown-math--image (path &optional mode)
+  "Return an SVG image object for the file at PATH.
+For inline MODE, add `markdown-math-inline-hpad' pixels of horizontal
+margin so the image keeps a glyph's breathing room from adjacent prose."
+  (apply #'create-image path 'svg nil
+         :scale markdown-math-scale :ascent 'center
+         (when (and (eq mode 'inline) (> markdown-math-inline-hpad 0))
+           (list :margin (cons markdown-math-inline-hpad 0)))))
 
-(defun markdown-math--make-overlay (beg end)
-  "Create a preview overlay over BEG..END (image attached later)."
+(defun markdown-math--make-overlay (beg end mode)
+  "Create a preview overlay over BEG..END for MODE (image attached later)."
   (let ((ov (make-overlay beg end)))
     (overlay-put ov 'markdown-math t)
+    (overlay-put ov 'mm-mode mode)
     (overlay-put ov 'evaporate t)
     (overlay-put ov 'help-echo "Markdown math preview -- move point in to edit")
     (push ov markdown-math--overlays)
@@ -213,7 +229,8 @@ Raise for larger equations; roughly half the prose font's pixel height."
   (when (and (overlayp ov) (overlay-buffer ov) (file-exists-p path))
     (condition-case err
         (progn
-          (overlay-put ov 'mm-image (markdown-math--image path))
+          (overlay-put ov 'mm-image
+                       (markdown-math--image path (overlay-get ov 'mm-mode)))
           (markdown-math--reveal))
       (error (message "markdown-math: %s" (error-message-string err))))))
 
@@ -281,7 +298,7 @@ Does nothing if a render for KEY is already in flight."
   (let ((buf (current-buffer)))
     (dolist (m (markdown-math--regions))
       (pcase-let ((`(,beg ,end ,tex ,mode) m))
-        (let* ((ov (markdown-math--make-overlay beg end))
+        (let* ((ov (markdown-math--make-overlay beg end mode))
                (key (markdown-math--cache-key tex mode))
                (path (markdown-math--cache-path key)))
           (if (file-exists-p path)
