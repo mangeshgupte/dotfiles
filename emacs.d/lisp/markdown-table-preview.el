@@ -209,44 +209,118 @@ Tokens longer than WIDTH are hard-broken."
 
 ;;; Inline styling -----------------------------------------------------
 
-(defun markdown-table-preview--parse-inline (text)
-  "Strip **bold**/__bold__ markers from TEXT.
-Return (VISIBLE . BOLD): VISIBLE is TEXT with the markers removed,
-trimmed, and inner whitespace runs collapsed to single spaces;
-BOLD is a bool-vector marking VISIBLE's bold characters.  Column
-widths and wrapping must use VISIBLE so the markers take no space."
-  (let ((chars '()) (flags '()) (pos 0))
-    ;; Like GFM, the delimited text may not start or end with whitespace.
-    (while (string-match
-            "\\(\\*\\*\\|__\\)\\([^ \t]\\(?:.*?[^ \t]\\)?\\)\\1" text pos)
-      (let ((inner (match-string 2 text)))
-        (dotimes (i (- (match-beginning 0) pos))
-          (push (aref text (+ pos i)) chars) (push nil flags))
-        (dotimes (i (length inner))
-          (push (aref inner i) chars) (push t flags))
-        (setq pos (match-end 0))))
-    (dotimes (i (- (length text) pos))
-      (push (aref text (+ pos i)) chars) (push nil flags))
-    ;; Trim and collapse whitespace, keeping the flags aligned: a
-    ;; collapsed space keeps its own flag so a bold phrase stays one run.
-    (let ((out '()) (oflags '()) (pending nil) (pending-flag nil))
-      (cl-loop for ch in (nreverse chars) for f in (nreverse flags) do
-               (if (memq ch '(?\s ?\t))
-                   (when out (setq pending t pending-flag f))
-                 (when pending (push ?\s out) (push pending-flag oflags)
-                       (setq pending nil))
-                 (push ch out) (push f oflags)))
-      (let* ((s (apply #'string (nreverse out)))
-             (bv (make-bool-vector (length s) nil)))
-        (cl-loop for f in (nreverse oflags) for i from 0
-                 do (when f (aset bv i t)))
-        (cons s bv)))))
+;; A character's style is an integer bitmask, so runs of like-styled
+;; characters group and emit as one <tspan>:
+;;   1 bold   2 italic   4 subscript   8 superscript
 
-(defun markdown-table-preview--line-runs (visible bold width)
+(defun markdown-table-preview--letter-p (c)
+  "Return non-nil if C is an ASCII letter."
+  (or (<= ?a c ?z) (<= ?A c ?Z)))
+
+(defun markdown-table-preview--word-char-p (c)
+  "Return non-nil if C is an ASCII word constituent (for GFM `_' emphasis)."
+  (or (markdown-table-preview--letter-p c) (<= ?0 c ?9) (eq c ?_)))
+
+(defun markdown-table-preview--parse-math (text base)
+  "Return a forward list of (CHAR . STYLE) rendering light math TEXT.
+BASE's style bits are OR'd into every character.  Letters become
+italic; `_x'/`_{..}' subscripts and `^x'/`^{..}' superscripts get
+the sub/super bit.  Backslash commands, fractions and the like are
+not understood -- their characters simply pass through upright."
+  (let ((out '()) (n (length text)) (i 0))
+    (while (< i n)
+      (let ((c (aref text i)))
+        (cond
+         ((memq c '(?_ ?^))
+          (let ((bit (if (eq c ?_) 4 8)) (j (1+ i)) seg)
+            (if (and (< j n) (eq (aref text j) ?{))
+                (let ((k (string-match "}" text (1+ j))))
+                  (setq seg (substring text (1+ j) (or k n))
+                        i (if k (1+ k) n)))
+              (setq seg (if (< j n) (substring text j (1+ j)) "")
+                    i (1+ j)))
+            (dolist (ch (append seg nil))
+              (push (cons ch (logior base bit
+                                     (if (markdown-table-preview--letter-p ch)
+                                         2 0)))
+                    out))))
+         ((markdown-table-preview--letter-p c)
+          (push (cons c (logior base 2)) out) (setq i (1+ i)))
+         (t (push (cons c base) out) (setq i (1+ i))))))
+    (nreverse out)))
+
+(defun markdown-table-preview--parse-styled (text base)
+  "Return a forward list of (CHAR . STYLE) for TEXT, BASE OR'd in.
+Recognizes, in order, `$..$' light math, `**'/`__' bold, and
+`*'/`_' italic (the last only at word boundaries, per GFM).  The
+markers take no space in the output.  See
+`markdown-table-preview--parse-math' for the STYLE bit meanings."
+  (let ((out '()) (n (length text)) (i 0))
+    (while (< i n)
+      (let ((c (aref text i)) (adv nil))
+        (cond
+         ;; $math$ -- non-empty, single line, no nested $.
+         ((and (eq c ?$)
+               (let ((k (string-match "\\$" text (1+ i))))
+                 (and k (> k (1+ i)) (setq adv (1+ k)))))
+          (setq out (nconc out (markdown-table-preview--parse-math
+                                (substring text (1+ i) (1- adv)) base))))
+         ;; **bold** / __bold__ -- may not touch its inner whitespace.
+         ((and (memq c '(?* ?_)) (< (1+ i) n) (eq (aref text (1+ i)) c)
+               (string-match "\\(\\*\\*\\|__\\)\\([^ \t]\\(?:.*?[^ \t]\\)?\\)\\1"
+                             text i)
+               (= (match-beginning 0) i) (setq adv (match-end 0)))
+          (setq out (nconc out (markdown-table-preview--parse-styled
+                                (match-string 2 text) (logior base 1)))))
+         ;; *italic*
+         ((and (eq c ?*)
+               (string-match "\\*\\([^ \t*]\\(?:.*?[^ \t*]\\)?\\)\\*" text i)
+               (= (match-beginning 0) i) (setq adv (match-end 0)))
+          (setq out (nconc out (markdown-table-preview--parse-styled
+                                (match-string 1 text) (logior base 2)))))
+         ;; _italic_ -- skipped intraword, so `file_name'/`w_L' stay literal.
+         ((and (eq c ?_)
+               (or (= i 0)
+                   (not (markdown-table-preview--word-char-p (aref text (1- i)))))
+               (string-match "_\\([^ \t_]\\(?:.*?[^ \t_]\\)?\\)_" text i)
+               (= (match-beginning 0) i)
+               (or (>= (match-end 0) n)
+                   (not (markdown-table-preview--word-char-p
+                         (aref text (match-end 0)))))
+               (setq adv (match-end 0)))
+          (setq out (nconc out (markdown-table-preview--parse-styled
+                                (match-string 1 text) (logior base 2)))))
+         (t (setq out (nconc out (list (cons c base)))) (setq adv (1+ i))))
+        (setq i adv)))
+    out))
+
+(defun markdown-table-preview--parse-inline (text)
+  "Parse inline markup in TEXT for the preview.
+Return (VISIBLE . ATTRS): VISIBLE is TEXT with markup removed,
+trimmed, and inner whitespace runs collapsed to single spaces;
+ATTRS is a per-character vector of style bitmasks (1 bold, 2
+italic, 4 subscript, 8 superscript).  Column widths and wrapping
+must use VISIBLE so the markup takes no space.  Handles `**'/`__'
+bold, `*'/`_' italic, and light `$..$' math."
+  (let ((styled (markdown-table-preview--parse-styled text 0))
+        (out '()) (pending nil))
+    ;; Trim and collapse whitespace, carrying each character's style so a
+    ;; styled phrase stays one run across the spaces inside it.
+    (dolist (cs styled)
+      (let ((ch (car cs)) (st (cdr cs)))
+        (if (memq ch '(?\s ?\t))
+            (when out (setq pending st))
+          (when pending (push (cons ?\s pending) out) (setq pending nil))
+          (push (cons ch st) out))))
+    (setq out (nreverse out))
+    (cons (apply #'string (mapcar #'car out))
+          (vconcat (mapcar #'cdr out)))))
+
+(defun markdown-table-preview--line-runs (visible attrs width)
   "Wrap VISIBLE to WIDTH and split each line into style runs.
-BOLD is VISIBLE's bold mask from `markdown-table-preview--parse-inline'.
-Return a list of lines, each a list of (TEXT . BOLD-P) runs; a blank
-line is the empty list."
+ATTRS is VISIBLE's per-character style vector from
+`markdown-table-preview--parse-inline'.  Return a list of lines,
+each a list of (TEXT . STYLE) runs; a blank line is the empty list."
   (let ((lines (markdown-table-preview--wrap visible width))
         (pos 0) out)
     (dolist (ln lines)
@@ -256,10 +330,10 @@ line is the empty list."
         (setq pos (1+ pos)))
       (let ((runs '()) (i 0) (n (length ln)))
         (while (< i n)
-          (let ((b (aref bold (+ pos i))) (j i))
-            (while (and (< j n) (eq (aref bold (+ pos j)) b))
+          (let ((st (aref attrs (+ pos i))) (j i))
+            (while (and (< j n) (= (aref attrs (+ pos j)) st))
               (setq j (1+ j)))
-            (push (cons (substring ln i j) b) runs)
+            (push (cons (substring ln i j) st) runs)
             (setq i j)))
         (push (nreverse runs) out)
         (setq pos (+ pos n))))
@@ -318,16 +392,40 @@ buffer is not displayed in any window."
   (setq s (replace-regexp-in-string ">" "&gt;" s t t))
   s)
 
-(defun markdown-table-preview--runs-xml (runs)
-  "Return the XML text content for RUNS, a list of (TEXT . BOLD-P).
-Bold runs become <tspan> continuations, which inherit the current
-text position, so mixed-style lines stay on the monospace grid."
-  (mapconcat (lambda (run)
-               (let ((esc (markdown-table-preview--xml-escape (car run))))
-                 (if (cdr run)
-                     (concat "<tspan font-weight=\"bold\">" esc "</tspan>")
-                   esc)))
-             runs ""))
+(defun markdown-table-preview--runs-xml (runs fs)
+  "Return the XML text content for RUNS at font size FS.
+Each run is (TEXT . STYLE); a styled run becomes a <tspan> carrying
+bold/italic and, for sub/superscripts, a smaller font size and a
+baseline shift.  The shift uses `dy' (which the librsvg backend
+honors, unlike `baseline-shift') and is tracked cumulatively, so a
+normal run following a script returns to the baseline.  Plain runs
+stay bare text and inherit the <text> position, keeping mixed-style
+lines on the monospace grid."
+  (let ((cur-dy 0))
+    (mapconcat
+     (lambda (run)
+       (let* ((style (cdr run))
+              (esc (markdown-table-preview--xml-escape (car run)))
+              (sub (/= 0 (logand style 4)))
+              (sup (/= 0 (logand style 8)))
+              (target (cond (sub (round (* fs 0.20)))
+                            (sup (round (* fs -0.40)))
+                            (t 0)))
+              (dy (- target cur-dy))
+              (attr ""))
+         (setq cur-dy target)
+         (when (/= 0 (logand style 1))
+           (setq attr (concat attr " font-weight=\"bold\"")))
+         (when (/= 0 (logand style 2))
+           (setq attr (concat attr " font-style=\"italic\"")))
+         (when (or sub sup)
+           (setq attr (concat attr (format " font-size=\"%d\""
+                                           (max 1 (round (* fs 0.75)))))))
+         (unless (= dy 0)
+           (setq attr (concat attr (format " dy=\"%d\"" dy))))
+         (if (string-empty-p attr) esc
+           (concat "<tspan" attr ">" esc "</tspan>"))))
+     runs "")))
 
 (defun markdown-table-preview--svg (rows aligns &optional target-px)
   "Return an SVG string rendering ROWS with per-column ALIGNS.
@@ -428,7 +526,7 @@ pixel width, within the limits of
                     (push (format "<text x=\"%d\" y=\"%d\" font-family=\"%s\" font-size=\"%d\" fill=\"%s\" text-anchor=\"%s\"%s>%s</text>"
                                   tx ty markdown-table-preview-font-family fs fg anchor
                                   (if header " font-weight=\"bold\"" "")
-                                  (markdown-table-preview--runs-xml runs))
+                                  (markdown-table-preview--runs-xml runs fs))
                           parts)))
                 (setq li (1+ li))))))
         (setq ri (1+ ri))))
